@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button mnemonicParsing="false" text="Tulosta" />
+            <Button defaultButton="true" mnemonicParsing="false" text="Ok" />
+        </buttons>
+      </ButtonBar>
+   </bottom>
+   <right>
+      <TextArea prefHeight="400.0" prefWidth="300.0" text="Valitut pääsyt&#10;----------------------------------------------&#10;id&#9;&#9;&#9;&#9;: 1&#10;Otsikko&#9;&#9;&#9;:  facebook&#10;Kategoria&#9;&#9;&#9;:  työ&#10;Tunnus&#9;&#9;&#9;:  &#10;Sähköposti&#9;&#9;:  abc@gmail.com&#10;Puh. numero&#9;&#9;: 0123456789&#10;salasana&#9;&#9;&#9;: 12345&#10;------------------------------&#10;Työ&#10;Opiskelu&#10;Viihde&#10;Muu&#10;" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

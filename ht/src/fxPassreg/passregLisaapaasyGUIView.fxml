@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="414.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0">
@@ -94,7 +93,7 @@
          </padding>
       </HBox>
       <Separator prefWidth="200.0" />
-      <HBox alignment="CENTER_RIGHT" spacing="20.0">
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" prefWidth="70.0" text="Ok" />
             <Button mnemonicParsing="false" prefWidth="70.0" text="Cancel" />
