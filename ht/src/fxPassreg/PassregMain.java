@@ -16,7 +16,7 @@ public class PassregMain extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("PassregLisaapaasyGUIView.fxml"));
+			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("PassregGUIView.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("passreg.css").toExternalForm());
 			primaryStage.setScene(scene);
