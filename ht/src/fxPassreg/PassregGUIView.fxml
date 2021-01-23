@@ -26,7 +26,16 @@
       <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" text="Uusi pääsy" />
-            <Button mnemonicParsing="false" text="Tallenna" />
+            <Button mnemonicParsing="false" text="Tallenna">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Button>
+            <Button mnemonicParsing="false" text="Generoi">
+               <HBox.margin>
+                  <Insets left="494.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Kopio leikepöydälle" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -66,17 +75,6 @@
          </BorderPane.margin>
          <content>
             <BorderPane prefHeight="376.0" prefWidth="298.0">
-               <bottom>
-                  <HBox spacing="10.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="64.0" text="Generoi" />
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Kopioi leikepöydälle" />
-                     </children>
-                     <BorderPane.margin>
-                        <Insets bottom="10.0" left="15.0" right="10.0" top="15.0" />
-                     </BorderPane.margin>
-                  </HBox>
-               </bottom>
                <top>
                   <VBox alignment="CENTER" BorderPane.alignment="CENTER">
                      <children>
@@ -232,7 +230,7 @@
                         <Insets bottom="4.0" top="4.0" />
                      </VBox.margin>
                   </Label>
-                  <ListChooser prefHeight="350.0" prefWidth="196.0" />
+                  <ListChooser prefHeight="350.0" prefWidth="196.0" rivit="Gmail&#10;Facebook&#10;PC tili&#10;" />
                </children>
             </VBox>
          </content>
