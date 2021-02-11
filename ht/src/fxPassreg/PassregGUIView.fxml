@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fi.jyu.mit.fxgui.ComboBoxChooser?>
 <?import fi.jyu.mit.fxgui.ListChooser?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -8,13 +9,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -27,22 +28,44 @@
         <menus>
           <Menu mnemonicParsing="false" text="Tiedosto">
             <items>
-              <MenuItem mnemonicParsing="false" text="Tallenna" />
-                  <MenuItem mnemonicParsing="false" text="Avaa..." />
-                  <MenuItem mnemonicParsing="false" text="Tulosta..." />
-                  <MenuItem mnemonicParsing="false" text="Lopeta" />
+              <MenuItem mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleAvaa" text="Avaa...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleTulostusDialog" text="Tulosta..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLopeta" text="Lopeta">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Muokkaa">
             <items>
-              <MenuItem mnemonicParsing="false" text="Lisää uusi pääsy" />
-                  <MenuItem mnemonicParsing="false" text="Poista pääsy..." />
+              <MenuItem mnemonicParsing="false" onAction="#handleMuokkaaPaasy" text="Lisää uusi pääsy">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleMuokkaaPaasy" text="Muokkaa pääsy">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoisto" text="Poista pääsy...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleGeneroiDialog" text="Generoi uusi salasana">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Apua">
             <items>
-              <MenuItem mnemonicParsing="false" text="Apua" />
-                  <MenuItem mnemonicParsing="false" text="Tietoja" />
+              <MenuItem mnemonicParsing="false" onAction="#handleApua" text="Apua" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleAboutDialog" text="Tietoja" />
             </items>
           </Menu>
         </menus>
@@ -83,12 +106,6 @@
                     </rowConstraints>
                      <children>
                         <Label text="Salasanan pituus" GridPane.halignment="RIGHT" />
-                        <MenuButton mnemonicParsing="false" text="pituus" GridPane.columnIndex="1">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="&gt; 14" />
-                            <MenuItem mnemonicParsing="false" text="&lt; 14" />
-                          </items>
-                        </MenuButton>
                         <Label text="Sisältää erikoismerkit" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                         <Label text="Sis. numerot" GridPane.rowIndex="2" />
                         <Label text="Sis. isot kirjaimet" GridPane.rowIndex="3" />
@@ -106,6 +123,7 @@
                            </GridPane.margin>
                         </TextField>
                         <ProgressBar prefHeight="18.0" prefWidth="134.0" progress="0.45" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ComboBoxChooser rivit="&gt; 14&#10;&lt; 14" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </center>
@@ -191,15 +209,7 @@
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <MenuButton alignment="CENTER" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="otsikko">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets top="2.0" />
-                     </VBox.margin>
-                  </MenuButton>
+                  <ComboBoxChooser prefHeight="26.0" prefWidth="190.0" rivit="Järjestä A-Z mukaan&#10;Järjestä kategorian mukaan&#10;Järjestä Salasanan vahvuuden mukaan" />
                   <TextField>
                      <VBox.margin>
                         <Insets top="2.0" />
@@ -219,10 +229,10 @@
    <bottom>
       <ButtonBar prefHeight="40.0">
         <buttons>
-            <Button mnemonicParsing="false" prefHeight="26.0" text="Uusi Pääsy" ButtonBar.buttonData="LEFT" />
-          <Button mnemonicParsing="false" text="Tallenna" ButtonBar.buttonData="LEFT" />
-            <Button mnemonicParsing="false" text="Generoi" ButtonBar.buttonData="RIGHT" />
-            <Button mnemonicParsing="false" text="Kopioi leikepöydälle" ButtonBar.buttonData="RIGHT" />
+            <Button mnemonicParsing="false" onAction="#handleUusiPaasy" prefHeight="26.0" text="Uusi Pääsy" ButtonBar.buttonData="LEFT" />
+          <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna" ButtonBar.buttonData="LEFT" />
+            <Button mnemonicParsing="false" onAction="#handleGeneroi" text="Generoi" ButtonBar.buttonData="RIGHT" />
+            <Button mnemonicParsing="false" onAction="#handleKopioLeikePoydalle" text="Kopioi leikepöydälle" ButtonBar.buttonData="RIGHT" />
         </buttons>
          <BorderPane.margin>
             <Insets left="8.0" right="8.0" />

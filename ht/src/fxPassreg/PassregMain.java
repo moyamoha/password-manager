@@ -1,9 +1,10 @@
 package fxPassreg;
 	
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
@@ -16,11 +17,15 @@ public class PassregMain extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("PassregGUIView.fxml"));
+            final FXMLLoader ldr = new FXMLLoader(getClass().getResource("PassregGUIView.fxml"));
+            final Pane root = (Pane)ldr.load();
+			final PassregViewController passCtrl = (PassregViewController)ldr.getController();
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("passreg.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Passreg");
+			
+			if (!passCtrl.avaaTiedosto()) Platform.exit();
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
