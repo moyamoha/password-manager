@@ -11,11 +11,12 @@ import javafx.scene.control.Button;
 /**
  * @author Yahya
  * @version 10.2.2021
- *
+ * Kontrolleri tiedot-ikkunalle. Ikkunassa n‰ytet‰‰n ohjelman tietoja kuten versio ja tekij‰.
  */
 public class TiedotDialogController implements ModalControllerInterface<String> {
         
     @FXML private Button okButton; 
+    
     
     /**
      * N‰ytet‰‰n ohjelman tietoja sis‰lt‰v‰ ikkuna.
@@ -24,6 +25,7 @@ public class TiedotDialogController implements ModalControllerInterface<String> 
         ModalController.showModal(TiedotDialogController.class.getResource("PassregTiedotView.fxml"), "About us" , null, "");
     }
     
+    
     /**
      * K‰sitell‰‰n ok-painikkeen toiminta.
      */
@@ -31,15 +33,26 @@ public class TiedotDialogController implements ModalControllerInterface<String> 
         handleOk();
     }
     
+    
+    /**
+     * K‰sitell‰‰n lis‰‰-painikkeen toiminta.
+     */
     @FXML private void handleLisaaButton() {
         handleLisaa();
     }
 
+    
+    /**
+     * Ok-painiketta painaessa, poistutaan tiedot-ikkunasta ja palataan p‰‰ikkunaan. 
+     */
     private void handleOk() {
-        // TODO Auto-generated method stub
         ModalController.closeStage(okButton);
     }
     
+    
+    /**
+     * Lis‰‰-painiketta painaessa, vied‰‰n k‰ytt‰j‰ ohjelman dokumentaatioselaimeen.
+     */
     private void handleLisaa() {
         // TODO: n‰ytet‰‰n lis‰‰ tietoja
     }

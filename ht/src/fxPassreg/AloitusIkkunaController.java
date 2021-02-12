@@ -12,12 +12,14 @@ import javafx.stage.Stage;
 /**
  * @author Yahya
  * @version 10.2.2021
- *
+ * Kontrolleri aloitusikkunaa varten. Aloitusikkunassa kysyt‰‰n k‰ytt‰j‰lt‰ jokin 
+ * sopiva tiedoston nimi. Kun k‰ytt‰j‰ antaa tekstina tiedoston nimen, avataan se.
  */
 public class AloitusIkkunaController implements ModalControllerInterface<String> {
     
     @FXML private TextField vastausKenttaText;
     private String vastaus;
+    
     
     /**
      * K‰sitell‰‰n ok-buttonin toiminta
@@ -27,12 +29,15 @@ public class AloitusIkkunaController implements ModalControllerInterface<String>
         ModalController.closeStage(vastausKenttaText);
     }
     
+    
     /**
      * K‰sitell‰‰n cancel-buttonin toiminta
      */
     @FXML private void handleCancel() {
         ModalController.closeStage(vastausKenttaText);
     }
+    
+    
     @Override
     public String getResult() {
         // TODO Auto-generated method stub
@@ -52,6 +57,7 @@ public class AloitusIkkunaController implements ModalControllerInterface<String>
         // TODO Auto-generated method stub
         
     }
+    
     
     /**
      * N‰ytet‰‰n aloitusikkunan dialogin ja kysell‰‰n k‰ytt‰j‰lt‰ jokin aukeava tiedoston nimi

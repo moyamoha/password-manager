@@ -34,17 +34,25 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
         
     }
     
+    
+    /**
+     * Käsitellään kopioileikepoydalle-painikkeen toiminta
+     */
     @FXML private void handleKopio() {
         kopioiLeikePoydalle();
         ModalController.closeStage(generoiButton);
     }
     
+    
+    /** 
+     * Käsitellään generoi-painikkeen toiminta
+     */
     @FXML private void handleGeneroi() {
         generoi();
     }
     
     /**
-     * Näytetään salasanan generoimista omassa ikkunassaan
+     * Näytetään generointi-ikkuna.
      */
     public static void naytaGeneroiIkkuna() {
         ModalController.showModal(
@@ -56,11 +64,18 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
     // ########################################################################
     
     
+    /**
+     * Otetaan kopio generoidusta salasanasta leikepöydälle
+     */
     private void kopioiLeikePoydalle() {
         // TODO tekstin kopiointi leikepöydälle
         Dialogs.showMessageDialog("Kopioidaan, mutta ei osata vielä");
     }
     
+    
+    /**
+     * Generoidaan käyttäjälle sopiva salasana
+     */
     private void generoi() {
         // TODO Salasanan generointi
         Dialogs.showMessageDialog("Generoidaan, mutta ei osata vielä");

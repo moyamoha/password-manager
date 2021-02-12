@@ -15,7 +15,7 @@ import javafx.fxml.Initializable;
 /**
  * @author Yahya
  * @version 19.1.2021
- *
+ * Pääohjelman kontrolleeri
  */
 public class PassregViewController implements Initializable {
 	// Ei vielä mitään
@@ -28,63 +28,99 @@ public class PassregViewController implements Initializable {
         
     }
     
-    @FXML
-    void handleGeneroi() {
+    
+    /**
+     * Käsitellään generoi-painikkeen toiminta
+     */
+    @FXML private void handleGeneroi() {
         generoi();
     }
 
     
-    @FXML
-    void handleKopioLeikePoydalle() {
+    /**
+     * Käsitellään kopioileikepoydalle-painikkeen toiminta
+     */
+    @FXML private void handleKopioLeikePoydalle() {
         kopioLeikePoydalle();
     }
 
     
-    @FXML
-    void handleTallenna() {
+    /**
+     * Käsitellään tallenna-painikkeen toiminta
+     */
+    @FXML private void handleTallenna() {
         tallenna();
     }
     
-    @FXML
-    private void handleAvaa() {
+    
+    /**
+     * Käsitellään avaa-painikkeen toiminta
+     */
+    @FXML private void handleAvaa() {
         avaaTiedosto();
     }
 
-    @FXML
-    private void handleUusiPaasy() {
+    
+    /**
+     * Käsitellään uusipaasy-painikkeen toiminta
+     */
+    @FXML private void handleUusiPaasy() {
         lisaaUusiPaasy();
     }
     
-    @FXML
-    private void handlePoisto() {
+    
+    /**
+     * Käsitellään poista-menuvalinnan toiminta.
+     */
+    @FXML private void handlePoisto() {
         poista();
     }
     
-    @FXML 
-    private void handleLopeta() {lopeta();}
     
+    /**
+     * Käsitellään lopeta-menuvalinnan toiminta.
+     */
+    @FXML private void handleLopeta() {lopeta();}
+    
+    
+    /**
+     * Käsitellään muokkaa paasy -menuvalinnan toiminta.
+     */
     @FXML private void handleMuokkaaPaasy() {
         avaaPaasyDialog();
     }
     
+    
+    /**
+     * Käsitellään generoi salasana -menuvalinnan toiminta.
+     */
     @FXML private void handleGeneroiDialog() {
         avaaGeneroiDialog();
     }
     
+    
+    /**
+     * Käsitellään tulosta-menuvalinnan toiminta.
+     */
     @FXML private void handleTulostusDialog() {
         avaaTulostusDialog();
     }
     
     
+    /**
+     * Käsitellään tietoja-menuvalinnan toiminta.
+     */
     @FXML private void handleAboutDialog() {
         avaaAboutDialog();
     }
     
+    
+    /**
+     * Käsitellään Apua-menuvalinnan toiminta.
+     */
     @FXML private void handleApua() {
         haeApua();
     }
-    
-    
 
     // #######################################################
     
@@ -108,7 +144,7 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * Avataan luettava tiedosto
+     * Avataan luettava tiedosto ja palautetaan true jos avaaminen onnistuu
      * @return true jos avaaminen onnistui
      */
     public boolean avaaTiedosto() {
@@ -124,6 +160,7 @@ public class PassregViewController implements Initializable {
      * @param tiedosto luettava tiedosto
      */
     private void lueTiedosto(String tiedosto) {
+        //TODO: Tähän järkevämpi tiedoston lukemista.
         Dialogs.showMessageDialog("Ei osata vielä lukea", dlg -> {dlg.titleProperty().setValue(tiedosto);});
     }
     
@@ -141,6 +178,7 @@ public class PassregViewController implements Initializable {
      * Otetaan generoidusta salasanasta kopio leikepöydälle
      */
     private void kopioLeikePoydalle() {
+        //TODO: Tähän järkevämpi kopioi-toiminta
         Dialogs.showMessageDialog("Kopioidaan, mutta vielä ei toimi! ");
     }
     
@@ -175,20 +213,35 @@ public class PassregViewController implements Initializable {
         Platform.exit();
     }
     
+    
+    /**
+     * Avataan ikkuna, jossa generoidaan salasana.
+     */
     private void avaaGeneroiDialog() {
         GeneroiDialogController.naytaGeneroiIkkuna();
     }
 
+    
+    /**
+     * Avataan ikkuna, jossa lukee ohjelman tiedot
+     */
     private void avaaAboutDialog() {
         TiedotDialogController.naytaAboutDialog();
     }
     
+    
+    /**
+     * Avataan tulostusikkuna.
+     */
     private void avaaTulostusDialog() {
         TulostusDialogController.naytaTulostusIkkuna();
     }
     
+    
+    /**
+     * Avataan pääsyn muokkausikkuna.
+     */
     private void avaaPaasyDialog() {
-        // TODO Auto-generated method stub
         PaasyDialogController.naytaPaasyDialog();
     }
 

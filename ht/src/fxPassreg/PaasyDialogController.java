@@ -16,7 +16,7 @@ public class PaasyDialogController implements ModalControllerInterface<String> {
     @FXML private Button cancelButton; 
     
     /**
-     * N‰ytet‰‰n p‰‰syn muokkausikkuna
+     * N‰ytet‰‰n p‰‰syn muokkausikkuna modaalisena
      */
     @FXML
     public static void naytaPaasyDialog() {
