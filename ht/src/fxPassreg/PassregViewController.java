@@ -18,7 +18,7 @@ import javafx.fxml.Initializable;
  * P‰‰ohjelman kontrolleeri
  */
 public class PassregViewController implements Initializable {
-	// Ei viel‰ mit‰‰n
+
     
     private String tiedostonNimi = "Salasanat";
     

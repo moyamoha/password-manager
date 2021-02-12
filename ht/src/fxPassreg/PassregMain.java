@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 /**
  * @author Yahya
  * @version 19.1.2021
- *
+ * Salasanarekisteriohjelman p‰‰ohjelma
  */
 public class PassregMain extends Application {
 	@Override
