@@ -4,13 +4,10 @@
 <?import fi.jyu.mit.fxgui.ListChooser?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
@@ -19,10 +16,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="526.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PassregViewController">
+<BorderPane prefHeight="519.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PassregViewController">
    <top>
       <MenuBar prefWidth="800.0" BorderPane.alignment="CENTER">
         <menus>
@@ -55,11 +54,6 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#handleGeneroiDialog" text="Generoi uusi salasana">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Apua">
@@ -71,73 +65,13 @@
         </menus>
       </MenuBar>
    </top>
-   <right>
-      <ScrollPane fitToWidth="true" prefHeight="426.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <content>
-            <BorderPane prefHeight="376.0" prefWidth="298.0">
-               <top>
-                  <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-                     <children>
-                        <Label text="Generoi Salasana">
-                           <VBox.margin>
-                              <Insets bottom="4.0" top="4.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Separator prefWidth="200.0" />
-                     </children>
-                  </VBox>
-               </top>
-               <center>
-                  <GridPane hgap="10.0" BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="173.5999755859375" minWidth="10.0" prefWidth="113.5999755859375" />
-                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="155.1999267578125" minWidth="10.0" prefWidth="76.8000244140625" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Salasanan pituus" GridPane.halignment="RIGHT" />
-                        <Label text="Sisältää erikoismerkit" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <Label text="Sis. numerot" GridPane.rowIndex="2" />
-                        <Label text="Sis. isot kirjaimet" GridPane.rowIndex="3" />
-                        <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Generoitu salasana" GridPane.rowIndex="4" />
-                        <Label text="Salasanan vahvuus" GridPane.rowIndex="5" />
-                        <TextField editable="false" prefHeight="18.0" prefWidth="102.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding>
-                           <GridPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </GridPane.margin>
-                        </TextField>
-                        <ProgressBar prefHeight="18.0" prefWidth="134.0" progress="0.45" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <ComboBoxChooser rivit="&gt; 14&#10;&lt; 14" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-               </center>
-            </BorderPane>
-         </content>
-      </ScrollPane>
-   </right>
    <center>
       <ScrollPane fitToWidth="true" prefHeight="439.0" prefWidth="331.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="5.0" />
          </BorderPane.margin>
          <content>
-            <VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="346.0">
+            <VBox alignment="TOP_CENTER" prefHeight="447.0" prefWidth="386.0">
                <children>
                   <Label text="Pääsyn tiedot">
                      <VBox.margin>
@@ -145,11 +79,11 @@
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <GridPane hgap="10.0" prefHeight="284.0" prefWidth="418.0">
+                  <GridPane hgap="10.0" prefHeight="290.0" prefWidth="383.0">
                      <columnConstraints>
                         <ColumnConstraints fillWidth="false" halignment="RIGHT" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -171,23 +105,32 @@
                         <Label text="Tunnus" GridPane.rowIndex="2" />
                         <Label text="Sähköposti" GridPane.rowIndex="3" />
                         <Label text="Puhelinnumero" GridPane.rowIndex="4" />
-                        <Label text="Salasana" GridPane.rowIndex="5" />
                         <Label text="Toista salasana" GridPane.rowIndex="6" />
+                        <Label text="Salasana" GridPane.rowIndex="5" />
                         <Label text="URL" GridPane.rowIndex="7" />
                         <Label text="Info" GridPane.rowIndex="8" />
-                        <TextField GridPane.columnIndex="2" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                        <TextArea maxHeight="-Infinity" minHeight="-Infinity" prefHeight="111.0" prefWidth="274.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.valignment="TOP">
+                        <TextField prefHeight="26.0" prefWidth="245.0" GridPane.columnIndex="2" />
+                        <TextField prefHeight="26.0" prefWidth="245.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField prefHeight="26.0" prefWidth="245.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <TextField prefHeight="26.0" prefWidth="245.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <TextField prefHeight="26.0" prefWidth="244.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <TextField prefHeight="26.0" prefWidth="166.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <TextField prefHeight="26.0" prefWidth="245.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <TextArea maxHeight="-Infinity" minHeight="-Infinity" prefHeight="111.0" prefWidth="246.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets top="5.0" />
                            </GridPane.margin>
                         </TextArea>
+                        <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="246.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                           <children>
+                              <TextField prefHeight="27.0" prefWidth="166.0" />
+                              <Button fx:id="generoiButton" mnemonicParsing="false" onAction="#handleGeneroi" prefHeight="24.0" prefWidth="62.0" text="Generoi">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
                      </children>
                   </GridPane>
                </children>
@@ -227,16 +170,22 @@
       </ScrollPane>
    </left>
    <bottom>
-      <ButtonBar prefHeight="40.0">
-        <buttons>
-            <Button mnemonicParsing="false" onAction="#handleUusiPaasy" prefHeight="26.0" text="Uusi Pääsy" ButtonBar.buttonData="LEFT" />
-          <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna" ButtonBar.buttonData="LEFT" />
-            <Button mnemonicParsing="false" onAction="#handleGeneroi" text="Generoi" ButtonBar.buttonData="RIGHT" />
-            <Button mnemonicParsing="false" onAction="#handleKopioLeikePoydalle" text="Kopioi leikepöydälle" ButtonBar.buttonData="RIGHT" />
-        </buttons>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleUusiPaasy" text="Uusi pääsy">
+               <HBox.margin>
+                  <Insets bottom="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna">
+               <HBox.margin>
+                  <Insets bottom="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+         </children>
          <BorderPane.margin>
-            <Insets left="8.0" right="8.0" />
+            <Insets bottom="2.0" left="10.0" top="2.0" />
          </BorderPane.margin>
-      </ButtonBar>
+      </HBox>
    </bottom>
 </BorderPane>

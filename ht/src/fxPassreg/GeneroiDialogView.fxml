@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fi.jyu.mit.fxgui.ComboBoxChooser?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="363.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.GeneroiDialogController">
+<BorderPane prefHeight="350.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.GeneroiDialogController">
    <top>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
@@ -30,55 +27,45 @@
       </VBox>
    </top>
    <center>
-      <GridPane hgap="10.0" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" hgap="5.0" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="173.5999755859375" minWidth="10.0" prefWidth="113.5999755859375" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="155.1999267578125" minWidth="10.0" prefWidth="76.8000244140625" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Label text="Salasanan pituus" GridPane.halignment="RIGHT" />
-            <MenuButton mnemonicParsing="false" text="pituus" GridPane.columnIndex="1">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="&gt; 14" />
-                  <MenuItem mnemonicParsing="false" text="&lt; 14" />
-               </items>
-            </MenuButton>
             <Label text="Sisältää erikoismerkit" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
             <Label text="Sis. numerot" GridPane.rowIndex="2" />
             <Label text="Sis. isot kirjaimet" GridPane.rowIndex="3" />
             <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Generoitu salasana" GridPane.rowIndex="4" />
-            <Label text="Salasanan vahvuus" GridPane.rowIndex="5" />
-            <TextField editable="false" prefHeight="18.0" prefWidth="102.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <ProgressBar prefHeight="18.0" prefWidth="134.0" progress="0.45" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBoxChooser rivit="&gt; 14 (Suositeltu)&#10;&lt; 14" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </center>
    <bottom>
-      <VBox alignment="CENTER" prefHeight="37.0" prefWidth="284.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="138.0" prefWidth="284.0" BorderPane.alignment="CENTER">
          <children>
             <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <Label contentDisplay="TEXT_ONLY" prefHeight="94.0" prefWidth="243.0" text="Turvallisuussyistä suosittelemme käyttämään pidempää salasanaa, joka sisältää &#10;erikoismerkkejä, numeroita, isoja&#10;sekä pieniä kirjaimia." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Separator prefWidth="200.0" />
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="256.0" spacing="10.0">
                <children>
-                  <Button fx:id="generoiButton" mnemonicParsing="false" onAction="#handleGeneroi" text="Generoi" />
-                  <Button mnemonicParsing="false" onAction="#handleKopio" text="Kopio leikepöydälle" />
+                  <Button fx:id="generoiButton" mnemonicParsing="false" onAction="#handleGeneroi" text="Generoi">
+                     <HBox.margin>
+                        <Insets bottom="4.0" top="4.0" />
+                     </HBox.margin></Button>
                </children>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />

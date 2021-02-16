@@ -11,42 +11,38 @@ import fi.jyu.mit.fxgui.Dialogs;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 
 /**
  * @author Yahya
  * @version 19.1.2021
- * P‰‰ohjelman kontrolleeri
+ * P√§√§ohjelman kontrolleeri
  */
 public class PassregViewController implements Initializable {
 
     
     private String tiedostonNimi = "Salasanat";
+    @FXML private Button generoiButton;
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
-        
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("Avaa uuden ikkunan, jossa generoidaan automaattinen salasana valitsemasi kenttien mukaan");
+        generoiButton.setTooltip(tooltip);
     }
     
     
     /**
-     * K‰sitell‰‰n generoi-painikkeen toiminta
+     * K√§sitell√§√§n generoi-painikkeen toiminta
      */
     @FXML private void handleGeneroi() {
-        generoi();
+        avaaGeneroiDialog();
     }
 
     
     /**
-     * K‰sitell‰‰n kopioileikepoydalle-painikkeen toiminta
-     */
-    @FXML private void handleKopioLeikePoydalle() {
-        kopioLeikePoydalle();
-    }
-
-    
-    /**
-     * K‰sitell‰‰n tallenna-painikkeen toiminta
+     * K√§sitell√§√§n tallenna-painikkeen toiminta
      */
     @FXML private void handleTallenna() {
         tallenna();
@@ -54,7 +50,7 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * K‰sitell‰‰n avaa-painikkeen toiminta
+     * K√§sitell√§√§n avaa-painikkeen toiminta
      */
     @FXML private void handleAvaa() {
         avaaTiedosto();
@@ -62,7 +58,7 @@ public class PassregViewController implements Initializable {
 
     
     /**
-     * K‰sitell‰‰n uusipaasy-painikkeen toiminta
+     * K√§sitell√§√§n uusipaasy-painikkeen toiminta
      */
     @FXML private void handleUusiPaasy() {
         lisaaUusiPaasy();
@@ -70,7 +66,7 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * K‰sitell‰‰n poista-menuvalinnan toiminta.
+     * K√§sitell√§√§n poista-menuvalinnan toiminta.
      */
     @FXML private void handlePoisto() {
         poista();
@@ -78,29 +74,20 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * K‰sitell‰‰n lopeta-menuvalinnan toiminta.
+     * K√§sitell√§√§n lopeta-menuvalinnan toiminta.
      */
     @FXML private void handleLopeta() {lopeta();}
     
     
     /**
-     * K‰sitell‰‰n muokkaa paasy -menuvalinnan toiminta.
+     * K√§sitell√§√§n muokkaa paasy -menuvalinnan toiminta.
      */
     @FXML private void handleMuokkaaPaasy() {
         avaaPaasyDialog();
     }
     
-    
     /**
-     * K‰sitell‰‰n generoi salasana -menuvalinnan toiminta.
-     */
-    @FXML private void handleGeneroiDialog() {
-        avaaGeneroiDialog();
-    }
-    
-    
-    /**
-     * K‰sitell‰‰n tulosta-menuvalinnan toiminta.
+     * K√§sitell√§√§n tulosta-menuvalinnan toiminta.
      */
     @FXML private void handleTulostusDialog() {
         avaaTulostusDialog();
@@ -108,7 +95,7 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * K‰sitell‰‰n tietoja-menuvalinnan toiminta.
+     * K√§sitell√§√§n tietoja-menuvalinnan toiminta.
      */
     @FXML private void handleAboutDialog() {
         avaaAboutDialog();
@@ -116,7 +103,7 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * K‰sitell‰‰n Apua-menuvalinnan toiminta.
+     * K√§sitell√§√§n Apua-menuvalinnan toiminta.
      */
     @FXML private void handleApua() {
         haeApua();
@@ -126,20 +113,11 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * Generoidaan k‰ytt‰j‰lle salasana
-     */
-    private void generoi() {
-        //TODO: T‰h‰n oikeaa generoimistoimintaa
-        Dialogs.showMessageDialog("Generoidaan, mutta viel‰ ei toimi! ");
-    }
-    
-    
-    /**
      * Tallennetaan muutoksia tiedostoon.
      */
     private void tallenna() {
-        //TODO: t‰h‰n oikeaa tallennustoimintaa
-        Dialogs.showMessageDialog("Tallennetaan, mutta viel‰ ei toimi! ");
+        //TODO: t√§h√§n oikeaa tallennustoimintaa
+        Dialogs.showMessageDialog("Tallennetaan, mutta viel√§ ei toimi! ");
     }
     
     
@@ -156,44 +134,34 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * Luetaan tiedoston sis‰ltˆ‰
+     * Luetaan tiedoston sis√§lt√∂√§
      * @param tiedosto luettava tiedosto
      */
     private void lueTiedosto(String tiedosto) {
-        //TODO: T‰h‰n j‰rkev‰mpi tiedoston lukemista.
-        Dialogs.showMessageDialog("Ei osata viel‰ lukea", dlg -> {dlg.titleProperty().setValue(tiedosto);});
+        //TODO: T√§h√§n j√§rkev√§mpi tiedoston lukemista.
+        Dialogs.showMessageDialog("Ei osata viel√§ lukea", dlg -> {dlg.titleProperty().setValue(tiedosto);});
     }
     
     
     /**
-     * Lis‰t‰‰n uusi p‰‰sy rekisteriin
+     * Lis√§t√§√§n uusi p√§√§sy rekisteriin
      */
     private void lisaaUusiPaasy() {
-        //TODO: T‰h‰n oikeaa lis‰ystoimintaa
-        Dialogs.showMessageDialog("Lis‰t‰‰n, mutta viel‰ ei toimi! ");
+        //TODO: T√§h√§n oikeaa lis√§ystoimintaa
+        Dialogs.showMessageDialog("Lis√§t√§√§n, mutta viel√§ ei toimi! ");
     }
     
-    
     /**
-     * Otetaan generoidusta salasanasta kopio leikepˆyd‰lle
-     */
-    private void kopioLeikePoydalle() {
-        //TODO: T‰h‰n j‰rkev‰mpi kopioi-toiminta
-        Dialogs.showMessageDialog("Kopioidaan, mutta viel‰ ei toimi! ");
-    }
-    
-    
-    /**
-     * Poistetaan valittu p‰‰sy. Ennen varsinaista poistoa, kysyt‰‰n josko k‰ytt‰j‰ on varma toiminnasta.
+     * Poistetaan valittu p√§√§sy. Ennen varsinaista poistoa, kysyt√§√§n josko k√§ytt√§j√§ on varma toiminnasta.
      */
     private void poista() {
-        //TODO: t‰h‰n oikeaa poistotoimintaa
-        Dialogs.showMessageDialog("Poistetaan, mutta viel‰ ei toimi! ");
+        //TODO: t√§h√§n oikeaa poistotoimintaa
+        Dialogs.showMessageDialog("Poistetaan, mutta viel√§ ei toimi! ");
     }
     
     
     /**
-     * Ohjataan k‰ytt‰j‰ tarkempaa dokumentaatiota n‰ytt‰v‰‰n web-sivuun.
+     * Ohjataan k√§ytt√§j√§ tarkempaa dokumentaatiota n√§ytt√§v√§√§n web-sivuun.
      * Sivu on "https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/moyamoha#mtypuo4cyMgg"
      */
     private void haeApua() {
@@ -207,7 +175,7 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * Poistutaan ohjelmasta. Mik‰li tallentamattomia muutoksia on, kysyt‰‰n k‰ytt‰j‰lt‰ onko h‰n varma.
+     * Poistutaan ohjelmasta. Mik√§li tallentamattomia muutoksia on, kysyt√§√§n k√§ytt√§j√§lt√§ onko h√§n varma.
      */
     private void lopeta() {
         Platform.exit();
@@ -239,7 +207,7 @@ public class PassregViewController implements Initializable {
     
     
     /**
-     * Avataan p‰‰syn muokkausikkuna.
+     * Avataan p√§√§syn muokkausikkuna.
      */
     private void avaaPaasyDialog() {
         PaasyDialogController.naytaPaasyDialog();
