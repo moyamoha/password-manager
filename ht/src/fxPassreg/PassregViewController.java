@@ -11,33 +11,20 @@ import fi.jyu.mit.fxgui.Dialogs;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 
 /**
  * @author Yahya
  * @version 19.1.2021
- * Pääohjelman kontrolleeri
+ * Pääikkunan kontrolleeri
  */
 public class PassregViewController implements Initializable {
 
     
     private String tiedostonNimi = "Salasanat";
-    @FXML private Button generoiButton;
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        Tooltip tooltip = new Tooltip();
-        tooltip.setText("Avaa uuden ikkunan, jossa generoidaan automaattinen salasana valitsemasi kenttien mukaan");
-        generoiButton.setTooltip(tooltip);
-    }
-    
-    
-    /**
-     * Käsitellään generoi-painikkeen toiminta
-     */
-    @FXML private void handleGeneroi() {
-        avaaGeneroiDialog();
+       // Tähän tarvittavat alustukset
     }
 
     
@@ -179,14 +166,6 @@ public class PassregViewController implements Initializable {
      */
     private void lopeta() {
         Platform.exit();
-    }
-    
-    
-    /**
-     * Avataan ikkuna, jossa generoidaan salasana.
-     */
-    private void avaaGeneroiDialog() {
-        GeneroiDialogController.naytaGeneroiIkkuna();
     }
 
     

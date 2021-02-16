@@ -1,6 +1,7 @@
 package fxPassreg;
 
 
+import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
@@ -34,6 +35,13 @@ public class PaasyDialogController implements ModalControllerInterface<String> {
     }
     
     /**
+     * K‰sitell‰‰n generoi-painikkeen toiminta
+     */
+    @FXML private void handleGeneroiButton() {
+        avaaGenerointiIkkuna();
+    }
+    
+    /**
      * K‰sitell‰‰n ok-buttonin toiminta.
      */
     @FXML private void handleOkButton() {
@@ -58,7 +66,14 @@ public class PaasyDialogController implements ModalControllerInterface<String> {
      */
     private void handleOk() {
         // TODO tallentaa muutokset 
-        ModalController.closeStage(cancelButton);
+        Dialogs.showMessageDialog("Tallennetaan, mutta viel‰ ei toimi!");
+    }
+    
+    /**
+     * N‰ytet‰‰n generoidialogi uudessa ikkunassa
+     */
+    private void avaaGenerointiIkkuna() {
+        GeneroiDialogController.naytaGeneroiIkkuna();
     }
 
 
