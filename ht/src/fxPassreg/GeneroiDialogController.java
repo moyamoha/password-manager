@@ -14,7 +14,7 @@ import fi.jyu.mit.fxgui.ModalController;
 public class GeneroiDialogController implements ModalControllerInterface<String> {
     
     
-    @FXML private Button generoiButton;
+    @FXML private Button okButton;
 
     @Override
     public String getResult() {
@@ -37,9 +37,13 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
     /** 
      * K‰sitell‰‰n generoi-painikkeen toiminta
      */
+    @FXML private void handleCancelButton() {
+        cancel();
+        
+    }
+    
     @FXML private void handleGeneroi() {
         generoi();
-        ModalController.closeStage(generoiButton);
     }
     
     /**
@@ -61,6 +65,10 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
     private void generoi() {
         // TODO Salasanan generointi
         Dialogs.showMessageDialog("Generoidaan, mutta ei osata viel‰");
+    }
+    
+    private void cancel() {
+        ModalController.closeStage(okButton);
     }
 
 }

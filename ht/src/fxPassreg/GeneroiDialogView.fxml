@@ -62,11 +62,15 @@
                <font>
                   <Font name="Book Antiqua" size="12.0" />
                </font>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
             </Label>
             <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="256.0" spacing="10.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="256.0" spacing="10.0">
                <children>
-                  <Button fx:id="generoiButton" mnemonicParsing="false" onAction="#handleGeneroi" text="Generoi">
+                  <Button fx:id="okButton" mnemonicParsing="false" onAction="#handleGeneroi" prefHeight="26.0" prefWidth="55.0" text="Ok" />
+                  <Button mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="26.0" prefWidth="59.0" text="Cancel">
                      <HBox.margin>
                         <Insets bottom="4.0" top="4.0" />
                      </HBox.margin></Button>
@@ -74,6 +78,9 @@
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
             </HBox>
          </children>
       </VBox>

@@ -1,20 +1,33 @@
 package fxPassreg;
 
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 
 /**
  * @author Yahya
  * @version 5.2.2021
  * Kontrolleri p‰‰sydialogin toimintaa varten
  */
-public class PaasyDialogController implements ModalControllerInterface<String> {
+public class PaasyDialogController implements ModalControllerInterface<String>, Initializable {
     
-    @FXML private Button cancelButton; 
+    @FXML private Button generoiButton; 
+    
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        // TODO: T‰h‰n lis‰‰ alustuksia
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("Avaa uuden ikkunan, jossa generoidaan antamasien kenttien arvojen mukainen salasana");
+        generoiButton.setTooltip(tooltip);
+    }
     
     /**
      * N‰ytet‰‰n p‰‰syn muokkausikkuna modaalisena
@@ -57,7 +70,7 @@ public class PaasyDialogController implements ModalControllerInterface<String> {
      */
     private void handleCancel() {
         // TODO lis‰‰ kysymysdialogi, jossa varmistetaan, ett‰ k‰ytt‰j‰ varmasti haluaa poistua.
-        ModalController.closeStage(cancelButton);
+        ModalController.closeStage(generoiButton);
     }
     
     /**

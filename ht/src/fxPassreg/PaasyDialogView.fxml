@@ -34,67 +34,76 @@
       </VBox>
    </top>
    <center>
-      <GridPane hgap="10.0" prefHeight="365.0" prefWidth="305.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="174.20001220703125" minWidth="10.0" prefWidth="107.60001220703126" />
-          <ColumnConstraints maxWidth="226.19995117187497" minWidth="10.0" prefWidth="212.39998779296872" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Kategoria" GridPane.rowIndex="1" />
-            <Label text="Otsikko" />
-            <Label text="Tunnus" GridPane.rowIndex="2" />
-            <Label text="Sähköposti" GridPane.rowIndex="3" />
-            <Label text="Puhelinnumero" GridPane.rowIndex="4" />
-            <Label text="Salasana" GridPane.rowIndex="5" />
-            <Label text="Toista salasana" GridPane.rowIndex="6" />
-            <Label GridPane.rowIndex="7" />
-            <Label text="Info" GridPane.rowIndex="8" />
-            <Label text="URL" GridPane.rowIndex="7" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <children>
-                  <TextField prefHeight="26.0" prefWidth="136.0" />
-                  <Button mnemonicParsing="false" onAction="#handleGeneroiButton" prefHeight="26.0" prefWidth="64.0" text="Generoi" />
-               </children>
-            </HBox>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets top="1.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextArea prefHeight="70.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
-               <GridPane.margin>
-                  <Insets top="5.0" />
-               </GridPane.margin>
-            </TextArea>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <children>
-                  <TextField prefHeight="26.0" prefWidth="136.0" />
-               </children>
-            </HBox>
-         </children>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" right="10.0" />
          </BorderPane.margin>
-         <padding>
-            <Insets bottom="5.0" />
-         </padding>
-      </GridPane>
+         <children>
+            <GridPane hgap="10.0" prefHeight="365.0" prefWidth="305.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="174.20001220703125" minWidth="10.0" prefWidth="107.60001220703126" />
+                <ColumnConstraints maxWidth="226.19995117187497" minWidth="10.0" prefWidth="212.39998779296872" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Kategoria" GridPane.rowIndex="1" />
+                  <Label text="Otsikko" />
+                  <Label text="Tunnus" GridPane.rowIndex="2" />
+                  <Label text="Sähköposti" GridPane.rowIndex="3" />
+                  <Label text="Puhelinnumero" GridPane.rowIndex="4" />
+                  <Label text="Salasana" GridPane.rowIndex="5" />
+                  <Label text="Toista salasana" GridPane.rowIndex="6" />
+                  <Label GridPane.rowIndex="7" />
+                  <Label text="Info" GridPane.rowIndex="8" />
+                  <Label text="URL" GridPane.rowIndex="7" />
+                  <TextField GridPane.columnIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <children>
+                        <TextField prefHeight="26.0" prefWidth="136.0" />
+                        <Button fx:id="generoiButton" mnemonicParsing="false" onAction="#handleGeneroiButton" prefHeight="26.0" prefWidth="64.0" text="Generoi" />
+                     </children>
+                  </HBox>
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets top="1.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextArea prefHeight="70.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </TextArea>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <TextField prefHeight="26.0" prefWidth="136.0" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+            </GridPane>
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="320.0" style="-fx-background-color: #f52a37;" text="Tähän virheilmoituksia" textFill="#060606">
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
    </center>
    <bottom>
       <VBox BorderPane.alignment="CENTER">
@@ -107,7 +116,7 @@
                         <Insets bottom="4.0" top="4.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel">
+                  <Button mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
