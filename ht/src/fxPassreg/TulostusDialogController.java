@@ -3,7 +3,7 @@ package fxPassreg;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Button;
 
 /**
  * @author Yahya
@@ -12,7 +12,7 @@ import javafx.scene.control.TextArea;
  */
 public class TulostusDialogController implements ModalControllerInterface<String> {
     
-    @FXML private TextArea tulosteText;
+    @FXML private Button okButton;
     
     /**
      * N‰ytet‰‰n tulostusikkuna ei-modaalisena.
@@ -24,7 +24,7 @@ public class TulostusDialogController implements ModalControllerInterface<String
     /**
      * K‰sitell‰‰n ok-buttonin toimintaa
      */
-    @FXML private void handleDefaultOk() {
+    @FXML private void handleOkButton() {
         handleOk();
     }
     
@@ -35,7 +35,7 @@ public class TulostusDialogController implements ModalControllerInterface<String
      */
     private void handleOk() {
         // TODO Auto-generated method stub
-        ModalController.closeStage(tulosteText);
+        ModalController.closeStage(okButton);
     }
 
     @Override

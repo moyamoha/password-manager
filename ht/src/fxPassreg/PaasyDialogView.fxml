@@ -1,132 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="338.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PaasyDialogController">
-   <top>
-      <VBox alignment="CENTER" prefHeight="22.0" prefWidth="321.0" BorderPane.alignment="CENTER">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PaasyDialogController">
+   <children>
+      <Label layoutX="143.0" layoutY="5.0" text="Muokkaa pääsyn tiedot" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="117.0" />
+      <Separator layoutY="30.0" prefHeight="2.0" prefWidth="384.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <TextField layoutX="150.0" layoutY="32.0" prefHeight="26.0" prefWidth="214.0" text="facebook" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="40.0" />
+      <TextField layoutX="150.0" layoutY="73.0" prefHeight="26.0" prefWidth="214.0" text="some" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="70.0" />
+      <TextField layoutX="150.0" layoutY="103.0" prefHeight="26.0" prefWidth="214.0" text="soturi123" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="100.0" />
+      <TextField layoutX="150.0" layoutY="152.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="130.0" />
+      <TextField layoutX="150.0" layoutY="164.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="160.0" />
+      <TextField fx:id="passText1" layoutX="150.0" layoutY="226.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
+      <PasswordField fx:id="passField1" layoutX="150.0" layoutY="226.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
+      <TextField fx:id="passText2" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="220.0" />
+      <PasswordField fx:id="passField2" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="220.0" />
+      <TextField layoutX="150.0" layoutY="253.0" prefHeight="26.0" prefWidth="214.0" text="www.facebook.com" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="250.0" />
+      <TextArea layoutX="151.0" layoutY="276.0" prefHeight="126.0" prefWidth="214.0" text="facebook tilini" wrapText="true" AnchorPane.bottomAnchor="84.6" AnchorPane.leftAnchor="150.99999999999997" AnchorPane.rightAnchor="18.599999999999994" AnchorPane.topAnchor="280.0" />
+      <Label layoutX="87.0" layoutY="44.0" text="Otsikko" />
+      <Label layoutX="76.0" layoutY="74.0" text="Kategoria" />
+      <Label layoutX="102.0" layoutY="280.0" text="Info" />
+      <Label layoutX="87.0" layoutY="104.0" text="Tunnus" />
+      <Label layoutX="66.0" layoutY="134.0" text="Sähköposti" />
+      <Label layoutX="42.0" layoutY="164.0" text="Puhelin numero" />
+      <Label layoutX="79.0" layoutY="194.0" text="Salasana" />
+      <Label layoutX="44.0" layoutY="224.0" text="Toista salasana" />
+      <Label layoutX="102.0" layoutY="254.0" prefHeight="18.0" prefWidth="28.0" text="URL" />
+      <CheckBox fx:id="naytaCheckBox" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="310.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleNaytaCheckBox" prefHeight="18.0" prefWidth="51.0" text="näytä" AnchorPane.rightAnchor="23.0">
+         <font>
+            <Font size="10.0" />
+         </font></CheckBox>
+      <Button fx:id="generoiButton" layoutX="312.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleGeneroiButton" prefHeight="26.0" prefWidth="51.0" text="Generoi" AnchorPane.rightAnchor="21.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
+      <HBox alignment="CENTER" layoutY="415.0" prefHeight="26.0" prefWidth="384.0" AnchorPane.bottomAnchor="49.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label text="Muokkaa pääsyn tiedot">
-               <font>
-                  <Font size="13.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="4.0" top="4.0" />
-               </VBox.margin>
-            </Label>
-            <Separator prefWidth="200.0" />
+            <Label textFill="#f50202" />
          </children>
-         <BorderPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" />
-         </BorderPane.margin>
-      </VBox>
-   </top>
-   <center>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="5.0" right="10.0" />
-         </BorderPane.margin>
-         <children>
-            <GridPane hgap="10.0" prefHeight="365.0" prefWidth="305.0">
-              <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="174.20001220703125" minWidth="10.0" prefWidth="107.60001220703126" />
-                <ColumnConstraints maxWidth="226.19995117187497" minWidth="10.0" prefWidth="212.39998779296872" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Kategoria" GridPane.rowIndex="1" />
-                  <Label text="Otsikko" />
-                  <Label text="Tunnus" GridPane.rowIndex="2" />
-                  <Label text="Sähköposti" GridPane.rowIndex="3" />
-                  <Label text="Puhelinnumero" GridPane.rowIndex="4" />
-                  <Label text="Salasana" GridPane.rowIndex="5" />
-                  <Label text="Toista salasana" GridPane.rowIndex="6" />
-                  <Label GridPane.rowIndex="7" />
-                  <Label text="Info" GridPane.rowIndex="8" />
-                  <Label text="URL" GridPane.rowIndex="7" />
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                     <children>
-                        <TextField prefHeight="26.0" prefWidth="136.0" />
-                        <Button fx:id="generoiButton" mnemonicParsing="false" onAction="#handleGeneroiButton" prefHeight="26.0" prefWidth="64.0" text="Generoi" />
-                     </children>
-                  </HBox>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="7">
-                     <GridPane.margin>
-                        <Insets top="1.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <TextArea prefHeight="70.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                     <GridPane.margin>
-                        <Insets top="5.0" />
-                     </GridPane.margin>
-                  </TextArea>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                     <children>
-                        <TextField prefHeight="26.0" prefWidth="136.0" />
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" />
-               </padding>
-            </GridPane>
-            <Label alignment="CENTER" prefHeight="27.0" prefWidth="320.0" style="-fx-background-color: #f52a37;" text="Tähän virheilmoituksia" textFill="#060606">
-               <padding>
-                  <Insets bottom="5.0" top="5.0" />
-               </padding>
-            </Label>
-         </children>
-      </VBox>
-   </center>
-   <bottom>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER_RIGHT" spacing="10.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#handleOkButton" prefHeight="26.0" prefWidth="51.0" text="Ok">
-                     <HBox.margin>
-                        <Insets bottom="4.0" top="4.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
-   </bottom>
-</BorderPane>
+      </HBox>
+      <Separator layoutY="440.0" prefHeight="18.0" prefWidth="384.0" AnchorPane.bottomAnchor="32.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Button layoutX="312.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" AnchorPane.bottomAnchor="7.600000000000001" AnchorPane.rightAnchor="20.799999999999997" />
+      <Button layoutX="241.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleOkButton" prefHeight="26.0" prefWidth="51.0" text="Ok" AnchorPane.bottomAnchor="7.600000000000001" AnchorPane.rightAnchor="91.8" />
+   </children>
+</AnchorPane>

@@ -40,7 +40,6 @@
             <Separator prefWidth="200.0" />
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button accessibleRole="HYPERLINK" mnemonicParsing="false" onAction="#handleLisaaButton" text="Lisää" />
                   <Button fx:id="okButton" mnemonicParsing="false" onAction="#handleDefaultOk" text="Ok" />
               </buttons>
                <VBox.margin>

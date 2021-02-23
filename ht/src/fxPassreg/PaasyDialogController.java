@@ -7,9 +7,13 @@ import java.util.ResourceBundle;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 
 /**
@@ -20,13 +24,19 @@ import javafx.scene.control.Tooltip;
 public class PaasyDialogController implements ModalControllerInterface<String>, Initializable {
     
     @FXML private Button generoiButton; 
+    @FXML private CheckBox naytaCheckBox;
+    @FXML private TextField passText1;
+    @FXML private PasswordField passField1;
+    @FXML private TextField passText2;
+    @FXML private PasswordField passField2;
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO: T‰h‰n lis‰‰ alustuksia
         Tooltip tooltip = new Tooltip();
-        tooltip.setText("Avaa uuden ikkunan, jossa generoidaan antamasien kenttien arvojen mukainen salasana");
+        tooltip.setText("Avaa uuden ikkunan, jossa generoidaan antamasi kenttien arvojen mukainen salasana");
         generoiButton.setTooltip(tooltip);
+        hallitseGeneroimista();
     }
     
     /**
@@ -41,14 +51,22 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     }
     
     /**
-     * K‰sitell‰‰n cancel-buttonin toiminta. 
+     * K‰sitell‰‰n cancel-painikkeen toiminta. 
      */
     @FXML private void handleCancelButton() {
         handleCancel();
     }
     
     /**
-     * K‰sitell‰‰n generoi-painikkeen toiminta
+     * K‰sitell‰‰n n‰yt‰-valintaruudun toimintaa
+     */
+    @FXML private void handleNaytaCheckBox() {
+        if (this.naytaCheckBox.isSelected()) naytaSalasana();
+        else piilotaSalasana();
+    }
+    
+    /**
+     * K‰sitell‰‰n generoi-painikkeen toimintaa
      */
     @FXML private void handleGeneroiButton() {
         avaaGenerointiIkkuna();
@@ -62,7 +80,11 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     }
     
 
-    // ###########################################################
+    // ########################################################
+    //                                                        //
+    //                    methods                             //
+    //                                                        //
+    // ########################################################
     
     /**
      * Cancel-buttonin painettua poistutaan ikkunasta, mik‰li tallennattomia tietoja ei ole.
@@ -71,6 +93,46 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     private void handleCancel() {
         // TODO lis‰‰ kysymysdialogi, jossa varmistetaan, ett‰ k‰ytt‰j‰ varmasti haluaa poistua.
         ModalController.closeStage(generoiButton);
+    }
+    
+    /**
+     * Esitet‰‰n salasana n‰kyv‰ksi merkkijonoksi
+     */
+    private void naytaSalasana() {
+        passText1.setText(passField1.getText());
+        passText2.setText(passField2.getText());
+        passField1.setVisible(false);  passText1.setVisible(true);
+        passField2.setVisible(false);  passText2.setVisible(true);
+    }
+    
+    /**
+     * Piilotetaan salasana n‰kym‰ttˆm‰ksi. N‰ytet‰‰n sen tilalle mustia palloja/luoteja
+     */
+    private void piilotaSalasana() {
+        passField1.setText(passText1.getText());
+        passField2.setText(passText2.getText());
+        passText1.setVisible(false);  passField1.setVisible(true);
+        passText2.setVisible(false);  passField2.setVisible(true);
+    }
+    
+    /**
+     * Kontrolloidaan generoi-buttonin saavutettavuus. Jos salasanakentt‰‰n on kirjoitettu jotakin, 
+     * estet‰‰n generoimista. Sallitaan generoimista ainoastaan silloin kun salasanakentt‰ on tyhj‰
+     */
+    private void hallitseGeneroimista() {
+        BooleanBinding bb = new BooleanBinding() {
+            {
+                super.bind(passText1.textProperty(),
+                        passField1.textProperty());
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return (! passField1.getText().isEmpty()
+                        ||  ! passText1.getText().isEmpty());
+            }
+        };
+        generoiButton.disableProperty().bind(bb);
     }
     
     /**
