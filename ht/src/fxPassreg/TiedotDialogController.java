@@ -26,7 +26,7 @@ public class TiedotDialogController implements ModalControllerInterface<String> 
     }
       
     /**
-     * K‰sitell‰‰n ok-painikkeen toiminta.
+     * K‰sitell‰‰n ok-painikkeen toimintaa
      */
     @FXML private void handleDefaultOk() {
         handleOk();

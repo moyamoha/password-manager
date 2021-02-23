@@ -12,6 +12,15 @@ public class Passreg {
     
     private final Paasyt paasyt = new Paasyt();
     
+    
+    /**
+     * @param args e
+     */
+    public static void main(String[] args) {
+       // Passreg passreg = new Passreg();
+    }
+    
+    
     /**
      * @return rekisterin p‰‰sym‰‰r‰
      */
