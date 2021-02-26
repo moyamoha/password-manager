@@ -16,8 +16,7 @@ import javafx.scene.control.Button;
 public class TiedotDialogController implements ModalControllerInterface<String> {
         
     @FXML private Button okButton; 
-    
-    
+
     /**
      * N‰ytet‰‰n ohjelman tietoja sis‰lt‰v‰ ikkuna.
      */
@@ -55,7 +54,6 @@ public class TiedotDialogController implements ModalControllerInterface<String> 
     public void setDefault(String oletus) {
         // TODO Auto-generated method stub
         
-    }   
-    
+    }       
 
 }

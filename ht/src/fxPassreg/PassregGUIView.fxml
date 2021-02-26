@@ -36,7 +36,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#handleTulostusDialog" text="Tulosta..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleTulosta" text="Tulosta..." />
                   <MenuItem mnemonicParsing="false" onAction="#handleLopeta" text="Lopeta">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
@@ -169,7 +169,7 @@
                         <Insets bottom="4.0" top="4.0" />
                      </VBox.margin>
                   </Label>
-                  <ListChooser prefHeight="350.0" prefWidth="196.0" rivit="facebook&#10;gmail 1&#10;gmail 2&#10;instagram" />
+                  <ListChooser fx:id="paasyLista" prefHeight="350.0" prefWidth="196.0" rivit="facebook&#10;gmail 1&#10;gmail 2&#10;instagram" />
                </children>
             </VBox>
          </content>

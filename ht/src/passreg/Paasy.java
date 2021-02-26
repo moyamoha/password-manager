@@ -5,25 +5,35 @@ package passreg;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Random;
-import java.util.regex.Pattern;
 
-import kanta.MerkkijononGenerointi;
+import kanta.Merkkijonot;
 import kanta.Numerot;
 
 /**
+ * Rekisterin p‰‰sy, joka osaa itse huolehtia mm. tunnusnumerostaan
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi:   P‰‰sy                               | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   | 
+ * |                                                    |                   | 
+ * | (- ei tied‰ passregista eik‰ k‰yttˆliittym‰st‰     |                   |
+ * | - tiet‰‰ p‰‰syn kent‰t (otsikko, tunnus, puhnro    |                   |
+ * |   , salasana jne.)                                 |                   | 
+ * | - osaa tarkistaa tietyn kent‰n oikeellisuuden      |                   |
+ * |   (syntaksin)                                      |                   | 
+ * | - osaa muuttaa 1|gmail|..| - merkkijonon           |                   |
+ * |   p‰‰syn tiedoiksi                                 |                   | 
+ * | - osaa antaa merkkijonona i:n kent‰n tiedot        |                   | 
+ * | - osaa laittaa merkkijonon i:neksi kent‰ksi        |                   | 
+ * |-------------------------------------------------------------------------
  * @author Yahya
  * @version 17.2.2021
- *
  */
-@SuppressWarnings("unused")
 public class Paasy {
-    //TODO: toteutus t‰h‰n
     
-    private int         tunnusNro   = 0;
-    private int         kid         = 0;
+    private int         tunnusNro   = 0 ;
+    @SuppressWarnings("unused")
+    private int         kid         = 0 ;
     private String      otsikko     = "";
     private String      tunnus      = "";
     private String      email       = "";
@@ -57,12 +67,12 @@ public class Paasy {
      * 
      */
     public void taytaGmailTiedoilla() {
-        // TODO Auto-generated method stub
+        this.kid = 1;
         this.otsikko = "gmail" + Numerot.rand(1, 100);
-        this.tunnus  = MerkkijononGenerointi.generoiTunnus();
+        this.tunnus  = Merkkijonot.generoiTunnus();
         this.email   = this.tunnus + "@gmail.com";
-        this.puhnro  = MerkkijononGenerointi.generoiPuhNro();
-        this.password= MerkkijononGenerointi.generoiSalasana(Numerot.rand(5, 20), true, false, true);
+        this.puhnro  = Merkkijonot.generoiPuhNro();
+        this.password= Merkkijonot.generoiSalasana(Numerot.rand(5, 20), new boolean[] {true, false, true});
         this.url     = "www.google.com";
         this.info    = "gmail tili";
     }
@@ -72,7 +82,6 @@ public class Paasy {
      * @param out kohtdetietovirta
      */
     public void tulosta(PrintStream out) {
-        // TODO Auto-generated method stub
         out.println(String.format("%03d", tunnusNro) + " " + this.otsikko);
         out.println(" tunnus: \t" + this.tunnus);
         out.println(" s‰hkˆposti: \t" + this.email);
@@ -99,7 +108,7 @@ public class Paasy {
      *    Paasy gmail2 = new Paasy();
      *    gmail1.getTunnusNro()  === 0;
      *    gmail1.rekisteroi();
-     *    gmail1.getTunnusNro()  === 1;
+     *    gmail1.getTunnusNro()  === 1; 
      *    gmail2.getTunnusNro()  === 0;
      *    gmail2.rekisteroi();
      *    gmail2.getTunnusNro()  === 2;
@@ -112,11 +121,18 @@ public class Paasy {
     }
     
     /**
-     * 
      * @return p‰‰syn tunnusnumero
      */
     public int getTunnusNro() {
         return this.tunnusNro;
+    }
+    
+    
+    /**
+     * @return p‰‰syn otsikko
+     */
+    public String getOtsikko() {
+        return this.otsikko;
     }
     
     

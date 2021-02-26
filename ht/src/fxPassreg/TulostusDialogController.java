@@ -4,6 +4,7 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 
 /**
  * @author Yahya
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 public class TulostusDialogController implements ModalControllerInterface<String> {
     
     @FXML private Button okButton;
+    @FXML private TextArea tulostusText;
     
     /**
      * N‰ytet‰‰n tulostusikkuna ei-modaalisena.
@@ -52,7 +54,8 @@ public class TulostusDialogController implements ModalControllerInterface<String
 
     @Override
     public void setDefault(String oletus) {
-        // TODO Auto-generated method stub        
+        // TODO Auto-generated method stub
+        //tulostusText.setText(oletus);
     }
     
 

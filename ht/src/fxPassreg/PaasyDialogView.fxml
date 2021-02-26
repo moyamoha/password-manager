@@ -20,9 +20,9 @@
       <TextField layoutX="150.0" layoutY="103.0" prefHeight="26.0" prefWidth="214.0" text="soturi123" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="100.0" />
       <TextField layoutX="150.0" layoutY="152.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="130.0" />
       <TextField layoutX="150.0" layoutY="164.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="160.0" />
-      <TextField fx:id="passText1" layoutX="150.0" layoutY="226.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
+      <TextField fx:id="passText1" layoutX="150.0" layoutY="226.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
       <PasswordField fx:id="passField1" layoutX="150.0" layoutY="226.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
-      <TextField fx:id="passText2" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="220.0" />
+      <TextField fx:id="passText2" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="220.0" />
       <PasswordField fx:id="passField2" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="220.0" />
       <TextField layoutX="150.0" layoutY="253.0" prefHeight="26.0" prefWidth="214.0" text="www.facebook.com" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="250.0" />
       <TextArea layoutX="151.0" layoutY="276.0" prefHeight="126.0" prefWidth="214.0" text="facebook tilini" wrapText="true" AnchorPane.bottomAnchor="84.6" AnchorPane.leftAnchor="150.99999999999997" AnchorPane.rightAnchor="18.599999999999994" AnchorPane.topAnchor="280.0" />
@@ -46,7 +46,7 @@
       </Button>
       <HBox alignment="CENTER" layoutY="415.0" prefHeight="26.0" prefWidth="384.0" AnchorPane.bottomAnchor="49.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label textFill="#f50202" />
+            <Label fx:id="virheText" textFill="#f50202" />
          </children>
       </HBox>
       <Separator layoutY="440.0" prefHeight="18.0" prefWidth="384.0" AnchorPane.bottomAnchor="32.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

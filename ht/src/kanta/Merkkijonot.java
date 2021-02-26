@@ -10,27 +10,12 @@ import java.util.Random;
  * @version 22.2.2021
  *
  */
-public class MerkkijononGenerointi {
+public class Merkkijonot {
     
     private static final char[] PIENET_KIRJAIMET  = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private static final char[] ISO_KIRJAIMET     = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     private static final char[] ERIKOIS_MERKIT    = "_?!></&%#.:;,*'^~`¥+-\\\"=)([]{}|$Ä".toCharArray();
     private static final char[] NUMEROT           = "0123456789".toCharArray();
-    
-    
-    /**
-     * @param args ei k‰ytˆss‰
-     */
-    public static void main(String[] args) {
-        System.out.println(generoiTunnus());
-        System.out.println(generoiSalasana(10, true, true, true));
-        char[] merkit = yhdista(PIENET_KIRJAIMET, NUMEROT);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < merkit.length; i++) {
-            sb.append(merkit[i]);
-        }
-        System.out.println(sb.toString());
-    }
     
     
     /** 
@@ -61,7 +46,6 @@ public class MerkkijononGenerointi {
         return sb.toString();
     }
     
-    
     /**
      * Generoidaan tunnus. Tunnuksen pituus on v‰lill‰ 7 - 10
      * @return generoitu tunnus
@@ -73,20 +57,21 @@ public class MerkkijononGenerointi {
     
     /**
      * @param pituus generoidun salasanan pituus
-     * @param onNumerot sis‰lt‰isikˆ uusi salasanan numeroita
-     * @param onErikoiset sis‰lt‰isikˆ uusi salasan erikoismerkkej‰
-     * @param onIsot sis‰lt‰isikˆ uusi salasana isoja kirjaimia
+     * @param arvot boolean taulukko, jossa alkioina <i>sis‰lt‰‰ numeroita</i>, <i>sis‰lt‰‰ erikoismerkkej‰</i>
+     * ja <i>sis‰lt‰‰ isoja kirjaimia</i>
      * @return uusi salasana
      */
-    public static String generoiSalasana(int pituus,    boolean onNumerot, boolean onErikoiset, boolean onIsot) {
-        if (onNumerot && onErikoiset && onIsot)         return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, ISO_KIRJAIMET, NUMEROT, ERIKOIS_MERKIT), pituus);
-        else if(onNumerot && onIsot && ! onErikoiset)   return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, ISO_KIRJAIMET, NUMEROT), pituus);
-        else if (onNumerot && ! onIsot && !onErikoiset) return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, NUMEROT), pituus);
-        else if (!onNumerot && ! onIsot && onErikoiset) return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, ERIKOIS_MERKIT), pituus);
-        else if (!onNumerot && onIsot && onErikoiset)   return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, ISO_KIRJAIMET, ERIKOIS_MERKIT), pituus);
-        else if (!onNumerot && onIsot && !onErikoiset)  return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, ISO_KIRJAIMET), pituus);
-        else if (onNumerot  && !onIsot && onErikoiset)  return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, NUMEROT, ERIKOIS_MERKIT), pituus);
-        else return generateMerkkiJono(PIENET_KIRJAIMET, pituus);
+    public static String generoiSalasana(int pituus, boolean[] arvot) {
+        char[][] merkit = new char[3][];
+        merkit[0] = NUMEROT; merkit[1] = ERIKOIS_MERKIT; merkit[2] = ISO_KIRJAIMET;
+        
+        char[] mukana = PIENET_KIRJAIMET;
+        for (int i = 0; i < arvot.length; i++) {
+            if (arvot[i] == true) {
+                mukana = yhdista(mukana, merkit[i]);
+            }
+        }
+        return generateMerkkiJono(mukana, pituus);       
     }
     
     /**
@@ -116,25 +101,4 @@ public class MerkkijononGenerointi {
         
     }
     
-    /**
-     * @param eka ensimm‰inen char-taulukko
-     * @param toka toinen char-taulukko.
-     * @param kolmas char-taulukko
-     * @return uusi char-taulukko muodossa [...eka..., ...toka..., ...kolmas...]
-     */
-    public static char[] yhdista(char[] eka, char[] toka, char[] kolmas) {
-        return yhdista(yhdista(eka, toka), kolmas);
-    }
-    
-    
-    /**
-     * @param eka ensimm‰inen char-taulukko
-     * @param toka toinen char-taulukko.
-     * @param kolmas char-taulukko
-     * @param neljas char-taulukko
-     * @return uusi char-taulukko muodossa [...eka..., ...toka..., ...kolmas..., ...neljas...]
-     */
-    public static char[] yhdista(char[] eka, char[] toka, char[] kolmas, char[] neljas) {
-        return yhdista(yhdista(eka, toka, kolmas), neljas);
-    }
 }

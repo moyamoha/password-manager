@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -29,6 +30,7 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     @FXML private PasswordField passField1;
     @FXML private TextField passText2;
     @FXML private PasswordField passField2;
+    @FXML private Label virheText;
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -37,8 +39,10 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
         tooltip.setText("Avaa uuden ikkunan, jossa generoidaan antamasi kenttien arvojen mukainen salasana");
         generoiButton.setTooltip(tooltip);
         hallitseGeneroimista();
+        hallitseSalasanaKentat();
     }
-    
+ 
+
     /**
      * N‰ytet‰‰n p‰‰syn muokkausikkuna modaalisena
      */
@@ -95,12 +99,17 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
         ModalController.closeStage(generoiButton);
     }
     
+    
+    private void hallitseSalasanaKentat() {
+        // TODO Auto-generated method stub
+        passText1.textProperty().bindBidirectional(passField1.textProperty());
+        passText2.textProperty().bindBidirectional(passField2.textProperty());
+    }
+    
     /**
      * Esitet‰‰n salasana n‰kyv‰ksi merkkijonoksi
      */
     private void naytaSalasana() {
-        passText1.setText(passField1.getText());
-        passText2.setText(passField2.getText());
         passField1.setVisible(false);  passText1.setVisible(true);
         passField2.setVisible(false);  passText2.setVisible(true);
     }
@@ -109,10 +118,8 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
      * Piilotetaan salasana n‰kym‰ttˆm‰ksi. N‰ytet‰‰n sen tilalle mustia palloja/luoteja
      */
     private void piilotaSalasana() {
-        passField1.setText(passText1.getText());
-        passField2.setText(passText2.getText());
-        passText1.setVisible(false);  passField1.setVisible(true);
-        passText2.setVisible(false);  passField2.setVisible(true);
+        passText1.setVisible(false); passField1.setVisible(true);
+        passText2.setVisible(false); passField2.setVisible(true);
     }
     
     /**
@@ -125,7 +132,6 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
                 super.bind(passText1.textProperty(),
                         passField1.textProperty());
             }
-
             @Override
             protected boolean computeValue() {
                 return (! passField1.getText().isEmpty()
@@ -141,9 +147,21 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
      */
     private void handleOk() {
         // TODO tallentaa muutokset 
+        if (salasanatTasmaa()) {
+            virheText.setText("");
+            Dialogs.showMessageDialog("Tallennetaan, mutta viel‰ ei toimi!");
+            return;
+        }
+        virheText.setText("Salasanat eiv‰t t‰sm‰‰");
         Dialogs.showMessageDialog("Tallennetaan, mutta viel‰ ei toimi!");
     }
     
+    private boolean salasanatTasmaa() {
+        // TODO Auto-generated method stub
+        if (! naytaCheckBox.isSelected()) return passField1.getText().equals(passField2.getText()); 
+        return passText1.getText().equals(passText2.getText());
+    }
+
     /**
      * N‰ytet‰‰n generoidialogi uudessa ikkunassa
      */

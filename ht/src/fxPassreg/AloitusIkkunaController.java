@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class AloitusIkkunaController implements ModalControllerInterface<String> {
     
     @FXML private TextField vastausKenttaText;
-    private String vastaus;
+    private String vastaus = null;
     
     
     /**

@@ -3,6 +3,7 @@ package fxPassreg;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import passreg.Passreg;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,9 @@ public class PassregMain extends Application {
 			scene.getStylesheets().add(getClass().getResource("passreg.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Passreg");
+			
+			Passreg passrekisteri = new Passreg();
+			passCtrl.setPassreg(passrekisteri);
 			
 			if (!passCtrl.avaaTiedosto()) Platform.exit();
 			primaryStage.show();
