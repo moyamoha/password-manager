@@ -1,5 +1,6 @@
 package kanta;
 import java.util.Random;
+import static kanta.Numerot.rand;;
 
 /**
  * 
@@ -17,6 +18,17 @@ public class Merkkijonot {
     private static final char[] ERIKOIS_MERKIT    = "_?!></&%#.:;,*'^~`´+-\\\"=)([]{}|$€".toCharArray();
     private static final char[] NUMEROT           = "0123456789".toCharArray();
     
+    
+    /**
+     * @param args ei käytössä
+     */
+    public static void main(String[] args) {
+        int i = 0;
+        while (i < 10) {
+            System.out.println(generateHexColor());
+            i++;
+        }
+    }
     
     /** 
      * Generoidaan merkkijono, jonka pituus on väliltä  <b>alarajaPituus</b> - <b>ylarajaPituus</b> ja merkit on valittu joukosta <b>charJoukko</b>
@@ -81,6 +93,32 @@ public class Merkkijonot {
     public static String generoiPuhNro() {
         return "0" + generateMerkkiJono(NUMEROT, 9);
     }
+    
+    /**
+     * @return int array jossa rgb-arvot 0-150. Värit luonnollisesti tummempia
+     */
+    public static int[] generateDarkRgb() {
+        int[] arvot = new int[3];
+        for(int i = 0; i < arvot.length; i++) {
+            arvot[i] = rand(0, 254);
+        }
+        return arvot;
+    }
+    
+    /**
+     * @return a hexStringColor.
+     */
+    public static String generateHexColor() {
+        int[] arvot = generateDarkRgb();
+        StringBuilder hexColor = new StringBuilder("#");
+        for (int i = 0; i < arvot.length; i++) {
+            String osa = Integer.toHexString(arvot[i]);
+            if (osa.length() == 1) osa = "0" + osa;
+            hexColor.append(osa);
+        }
+        return hexColor.toString();
+    }
+    
     
     /**
      * Yhdistää kaksi char-taulukkoa toisiinsa

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.TiedotDialogController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.AboutViewController">
    <center>
       <VBox alignment="CENTER" focusTraversable="true" prefHeight="198.0" prefWidth="313.0" spacing="10.0" style="-fx-background-color: #c8e0e0;" BorderPane.alignment="CENTER">
          <children>

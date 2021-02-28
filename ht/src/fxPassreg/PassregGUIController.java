@@ -2,25 +2,26 @@ package fxPassreg;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import passreg.Kategoria;
 import passreg.Paasy;
 import passreg.Passreg;
 
@@ -29,7 +30,7 @@ import passreg.Passreg;
  * @version 19.1.2021
  * Pääikkunan kontrolleeri
  */
-public class PassregViewController implements Initializable {
+public class PassregGUIController implements Initializable {
 
     @FXML private PasswordField passField;
     @FXML private TextField passText;
@@ -37,128 +38,72 @@ public class PassregViewController implements Initializable {
     @FXML private Hyperlink hyperLink;
     @FXML private TreeView<String> treeView;
     @FXML private ListChooser<Paasy> paasyLista;
+    @FXML private ScrollPane panelPaasy;
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
        // Tähän tarvittavat alustukset
         TreeItem<String> root = new TreeItem<String>("Kategoriat");
-        treeView.setRoot(root);       
+        treeView.setRoot(root); 
+        hallitseSalasanaKentta();
+        alusta();
     }
     
-    /**
-     * Käsitellään hyperlinkin toimintaa
-     */
-    @FXML public void handleHyperLink() {
-        avaaHyperLink();
-    }
+    @FXML private void handleHyperLink()        { avaaHyperLink(); }
     
-    /**
-     * Käsitellään tallenna-painikkeen toimintaa
-     */
-    @FXML private void handleTallenna() {
-        tallenna();
-    }
+    @FXML private void handleTallenna()         { tallenna(); }
     
+    @FXML private void handleAvaa() throws IOException {avaaTiedosto(); }
     
-    /**
-     * Käsitellään avaa-painikkeen toimintaa
-     * @throws IOException jos lukeminen epäonnistuu
-     */
-    @FXML private void handleAvaa() throws IOException {
-        avaaTiedosto();
-    }
+    @FXML private void handleLopeta()           { lopeta();}
     
+    @FXML private void handleLisaaUusiPaasy()   { uusiPaasy(); }
     
-    @FXML private void handleNaytaCheckBox() {
-        if (this.naytaCheckBox.isSelected()) naytaSalasana();
-        else piilotaSalasana();
-    }
+    @FXML private void handleMuokkaaPaasy()     { avaaPaasyDialogTaytettyna(); }
     
+    @FXML private void handlePoistaPaasy()      { poistaPaasy(); }
     
-    /**
-     * Käsitellään lopeta-menuvalinnan toimintaa. Tallennetaan muutokset sitä ennen.
-     */
-    @FXML private void handleLopeta() { lopeta();}
+    @FXML private void handleLisaaKategoria()   { lisaaUusiKategoria(); }
     
-    
-    /**
-     * Käsitellään muokkaa paasy -menuvalinnan toimintaa
-     */
-    @FXML private void handleLisaaUusiPaasy() {
-        avaaPaasyDialogTyhjana();
-    }
-    
-    
-    /**
-     * Käsitellään muokkaa paasy -menuvalinnan toiminta.
-     */
-    @FXML private void handleMuokkaaPaasy() {
-        avaaPaasyDialogTaytettyna();
-    }
-    
-    
-    /**
-     * Käsitellään poista pääsy -menuvalinnan toiminta.
-     */
-    @FXML private void handlePoistaPaasy() {
-        poistaPaasy();
-    }
-   
-    
-    /**
-     * Käsitellään lisää uusi kategoria -menuvalinnan toimintaa
-     */
-    @FXML private void handleLisaaKategoria() {
-        lisaaUusiKategoria();
-    }
-    
-    /**
-     * Käsitellään muokkaa kategorian nimi -menuvalinnan toimintaa
-     */
-    @FXML private void handleMuokkaaKategoria() {
-        muokkaaKategoria();
-    }
-    
-    /**
-     * Käsitellään poista kategoria -menuvalinnan toimintaa
-     */
-    @FXML private void handlePoistaKategoria() {
-        poistaKategoria();
-    }
-    
-    
-    /**
-     * Käsitellään tulosta-menuvalinnan toiminta.
-     */
-    @FXML private void handleTulosta() {
-        tulosta();
-    }
-    
-    
-    /**
-     * Käsitellään tietoja-menuvalinnan toiminta.
-     */
-    @FXML private void handleAboutDialog() {
-        avaaAboutDialog();
-    }
-    
-    
-    /**
-     * Käsitellään Apua-menuvalinnan toiminta.
-     */
-    @FXML private void handleApua() {
-        haeApua();
-    }
+    @FXML private void handleMuokkaaKategoria() { muokkaaKategoria(); }
 
+    @FXML private void handlePoistaKategoria()  { poistaKategoria(); }
+    
+    @FXML private void handleTulosta()          { tulosta(); }
+    
+    @FXML private void handleAboutDialog()      { avaaAboutDialog(); }
+    
+    @FXML private void handleApua()             { haeApua(); }
+   
     // #######################################################
     // 
     // 
     // #######################################################
     
     private String tiedostonNimi = "";
+    @SuppressWarnings("unused")
     private Passreg passreg;
+    private TextArea areaPaasy = new TextArea();   // TODO: poista kun ei enää tarvita. Tilapäinen
     
     
+    private void alusta() {
+        // TODO Auto-generated method stub
+        panelPaasy.setContent(areaPaasy);
+        panelPaasy.setFitToHeight(true);
+        paasyLista.clear();
+        paasyLista.addSelectionListener(e -> naytaPaasy());
+    }
+    
+    
+    private void naytaPaasy() {
+        Paasy valittuPaasy = paasyLista.getSelectedObject();
+        if (valittuPaasy == null) return;
+        areaPaasy.setText("");
+        @SuppressWarnings("resource")
+        PrintStream ps = TextAreaOutputStream.getTextPrintStream(areaPaasy);
+        valittuPaasy.tulosta(ps);
+    }
+
     /**
      * Avataan hyperlinkki. Kerran kun se on avattu, muuttuu sen väri punaiseksi
      */
@@ -189,23 +134,20 @@ public class PassregViewController implements Initializable {
         return true;
     }
     
-    
     /**
-     * Näytetään salasana luettavaksi
+     * Kytketään passText ja passFied -kentät toisiinsä. Eli molemmilla tulee olemaan sama teksti.
      */
-    public void naytaSalasana() {
-        passText.setText(passField.getText());
-        passText.setVisible(true); passField.setVisible(false);
-    }
-    
-    
-    /**
-     * Piilottaa salasanan
-     */
-    private void piilotaSalasana() {
-        passField.setText(passText.getText());
-        passText.setVisible(false);
-        passField.setVisible(true);
+    private void hallitseSalasanaKentta() {
+        passText.textProperty().bindBidirectional(passField.textProperty());
+        BooleanBinding bb = new BooleanBinding() {
+            { super.bind(naytaCheckBox.selectedProperty());}
+            @Override
+            protected boolean computeValue() {
+                // TODO Auto-generated method stub
+                return ( ! naytaCheckBox.isSelected());
+            }
+        };
+        passField.visibleProperty().bind(bb);
     }
     
     
@@ -222,15 +164,26 @@ public class PassregViewController implements Initializable {
     }
     
     
-    /**
-     * Avataan pääsyn muokkausikkuna tyhjänä
-     */
-    private void avaaPaasyDialogTyhjana() {
-        //TODO: Tähän oikeaa lisäystoimintaa
-        PaasyDialogController.naytaPaasyDialog();
+    private void uusiPaasy() {
+        Paasy entry = new Paasy();
+        entry.rekisteroi();
+        entry.taytaGmailTiedoilla();
+        passreg.lisaa(entry);
+        hae(entry.getTunnusNro());
     }
     
     
+    private void hae(int pnro) {
+        paasyLista.clear();
+        int index = 0;
+        for (int i = 0; i < passreg.getPaasytLkm(); i++) {
+            Paasy p = passreg.annaPaasy(i);
+            if (p.getTunnusNro() == pnro) index = i;
+            paasyLista.add(p.getOtsikko(), p);
+        }
+        paasyLista.setSelectedIndex(index);
+    }
+
     /**
      * Asettaa kategoriat puurakenteeseen.
      */
@@ -242,21 +195,6 @@ public class PassregViewController implements Initializable {
         treeView.getRoot().getChildren().add(new TreeItem<String>("some"));
         treeView.getRoot().getChildren().add(new TreeItem<String>("muu"));
         treeView.getRoot().getChildren().add(new TreeItem<String>("työ"));
-    }
-    
-    
-    /**
-     * Palauttaa listan rekisterin kategorioista.
-     * @return rekisterin kategoriat
-     */
-    @SuppressWarnings("unused")
-    private List<Kategoria> getKategoriat() {
-        // TODO Auto-generated method stub
-       List<Kategoria> kgt = new ArrayList<>();
-       for (int i = 0; i < passreg.getKategoriatLkm(); i++) {
-           kgt.add(passreg.annaKategoria(i));
-       }
-       return kgt;
     }
 
     /**
@@ -355,12 +293,6 @@ public class PassregViewController implements Initializable {
         // TODO Auto-generated method stub
         this.passreg = passrekisteri;
         naytaPuuElementit();
-        naytaPaasyt();
-    }
-
-    private void naytaPaasyt() {
-        // TODO naytetaan pääsyt
-        
     }
 
 }

@@ -6,20 +6,31 @@ package passreg;
 import java.io.IOException;
 
 /**
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi:   Jasenet                             | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   | 
+ * |                                                    | - Paasy           | 
+ * | - pit‰‰ yll‰ varsinaista paasyrekisteri‰, eli osaa |                   | 
+ * |   lis‰t‰ ja poistaa p‰‰syn                         |                   | 
+ * | - lukee ja kirjoittaa p‰‰syj‰ tiedostoon           |                   | 
+ * | - osaa etsi‰ ja lajitella                          |                   | 
+ * |                                                    |                   | 
+ * |-------------------------------------------------------------------------
  * @author Yahya
  * @version 17.2.2021
  *
  */
 public class Paasyt {
     
-    private static int MAX_KOKO = 3;
+    private static int MAX_KOKO = 3;  // miksi staattinen?
     private Paasy[] alkiot;
     private int lkm;
     @SuppressWarnings("unused")
     private String tiedostonNimi = "";
     
     /**
-     * 
+     * Oletus-muodostaja
      */
     public Paasyt() {
         this.alkiot = new Paasy[MAX_KOKO];
@@ -99,6 +110,7 @@ public class Paasyt {
     
     
     /**
+     * Palautetaan tiety p‰‰syn viite sen indeksin perusteella
      * @param i p‰‰syn indeksi taulukossa <b>alkiot</b>
      * @return viite P‰‰sy-olioon
      * @throws IndexOutOfBoundsException jos indeksi ei ole sopiva

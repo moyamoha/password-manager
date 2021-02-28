@@ -61,7 +61,7 @@ public class Tarkistukset {
     }
     
     /**
-     * @param puhNro käsiteltävä puhelinnumero
+     * @param puhNro käsiteltävä puhelinnumero.
      * @return true jos puhelinnumero on oikein
      * @example
      * <pre name="test">
@@ -90,5 +90,6 @@ public class Tarkistukset {
     public static boolean onValidiOtsikko(String otsikko) {
         return otsikko.length() > 0 && otsikko.matches("[a-zA-Z0-9]+");
     }
+    
 
 }

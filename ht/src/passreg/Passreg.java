@@ -4,8 +4,6 @@
 package passreg;
 
 import java.io.IOException;
-import java.util.List;
-
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   Passreg                             | Avustajat:        |
@@ -25,8 +23,6 @@ import java.util.List;
 public class Passreg {
     
     private final Paasyt paasyt = new Paasyt();
-    private final Kategoriat kategoriat = new Kategoriat();
-    
     
     /**
      * 
@@ -36,26 +32,10 @@ public class Passreg {
     }
     
     /**
-     * @param args e
+     * @param args ei k‰ytˆss‰
      */
     public static void main(String[] args) {
        Passreg passreg = new Passreg();
-       
-       Kategoria kg1 = new Kategoria();
-       kg1.rekisteroi();
-       kg1.taytaSomeenTiedoilla();
-       
-       Kategoria kg2 = new Kategoria();
-       kg2.rekisteroi();
-       kg2.taytaSomeenTiedoilla();
-       
-       Kategoria kg3 = new Kategoria();
-       kg3.rekisteroi();
-       kg2.taytaSomeenTiedoilla();
-       
-       passreg.lisaa(kg1);
-       passreg.lisaa(kg2);
-       passreg.lisaa(kg3);
        
        Paasy gmail1 = new Paasy();
        gmail1.rekisteroi();
@@ -106,61 +86,14 @@ public class Passreg {
     }
     
     /**
-     * @return rekisterin kategorian lukum‰‰r‰
-     * @example
-     * <pre name="test">
-     *   Passreg passreg = new Passreg();
-     *   
-     *   Kategoria kg1 = new Kategoria();
-     *   kg1.rekisteroi();
-     *   kg1.taytaSomeenTiedoilla();
-     *
-     *   Kategoria kg2 = new Kategoria();
-     *   kg2.rekisteroi();
-     *   kg2.taytaSomeenTiedoilla();
-     *   
-     *   Kategoria kg3 = new Kategoria();
-     *   kg3.rekisteroi();
-     *   kg2.taytaSomeenTiedoilla();
-     *   
-     *   passreg.getKategoriatLkm()  === 0;
-     *   passreg.lisaa(kg1);
-     *   passreg.getKategoriatLkm()  === 1;
-     *   passreg.lisaa(kg2);    
-     *   passreg.getKategoriatLkm()  === 2;
-     *   passreg.lisaa(kg3);
-     *   passreg.getKategoriatLkm()  === 3;
-     * </pre>  
-     */
-    public int getKategoriatLkm() {
-        return kategoriat.getLkm();
-    }
-    
-    /**
-     * @return rekisterin kategoriat
-     */
-    public List<Kategoria> getKategoriat(){
-        return this.kategoriat.getKategoriat();
-    }
-    
-    /**
      * @param nro viite poistettavaan/poistettavien p‰‰syjen numeroon
      * @return montako p‰‰sy‰ poistettiin
      */
-    public int poistaPaasy(@SuppressWarnings("unused") int nro) {
-        return 0;
+    public int poistaPaasy(int nro) {
+        return nro;
         //TODO 7 vaiheessa
     }
-    
-    
-    /**
-     * @param nro viite poistettavaan/poistettavien p‰‰syjen numeroon
-     * @return montako kategoriaa poistettiin
-     */
-    public int PoistaKategoria(@SuppressWarnings("unused") int nro) {
-        return 0;
-    }
-    
+
     
     /**
      * @param paasy lis‰tt‰v‰ p‰‰sy
@@ -168,9 +101,8 @@ public class Passreg {
      * <pre name="test">
      *   Passreg passreg = new Passreg();
      *   
-     *   Kategoria kg1 = new Kategoria();
+     *   Kategoria kg1 = new Kategoria("some");
      *   kg1.rekisteroi();
-     *   kg1.taytaSomeenTiedoilla();
      *   
      *   passreg.getKategoriatLkm()  === 0;
      *   passreg.lisaa(kg1);
@@ -183,14 +115,6 @@ public class Passreg {
     
     
     /**
-     * @param kategoria lis‰tt‰v‰ kategoria
-     */
-    public void lisaa(Kategoria kategoria) {
-        kategoriat.lisaa(kategoria);
-    }
-    
-    
-    /**
      * @param i p‰‰syn indeksi
      * @return viite kyseiseen p‰‰syyn
      */
@@ -198,22 +122,13 @@ public class Passreg {
         return paasyt.anna(i);
     }
     
-    
-    /**
-     * @param i kategorian indeksi
-     * @return viite kyseiseen kategoriaan
-     */
-    public Kategoria annaKategoria(int i) {
-        return kategoriat.anna(i);
-    }
-    
+
     /**
      * Tallettaa rekisterin tiedot tiedostoon. kesken
      * @throws IOException jos kirjoittamisessa sattuu virheit‰
      */
     public void talleta() throws IOException {
         paasyt.talleta();
-        kategoriat.talleta();
        // TODO: yrit‰ tallettaa toinen vaikka toinen ep‰onnistuisi
     }
     
@@ -224,6 +139,5 @@ public class Passreg {
      */
     public void lueTiedostosta(String nimi) throws IOException {
          paasyt.lueTiedostosta(nimi);
-         kategoriat.lueTiedostosta(nimi);
     }
 }

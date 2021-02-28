@@ -20,7 +20,7 @@ public class PassregMain extends Application {
 		try {
             final FXMLLoader ldr = new FXMLLoader(getClass().getResource("PassregGUIView.fxml"));
             final Pane root = (Pane)ldr.load();
-			final PassregViewController passCtrl = (PassregViewController)ldr.getController();
+			final PassregGUIController passCtrl = (PassregGUIController)ldr.getController();
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("passreg.css").toExternalForm());
 			primaryStage.setScene(scene);

@@ -35,7 +35,7 @@
       <Label layoutX="79.0" layoutY="194.0" text="Salasana" />
       <Label layoutX="44.0" layoutY="224.0" text="Toista salasana" />
       <Label layoutX="102.0" layoutY="254.0" prefHeight="18.0" prefWidth="28.0" text="URL" />
-      <CheckBox fx:id="naytaCheckBox" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="310.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleNaytaCheckBox" prefHeight="18.0" prefWidth="51.0" text="näytä" AnchorPane.rightAnchor="23.0">
+      <CheckBox fx:id="naytaCheckBox" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="310.0" layoutY="194.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="51.0" text="näytä" AnchorPane.rightAnchor="23.0">
          <font>
             <Font size="10.0" />
          </font></CheckBox>

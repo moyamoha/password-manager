@@ -45,7 +45,7 @@ public class KategoriaDialogController
     }
 
     @FXML private void handleOkButton() {
-        handleOk();
+        tallenna();
     }
 
 
@@ -64,7 +64,7 @@ public class KategoriaDialogController
     /**
      * Tallennetaan muutokset
      */
-    private void handleOk() {
+    private void tallenna() {
         // TODO Auto-generated method stub
         Dialogs.showMessageDialog("Tallennetaan, mutta vielä ei toimi!");
     }

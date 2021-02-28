@@ -39,7 +39,7 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
         tooltip.setText("Avaa uuden ikkunan, jossa generoidaan antamasi kenttien arvojen mukainen salasana");
         generoiButton.setTooltip(tooltip);
         hallitseGeneroimista();
-        hallitseSalasanaKentat();
+        bindSalasanaKentat();
     }
  
 
@@ -54,31 +54,14 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
                 null, "");
     }
     
-    /**
-     * K‰sitell‰‰n cancel-painikkeen toiminta. 
-     */
     @FXML private void handleCancelButton() {
         handleCancel();
     }
     
-    /**
-     * K‰sitell‰‰n n‰yt‰-valintaruudun toimintaa
-     */
-    @FXML private void handleNaytaCheckBox() {
-        if (this.naytaCheckBox.isSelected()) naytaSalasana();
-        else piilotaSalasana();
-    }
-    
-    /**
-     * K‰sitell‰‰n generoi-painikkeen toimintaa
-     */
     @FXML private void handleGeneroiButton() {
         avaaGenerointiIkkuna();
     }
     
-    /**
-     * K‰sitell‰‰n ok-buttonin toiminta.
-     */
     @FXML private void handleOkButton() {
         handleOk();
     }
@@ -100,31 +83,27 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     }
     
     
-    private void hallitseSalasanaKentat() {
-        // TODO Auto-generated method stub
+    /**
+     * Kytket‰‰n salasanatkentt‰ ja sen vastaava tekstikentt‰ toisiinsa.
+     * Muutos toiseen aiheuttaa muutosta toiseen. Kytket‰‰n samalla salasanan n‰kyvyys n‰yt‰-checkboxiin.
+     */
+    private void bindSalasanaKentat() {
         passText1.textProperty().bindBidirectional(passField1.textProperty());
         passText2.textProperty().bindBidirectional(passField2.textProperty());
-    }
-    
-    /**
-     * Esitet‰‰n salasana n‰kyv‰ksi merkkijonoksi
-     */
-    private void naytaSalasana() {
-        passField1.setVisible(false);  passText1.setVisible(true);
-        passField2.setVisible(false);  passText2.setVisible(true);
-    }
-    
-    /**
-     * Piilotetaan salasana n‰kym‰ttˆm‰ksi. N‰ytet‰‰n sen tilalle mustia palloja/luoteja
-     */
-    private void piilotaSalasana() {
-        passText1.setVisible(false); passField1.setVisible(true);
-        passText2.setVisible(false); passField2.setVisible(true);
+        BooleanBinding bb = new BooleanBinding() {
+            { super.bind(naytaCheckBox.selectedProperty()); }
+            @Override
+            protected boolean computeValue() {
+                return ( ! naytaCheckBox.isSelected());
+            }
+        };
+        passField1.visibleProperty().bind(bb);
+        passField2.visibleProperty().bind(bb);
     }
     
     /**
      * Kontrolloidaan generoi-buttonin saavutettavuus. Jos salasanakentt‰‰n on kirjoitettu jotakin, 
-     * estet‰‰n generoimista. Sallitaan generoimista ainoastaan silloin kun salasanakentt‰ on tyhj‰
+     * estet‰‰n generoimista. Sallitaan generoimista ainoastaan silloin, kun salasanakentt‰ on tyhj‰
      */
     private void hallitseGeneroimista() {
         BooleanBinding bb = new BooleanBinding() {
@@ -142,7 +121,7 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     }
     
     /**
-     * Kun k‰ytt‰j‰ painaa ok-buttonin, tallennetaan muutokset ja poistutaan. 
+     * Kun k‰ytt‰j‰ painaa ok-painikkeen, tallennetaan muutokset ja poistutaan. 
      * Mik‰li tallennettavia muutoksia ei ole, poistutaan ikkunasta.
      */
     private void handleOk() {

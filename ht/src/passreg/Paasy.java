@@ -31,16 +31,15 @@ import kanta.Numerot;
  */
 public class Paasy {
     
-    private int         tunnusNro   = 0 ;
-    @SuppressWarnings("unused")
-    private int         kid         = 0 ;
-    private String      otsikko     = "";
-    private String      tunnus      = "";
-    private String      email       = "";
-    private String      password    = "";
-    private String      puhnro      = "";
-    private String      url         = "";
-    private String      info        = "";
+    private int         tunnusNro       = 0 ;
+    private int         kID    = 0 ;
+    private String      otsikko         = "";
+    private String      tunnus          = "";
+    private String      sPosti          = "";
+    private String      salasana        = "";
+    private String      puhnro          = "";
+    private String      url             = "";
+    private String      info            = "";
     
     private static int  seuraavaNro  = 1;
 
@@ -64,43 +63,45 @@ public class Paasy {
     }
     
     /**
-     * 
+     * T‰ytet‰‰n p‰‰sy gmail-tiedoilla. Tilap‰inen
      */
     public void taytaGmailTiedoilla() {
-        this.kid = 1;
+        this.kID     = 1;
         this.otsikko = "gmail" + Numerot.rand(1, 100);
         this.tunnus  = Merkkijonot.generoiTunnus();
-        this.email   = this.tunnus + "@gmail.com";
+        this.sPosti  = this.tunnus + "@gmail.com";
         this.puhnro  = Merkkijonot.generoiPuhNro();
-        this.password= Merkkijonot.generoiSalasana(Numerot.rand(5, 20), new boolean[] {true, false, true});
+        this.salasana= Merkkijonot.generoiSalasana(Numerot.rand(5, 20), new boolean[] {true, false, true});
         this.url     = "www.google.com";
         this.info    = "gmail tili";
     }
 
     /**
-     * 
-     * @param out kohtdetietovirta
+     * Tulostetaan p‰‰syn tiedot
+     * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", tunnusNro) + " " + this.otsikko);
         out.println(" tunnus: \t" + this.tunnus);
-        out.println(" s‰hkˆposti: \t" + this.email);
+        out.println(" s‰hkˆposti: \t" + this.sPosti);
         out.println(" puhelinnro: \t" + this.puhnro);
-        out.println(" salasana: \t" + this.password);
+        out.println(" salasana: \t" + this.salasana);
         out.println(" url: \t\t" + this.url);
         out.println(" lis‰‰ tietoa: \t" + this.info);
     }
     
     
     /**
-     * @param os kohdetietovirta
+     * Tulostetaan p‰‰syn tiedot
+     * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {
-        tulosta(os);
+        tulosta(new PrintStream(os));
     }
     
     
     /**
+     * Rekisterˆid‰‰n p‰‰sy
      * @return p‰‰syn saatu tunnusnumero
      * @example
      * <pre name="test">
@@ -136,5 +137,11 @@ public class Paasy {
     }
     
     
-    
+    /**
+     * Palauttaa tiedon siit‰ mihin kategoriaan p‰‰sy kuuluu
+     * @return kategorian tunnusNro
+     */
+    public int getKategoriaId() {
+        return this.kID;
+    }
 }
