@@ -32,7 +32,7 @@ import kanta.Numerot;
 public class Paasy {
     
     private int         tunnusNro       = 0 ;
-    private int         kID    = 0 ;
+    private int         kID             = 0 ;
     private String      otsikko         = "";
     private String      tunnus          = "";
     private String      sPosti          = "";
@@ -143,5 +143,18 @@ public class Paasy {
      */
     public int getKategoriaId() {
         return this.kID;
+    }
+    
+    @Override
+    public String toString(){
+        // TODO: tiedon n‰ytt‰minen muodossa 1|gmail|...
+        return this.toString();
+    }
+    
+    /**
+     * @param text osittava merkkijono
+     */
+    public void parse(@SuppressWarnings("unused") String text) {
+        // TODO: lukee p‰‰syn tiedot merkkijonosta 1|gmail|.. 
     }
 }

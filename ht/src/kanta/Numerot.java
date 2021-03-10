@@ -34,5 +34,13 @@ public class Numerot {
         return (int) Math.round(n);
     }
     
+    
+    /**
+     * @param args ei käytössä
+     */
+    public static void main(String[] args) {
+        //
+    }
+    
 
 }

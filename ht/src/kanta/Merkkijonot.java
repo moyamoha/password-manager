@@ -1,6 +1,6 @@
 package kanta;
-import java.util.Random;
-import static kanta.Numerot.rand;;
+import static kanta.Numerot.rand;
+import java.util.*;
 
 /**
  * 
@@ -18,6 +18,8 @@ public class Merkkijonot {
     private static final char[] ERIKOIS_MERKIT    = "_?!></&%#.:;,*'^~`¥+-\\\"=)([]{}|$Ä".toCharArray();
     private static final char[] NUMEROT           = "0123456789".toCharArray();
     
+    // #import java.util.Arrays;
+    
     
     /**
      * @param args ei k‰ytˆss‰
@@ -25,9 +27,11 @@ public class Merkkijonot {
     public static void main(String[] args) {
         int i = 0;
         while (i < 10) {
-            System.out.println(generateHexColor());
+            System.out.println(generoiKNimi());
             i++;
         }
+        
+        System.out.println(Arrays.toString(yhdista(PIENET_KIRJAIMET, NUMEROT)));
     }
     
     /** 
@@ -36,6 +40,13 @@ public class Merkkijonot {
      * @param alarajaPituus generoituvan merkkijonon v‰himm‰ispituus
      * @param ylarajaPituus generoituvan merkkijonon enimm‰ispituus
      * @return generoitu merkkijono
+     * @example
+     * <pre name="test">
+     *    char[] merkit = new char[] {'a', 'b', 'c'};
+     *    String g = generateMerkkiJono(merkit, 2, 10);
+     *    (g.length() >= 2 && g.length() <= 10)  === true;
+     *    g.indexOf("‰")  === -1;
+     * </pre>
      */
     public static String generateMerkkiJono(char[] charJoukko, int alarajaPituus, int ylarajaPituus) {
         int pituus = Numerot.rand(alarajaPituus, ylarajaPituus);
@@ -129,14 +140,38 @@ public class Merkkijonot {
      * <pre name="test">
      *       char[] PIENET_KIRJAIMET  = "abcdefghijklmnopqrstuvwxyz".toCharArray();
      *       char[] NUMEROT           = "0123456789".toCharArray();
-     *       yhdista(PIENET_KIRJAIMET, NUMEROT).equals("abcdefghijklmnopqrstuvwxyz0123456789".toCharArray()) === true;;
+     *       char[] yhdistetty = yhdista(PIENET_KIRJAIMET, NUMEROT);
+     *       Arrays.toString(yhdistetty)  === "[a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]";
      * </pre>
      */
     public static char[] yhdista(char[] eka , char[] toka) {
         StringBuilder sb = new StringBuilder();
         sb.append(eka); sb.append(toka);
         return sb.toString().toCharArray();
+    }
+    
+    /**
+     * @param mukanaOlevat boolean taulukko, joka m‰‰rittelee mink‰laisia merkkej‰ tulevat mukaan
+     * @return uusi char taulukko
+     */
+    public static char[] yhdista(boolean[] mukanaOlevat) {
+        char[] tulos = new char[] {};
+        char[][] charTaul = {
+                PIENET_KIRJAIMET, NUMEROT, ERIKOIS_MERKIT, PIENET_KIRJAIMET
+        };
         
+        for (int i = 0; i < mukanaOlevat.length; i++) {
+            if (mukanaOlevat[i] == true) tulos = yhdista(tulos, charTaul[i]); 
+        }
+        return tulos;
+        
+    }
+    
+    /**
+     * @return satunnainen kategorian nimi
+     */
+    public static String generoiKNimi() {
+        return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, new char[] {'‰', 'ˆ'}), 5, 10);
     }
     
 }

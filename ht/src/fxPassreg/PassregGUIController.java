@@ -20,8 +20,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
+import kanta.CTreeView;
+import passreg.Kategoria;
 import passreg.Paasy;
 import passreg.Passreg;
 
@@ -36,19 +37,17 @@ public class PassregGUIController implements Initializable {
     @FXML private TextField passText;
     @FXML private CheckBox naytaCheckBox;
     @FXML private Hyperlink hyperLink;
-    @FXML private TreeView<String> treeView;
-    @FXML private ListChooser<Paasy> paasyLista;
+    @FXML private ListChooser<Paasy> paasyChooser;
     @FXML private ScrollPane panelPaasy;
+    @FXML private VBox puuVbox;
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-       // Tähän tarvittavat alustukset
-        TreeItem<String> root = new TreeItem<String>("Kategoriat");
-        treeView.setRoot(root); 
+        alustaPuu();
         hallitseSalasanaKentta();
         alusta();
     }
-    
+
     @FXML private void handleHyperLink()        { avaaHyperLink(); }
     
     @FXML private void handleTallenna()         { tallenna(); }
@@ -81,22 +80,28 @@ public class PassregGUIController implements Initializable {
     // #######################################################
     
     private String tiedostonNimi = "";
-    @SuppressWarnings("unused")
     private Passreg passreg;
     private TextArea areaPaasy = new TextArea();   // TODO: poista kun ei enää tarvita. Tilapäinen
+    private CTreeView<Kategoria> kPuu;
     
     
     private void alusta() {
-        // TODO Auto-generated method stub
         panelPaasy.setContent(areaPaasy);
         panelPaasy.setFitToHeight(true);
-        paasyLista.clear();
-        paasyLista.addSelectionListener(e -> naytaPaasy());
+        paasyChooser.clear();
+        paasyChooser.addSelectionListener(e -> naytaPaasy());
+    }
+    
+    
+    private void alustaPuu() {
+        kPuu = new CTreeView<Kategoria>(new Kategoria(), "Kategoriat");
+        puuVbox.getChildren().add(kPuu);
+        kPuu.setMinHeight(427);
     }
     
     
     private void naytaPaasy() {
-        Paasy valittuPaasy = paasyLista.getSelectedObject();
+        Paasy valittuPaasy = paasyChooser.getSelectedObject();
         if (valittuPaasy == null) return;
         areaPaasy.setText("");
         @SuppressWarnings("resource")
@@ -143,7 +148,6 @@ public class PassregGUIController implements Initializable {
             { super.bind(naytaCheckBox.selectedProperty());}
             @Override
             protected boolean computeValue() {
-                // TODO Auto-generated method stub
                 return ( ! naytaCheckBox.isSelected());
             }
         };
@@ -174,28 +178,30 @@ public class PassregGUIController implements Initializable {
     
     
     private void hae(int pnro) {
-        paasyLista.clear();
+        paasyChooser.clear();
         int index = 0;
         for (int i = 0; i < passreg.getPaasytLkm(); i++) {
             Paasy p = passreg.annaPaasy(i);
+            if (p == null) continue;
             if (p.getTunnusNro() == pnro) index = i;
-            paasyLista.add(p.getOtsikko(), p);
+            paasyChooser.add(p.getOtsikko(), p);
         }
-        paasyLista.setSelectedIndex(index);
+        paasyChooser.setSelectedIndex(index);
     }
 
     /**
      * Asettaa kategoriat puurakenteeseen.
      */
+    @SuppressWarnings("unused")
     private void naytaPuuElementit() {
-        /*List<Kategoria> kategoriat = getKategoriat();
-        for (Kategoria ktg : kategoriat) {
-            treeView.getRoot().getChildren().add(new TreeItem<String>(ktg.getNimi()));
-        }*/
-        treeView.getRoot().getChildren().add(new TreeItem<String>("some"));
-        treeView.getRoot().getChildren().add(new TreeItem<String>("muu"));
-        treeView.getRoot().getChildren().add(new TreeItem<String>("työ"));
+        for (int i = 0; i < passreg.getKategoriatLkm(); i++) {
+            Kategoria lisattava = passreg.annaKategoria(i);
+            if (lisattava != null) {
+                kPuu.add(lisattava, lisattava.getNimi());
+            }
+        }
     }
+    
 
     /**
      * Avataan pääsyn muokkausikkuna täytettynä valitun pääsyn tiedoilla
@@ -209,24 +215,48 @@ public class PassregGUIController implements Initializable {
      * Poistetaan valittu pääsy. Ennen varsinaista poistoa, kysytään josko käyttäjä on varma toiminnasta.
      */
     private void poistaPaasy() {
-        //TODO: tähän oikeaa poistotoimintaa
-        Dialogs.showMessageDialog("Poistetaan, mutta vielä ei toimi! ");
+        Paasy poistettava = paasyChooser.getSelectedObject();
+        if (poistettava == null) return;
+        boolean voiPoistaa = varmistaPoisto(poistettava.getOtsikko());
+        if (voiPoistaa) {
+            this.passreg.poistaPaasy(poistettava.getTunnusNro());
+            naytaPaasytListaan();
+        }
+        else return;
     }
-    
-    
+
+    private boolean varmistaPoisto(String poistettavanNimi) {
+        // TODO Auto-generated method stub
+        return Dialogs.showQuestionDialog("Poisto?", "Haluatko varmasti poistaa " + poistettavanNimi , "Kyllä", "Ei");
+    }
+
+    private void naytaPaasytListaan() {
+        // TODO Auto-generated method stub
+        paasyChooser.clear();
+        for (int i = 0; i < passreg.getPaasytLkm(); i++) {
+            Paasy p = passreg.annaPaasy(i);
+            if (p == null) continue;
+            paasyChooser.add(p.getOtsikko(), p);
+        }
+        if (paasyChooser.getObjects().size() == 0) areaPaasy.setText("");
+    }
+
     /**
      * Avataan kategorian muokkaikkuna tyhjänä
      */
     private void lisaaUusiKategoria() {
-        KategoriaDialogController.naytaKategoriaDialog();
+        Kategoria kg1 = new Kategoria();
+        kg1.rekisteroi();
+        passreg.lisaa(kg1);
+        kPuu.add(kg1, kg1.getNimi());
     }
-    
     
     /**
      * Avataan kategorian muokkausikkuna täytettynä valitun kategorian nimellä
      */
     private void muokkaaKategoria() {
-        KategoriaDialogController.naytaKategoriaDialog();
+        KategoriaDialogController kdc = new KategoriaDialogController();
+        kdc.naytaKategoriaDialog();
     }
     
     
@@ -234,7 +264,14 @@ public class PassregGUIController implements Initializable {
      * Poistetaan valittu kategoria
      */
     private void poistaKategoria() {
-        Dialogs.showMessageDialog("Poistetaan, mutta vielä ei toimi");
+        //Dialogs.showMessageDialog("Poistetaan, mutta vielä ei toimi");
+        Kategoria valittu = kPuu.getSelectedObject();
+        if (valittu == null) return;
+        boolean voiPoistaa = varmistaPoisto(valittu.getNimi());
+        if (voiPoistaa) {
+            passreg.poistaKategoria(valittu.getTunnusNro());
+            kPuu.remove(valittu);
+        }
     }
     
     
@@ -292,7 +329,8 @@ public class PassregGUIController implements Initializable {
     public void setPassreg(Passreg passrekisteri) {
         // TODO Auto-generated method stub
         this.passreg = passrekisteri;
-        naytaPuuElementit();
+        // Testaus
+       //naytaPuuElementit();
     }
 
 }

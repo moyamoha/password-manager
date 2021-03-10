@@ -4,6 +4,8 @@
 package passreg;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * |------------------------------------------------------------------------|
@@ -21,7 +23,7 @@ import java.io.IOException;
  * @version 17.2.2021
  *
  */
-public class Paasyt {
+public class Paasyt implements Iterable<Paasy> {
     
     private static int MAX_KOKO = 3;  // miksi staattinen?
     private Paasy[] alkiot;
@@ -118,20 +120,17 @@ public class Paasyt {
      * <pre name="test">
      * #THROWS IndexOutOfBoundsException
      *   Paasyt pst = new Paasyt();
-     *   
+     *   pst.getLkm()  === 0;
      *   Paasy gmail1 = new Paasy();
      *   gmail1.rekisteroi();
      *   gmail1.taytaGmailTiedoilla();
      *   pst.lisaa(gmail1);
-     *   
+     *   pst.getLkm()  === 1;
      *   Paasy gmail2 = new Paasy();
      *   gmail2.rekisteroi();
      *   gmail2.taytaGmailTiedoilla();
      *   pst.lisaa(gmail2);
-     *   
      *   pst.getLkm()  === 2;
-     *   pst.anna(0).getTunnusNro() === 1;
-     *   pst.anna(1).getTunnusNro() === 2;
      *   pst.anna(2); #THROWS IndexOutOfBoundsException
      * </pre>
      */
@@ -157,7 +156,79 @@ public class Paasyt {
      * Tallettaa p‰‰syt tiedostoon. kesken
      * @throws IOException jos kirjoittaminen ep‰onnistuu
      */
-    public void talleta() throws IOException{
+    public void tallenna() throws IOException{
         // TODO: toimivaa tiedostoon tallennus t‰h‰n
+    }
+    
+    
+    /**
+     * poistaa tietty p‰‰sy
+     * @param nro poistettavan p‰‰syn tunnusNro
+     * @example
+     * <pre name="test">
+     *    Paasyt pst = new Paasyt();
+     *    Paasy p1 = new Paasy();
+     *    p1.taytaGmailTiedoilla();
+     *    p1.rekisteroi();
+     *    Paasy p2 = new Paasy();
+     *    p2.taytaGmailTiedoilla();
+     *    p2.rekisteroi();
+     * </pre>
+     */
+    public void poista(int nro) {
+        for (int i = 0; i < getLkm(); i++) {
+            if (alkiot[i] == null) continue;
+            if (alkiot[i].getTunnusNro() == nro) {
+                alkiot[i] = null;
+                shiftToLeft(i);
+                lkm--;
+            }
+        }
+    }
+    
+    private final void shiftToLeft(int i) {
+        int p = i;
+        for (int j = p + 1; j < getLkm() ; j++ ,p++) {
+            alkiot[p] = alkiot[j];
+        }
+    }
+    
+    /**
+     * @return taulukko olemassa olevista p‰‰syist‰
+     */
+    public Paasy[] getPaasyt() {
+        Paasy[] paasyt = new Paasy[getLkm()];
+        for (int i = 0; i < getLkm(); i++) {
+            if (anna(i) == null) continue;
+            paasyt[i] = this.alkiot[i];
+        }
+        return paasyt;
+    }
+
+    @Override
+    public Iterator<Paasy> iterator() {
+        return new Iter();
+    }
+    
+    /**
+     * @author Yahya
+     * @version 9.3.2021
+     * 
+     */
+    public class Iter implements Iterator<Paasy> {
+        
+        int kohdalla;
+
+        @Override
+        public boolean hasNext() {
+            return kohdalla < getLkm();
+        }
+
+        @Override
+        public Paasy next() {
+            if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en‰‰!");
+            return anna(kohdalla++);
+        }
+ 
     }
 }

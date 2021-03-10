@@ -15,7 +15,6 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -169,7 +168,7 @@
                         <Insets bottom="4.0" top="4.0" />
                      </VBox.margin>
                   </Label>
-                  <ListChooser fx:id="paasyLista" prefHeight="350.0" prefWidth="196.0" rivit="facebook&#10;gmail 1&#10;gmail 2&#10;instagram" />
+                  <ListChooser fx:id="paasyChooser" prefHeight="350.0" prefWidth="196.0" rivit="facebook&#10;gmail 1&#10;gmail 2&#10;instagram" />
                </children>
             </VBox>
          </content>
@@ -202,14 +201,13 @@
    <right>
       <ScrollPane prefHeight="455.0" prefWidth="187.0" BorderPane.alignment="CENTER">
          <content>
-            <VBox alignment="CENTER" prefHeight="452.0" prefWidth="182.0">
+            <VBox fx:id="puuVbox" alignment="TOP_CENTER" prefHeight="452.0" prefWidth="182.0">
                <children>
                   <Label text="Kategoriat">
                      <padding>
-                        <Insets bottom="4.0" />
+                        <Insets bottom="4.0" top="4.0" />
                      </padding>
                   </Label>
-                  <TreeView fx:id="treeView" prefHeight="424.0" prefWidth="182.0" />
                </children>
             </VBox>
          </content>

@@ -23,6 +23,7 @@ import java.io.IOException;
 public class Passreg {
     
     private final Paasyt paasyt = new Paasyt();
+    private final Kategoriat kategoriat = new Kategoriat();
     
     /**
      * 
@@ -53,8 +54,16 @@ public class Passreg {
        passreg.lisaa(gmail1); passreg.lisaa(gmail2);
        passreg.lisaa(gmail3);
        
+       Kategoria kg1 = new Kategoria("Some");
+       kg1.rekisteroi();
+       passreg.lisaa(kg1);
+       
        for (int i = 0; i < passreg.getPaasytLkm(); i++) {
            passreg.annaPaasy(i).tulosta(System.out);
+       }
+       
+       for (Kategoria kg : passreg.kategoriat) {
+           kg.tulosta(System.out);
        }
     }
     
@@ -86,40 +95,87 @@ public class Passreg {
     }
     
     /**
-     * @param nro viite poistettavaan/poistettavien pääsyjen numeroon
-     * @return montako pääsyä poistettiin
+     * @return rekisterin kategorioiden määrä
      */
-    public int poistaPaasy(int nro) {
-        return nro;
+    public int getKategoriatLkm() {
+        return kategoriat.getLkm();
+    }
+    
+    /**
+     * @param nro viite poistettavaan/poistettavien pääsyjen numeroon
+     */
+    public void poistaPaasy(int nro) {
+        paasyt.poista(nro);
         //TODO 7 vaiheessa
     }
 
     
-    /**
+    /** 
+     * Lisätään yksittäinen pääsy rekisteriin
      * @param paasy lisättävä pääsy
      * @example
      * <pre name="test">
      *   Passreg passreg = new Passreg();
      *   
-     *   Kategoria kg1 = new Kategoria("some");
-     *   kg1.rekisteroi();
+     *   Paasy p1 = new Paasy();
+     *   p1.taytaGmailTiedoilla();
+     *   p1.rekisteroi();
      *   
-     *   passreg.getKategoriatLkm()  === 0;
-     *   passreg.lisaa(kg1);
-     *   passreg.annaKategoria(0).getNimi()  === "some";
+     *   passreg.getPaasytLkm()  === 0;
+     *   passreg.lisaa(p1);
+     *   passreg.getPaasytLkm()  === 1;
      * </pre>
      */
     public void lisaa(Paasy paasy) {
         paasyt.lisaa(paasy);
     }
     
+    /**
+     * @param kategoria lisättävä kategoria
+     * @example
+     * <pre name="test">
+     *   Passreg passreg = new Passreg();
+     *   Kategoria k1 = new Kategoria("some");
+     *   k1.rekisteroi();
+     *   Kategoria k2 = new Kategoria("opiskelu");
+     *   k2.rekisteroi();
+     *   Kategoria k3 = new Kategoria("työ");
+     *   k3.rekisteroi();
+     *   passreg.getKategoriatLkm() === 0;
+     *   passreg.annaKategoria(0); #THROWS IndexOutOfBoundsException
+     *   passreg.lisaa(k1);
+     *   passreg.getKategoriatLkm() === 1;
+     *   passreg.annaKategoria(0).getNimi() === "some";
+     *   passreg.lisaa(k2);
+     *   passreg.getKategoriatLkm() === 2;
+     *   passreg.annaKategoria(1).getNimi()  === "opiskelu";
+     *   passreg.lisaa(k3);
+     *   passreg.getKategoriatLkm() === 3;
+     *   passreg.annaKategoria(2).getNimi()  === "työ";
+     *   passreg.annaKategoria(3); #THROWS IndexOutOfBoundsException
+     * </pre>
+     */
+    public void lisaa(Kategoria kategoria) {
+        kategoriat.lisaa(kategoria);
+    }
+    
     
     /**
+     * Palauttaa pääsy indeksissa <b>i</b>
      * @param i pääsyn indeksi
      * @return viite kyseiseen pääsyyn
      */
     public Paasy annaPaasy(int i) {
         return paasyt.anna(i);
+    }
+    
+    /**
+     * Palauttaa viite pyydettyyn kategoriaan, joka sijaitsee indeksissa <b>i</b>
+     * @param i kategorian indeksi
+     * @return pyydetty kategoria
+     */
+    public Kategoria annaKategoria(int i) {
+        return kategoriat.anna(i);
     }
     
 
@@ -128,8 +184,8 @@ public class Passreg {
      * @throws IOException jos kirjoittamisessa sattuu virheitä
      */
     public void talleta() throws IOException {
-        paasyt.talleta();
-       // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
+        paasyt.tallenna();
+        kategoriat.tallenna();
     }
     
     /**
@@ -139,5 +195,12 @@ public class Passreg {
      */
     public void lueTiedostosta(String nimi) throws IOException {
          paasyt.lueTiedostosta(nimi);
+    }
+
+    /**
+     * @param tunnusNro poistettavan kategorian tunnusnumero
+     */
+    public void poistaKategoria(int tunnusNro) {
+        kategoriat.poista(tunnusNro);
     }
 }

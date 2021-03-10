@@ -5,7 +5,6 @@ package fxPassreg;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
@@ -31,8 +30,7 @@ public class KategoriaDialogController
     /**
      * N‰ytet‰‰n kategorian muokkausikkuna modaalisena
      */
-    @FXML
-    public static void naytaKategoriaDialog() {
+    public void naytaKategoriaDialog() {
          ModalController.showModal(
                 KategoriaDialogController.class.getResource("KategoriaDialogView.fxml"),
                 "muokkaus",
@@ -71,14 +69,12 @@ public class KategoriaDialogController
     
     @Override
     public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.nimiTextField.getText();
     }
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
-        
+        //
     }
 
     @Override
