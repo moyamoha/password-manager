@@ -3,9 +3,15 @@
  */
 package passreg;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * |------------------------------------------------------------------------|
@@ -13,10 +19,10 @@ import java.util.NoSuchElementException;
  * |-------------------------------------------------------------------------
  * | Vastuualueet:                                      |                   | 
  * |                                                    | - Paasy           | 
- * | - pit‰‰ yll‰ varsinaista paasyrekisteri‰, eli osaa |                   | 
- * |   lis‰t‰ ja poistaa p‰‰syn                         |                   | 
- * | - lukee ja kirjoittaa p‰‰syj‰ tiedostoon           |                   | 
- * | - osaa etsi‰ ja lajitella                          |                   | 
+ * | - pit√§√§ yll√§ varsinaista paasyrekisteri√§, eli osaa |                   | 
+ * |   lis√§t√§ ja poistaa p√§√§syn                         |                   | 
+ * | - lukee ja kirjoittaa p√§√§syj√§ tiedostoon           |                   | 
+ * | - osaa etsi√§ ja lajitella                          |                   | 
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * @author Yahya
@@ -25,11 +31,10 @@ import java.util.NoSuchElementException;
  */
 public class Paasyt implements Iterable<Paasy> {
     
-    private static int MAX_KOKO = 3;  // miksi staattinen?
+    private static int MAX_KOKO = 6; 
     private Paasy[] alkiot;
     private int lkm;
-    @SuppressWarnings("unused")
-    private String tiedostonNimi = "";
+    private static final String tiedostonNimi = "/salasanat.dat";
     
     /**
      * Oletus-muodostaja
@@ -39,7 +44,7 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /**
-     * @param args ei k‰ytˆss‰
+     * @param args ei k√§yt√∂ss√§
      */
     public static void main(String[] args) {
         Paasyt paasyt = new Paasyt();
@@ -76,8 +81,8 @@ public class Paasyt implements Iterable<Paasy> {
     
     
     /**
-     * Lis‰t‰‰n yksitt‰inen p‰‰sy tietorakenteeseen
-     * @param paasy lis‰tt‰v‰ p‰‰sy
+     * Lis√§t√§√§n yksitt√§inen p√§√§sy tietorakenteeseen
+     * @param paasy lis√§tt√§v√§ p√§√§sy
      */
     public void lisaa(Paasy paasy) {        
         if (getLkm() >= alkiot.length) {
@@ -89,7 +94,7 @@ public class Paasyt implements Iterable<Paasy> {
     
 
     /**
-     * Kun p‰‰syt tulee t‰yteen kutsutaan t‰t‰. Luodaan uusi taulukko, jonka tilaa on kaksinkertainen. 
+     * Kun p√§√§syt tulee t√§yteen kutsutaan t√§t√§. Luodaan uusi taulukko, jonka tilaa on kaksinkertainen. 
      * Samalla kopioidaan alkiot uuteen taulukkoon ja Tuhotaan vanha taulukko.
      */
     private final void luoJaKopioi() {
@@ -104,7 +109,7 @@ public class Paasyt implements Iterable<Paasy> {
     
 
     /**
-     * @return p‰‰syjen lukum‰‰r‰
+     * @return p√§√§syjen lukum√§√§r√§
      */
     public int getLkm() {
         return this.lkm;
@@ -112,9 +117,9 @@ public class Paasyt implements Iterable<Paasy> {
     
     
     /**
-     * Palautetaan tiety p‰‰syn viite sen indeksin perusteella
-     * @param i p‰‰syn indeksi taulukossa <b>alkiot</b>
-     * @return viite P‰‰sy-olioon
+     * Palautetaan tiety p√§√§syn viite sen indeksin perusteella
+     * @param i p√§√§syn indeksi taulukossa <b>alkiot</b>
+     * @return viite P√§√§sy-olioon
      * @throws IndexOutOfBoundsException jos indeksi ei ole sopiva
      * @example
      * <pre name="test">
@@ -142,28 +147,45 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /**
-     * Lukee p‰‰syt tiedostosta. kesken
-     * @param polku josta tiedosto lˆytyy
-     * @throws IOException jos lukeminen ei onnistu
+     * Lukee p√§√§syjen tietoja tiedostosta
+     * @param hakemisto hakemisto josta tiedosto lÔøΩytyy
      */
-    public void lueTiedostosta(String polku) throws IOException {
-        tiedostonNimi = polku + "/salasanat.dat";
-        // TODO: toimivaa tiedostonluku t‰h‰n
+    public void lueTiedostosta(String hakemisto) {
+        File fTied = new File(hakemisto + tiedostonNimi);
+        String rivi = "";
+        try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
+            while (fi.hasNextLine()) {
+                rivi = fi.nextLine();
+                Paasy paasy = new Paasy();
+                paasy.parse(rivi);
+                lisaa(paasy);
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
     }
     
     
     /**
-     * Tallettaa p‰‰syt tiedostoon. kesken
-     * @throws IOException jos kirjoittaminen ep‰onnistuu
+     * Tallennetaan p√§√§syt tiedostoon. kesken
+     * @param hakemisto tallennettavan tiedoston nimi
      */
-    public void tallenna() throws IOException{
-        // TODO: toimivaa tiedostoon tallennus t‰h‰n
+    public void tallenna(String hakemisto) {
+        File fTied = new File(hakemisto + tiedostonNimi);
+        try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
+            for (Paasy p : this) {
+                fo.println(p.toString());
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei l√∂ydy");
+        }
+        
     }
     
-    
     /**
-     * poistaa tietty p‰‰sy
-     * @param nro poistettavan p‰‰syn tunnusNro
+     * poistaa tietty p√§√§sy
+     * @param nro poistettavan p√§√§syn tunnusNro
      * @example
      * <pre name="test">
      *    Paasyt pst = new Paasyt();
@@ -173,6 +195,16 @@ public class Paasyt implements Iterable<Paasy> {
      *    Paasy p2 = new Paasy();
      *    p2.taytaGmailTiedoilla();
      *    p2.rekisteroi();
+     *    pst.getLkm()  === 0;
+     *    pst.lisaa(p1);
+     *    pst.lisaa(p2);
+     *    pst.getLkm()  === 2;
+     *    pst.poista(p1.getTunnusNro());
+     *    pst.getLkm()  === 1;
+     *    pst.poista(p2.getTunnusNro());
+     *    pst.getLkm()  === 0;
+     *    pst.anna(0); #THROWS IndexOutOfBoundsException
+     *    pst.anna(1); #THROWS IndexOutOfBoundsException
      * </pre>
      */
     public void poista(int nro) {
@@ -194,16 +226,13 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /**
-     * @return taulukko olemassa olevista p‰‰syist‰
+     * @param paasy p√§√§sy, jonka kategorian id muutetaan
+     * @param kID asetettavan kategorian id
      */
-    public Paasy[] getPaasyt() {
-        Paasy[] paasyt = new Paasy[getLkm()];
-        for (int i = 0; i < getLkm(); i++) {
-            if (anna(i) == null) continue;
-            paasyt[i] = this.alkiot[i];
-        }
-        return paasyt;
+    public void setKid(Paasy paasy, int kID) {
+        paasy.setKid(kID);
     }
+    
 
     @Override
     public Iterator<Paasy> iterator() {
@@ -226,9 +255,21 @@ public class Paasyt implements Iterable<Paasy> {
 
         @Override
         public Paasy next() {
-            if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en‰‰!");
+            if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en√§√§!");
             return anna(kohdalla++);
         }
  
+    }
+
+    /**
+     * @param kid poistetun kategorian id
+     * @param uusiKID uusi kategorian id
+     */
+    public void paivitakID(int kid, int uusiKID) {
+        for (Paasy p : this) {
+            if (p.getKategoriaId() == kid) {
+                p.setKid(uusiKID);
+            }
+        }
     }
 }

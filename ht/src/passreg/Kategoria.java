@@ -115,6 +115,18 @@ public class Kategoria {
         this.tunnusNro = seuraavaNro;
         seuraavaNro++;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(getTunnusNro());
+        sb.append("|");
+        sb.append(getNimi());
+        return sb.toString();
+    }
+    
+    public void parse(String rivi) {
+        //
+    }
     
     
     

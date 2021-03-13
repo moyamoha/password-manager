@@ -148,7 +148,7 @@ public class Paasy {
     @Override
     public String toString(){
         // TODO: tiedon näyttäminen muodossa 1|gmail|...
-        return this.toString();
+        return this.otsikko; // tallenna-metodin kokeilua varten
     }
     
     /**
@@ -156,5 +156,13 @@ public class Paasy {
      */
     public void parse(@SuppressWarnings("unused") String text) {
         // TODO: lukee pääsyn tiedot merkkijonosta 1|gmail|.. 
+    }
+
+    /**
+     * @param kID kategorian id, joka asetetaan tällä pääsylle
+     */
+    public void setKid(int kID) {
+        if (kID >= 0) this.kID = kID;
+        return;
     }
 }

@@ -3,7 +3,6 @@
  */
 package passreg;
 
-import java.io.IOException;
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   Passreg                             | Avustajat:        |
@@ -24,6 +23,7 @@ public class Passreg {
     
     private final Paasyt paasyt = new Paasyt();
     private final Kategoriat kategoriat = new Kategoriat();
+    private String tiedosto = "";
     
     /**
      * 
@@ -67,6 +67,18 @@ public class Passreg {
        }
     }
     
+    /**
+     * @param tiedNimi rekisterin tiedostojen sijainti
+     */
+    public void setTiedostonNimi(String tiedNimi) {
+        if (tiedNimi != null) this.tiedosto = tiedNimi;
+    }
+    
+    /**
+     * @return rekisterin sijainti
+     */
+    private String getTiedostonNimi() { return this.tiedosto; }
+    
     
     /**
      * @return rekisterin p‰‰sym‰‰r‰
@@ -107,6 +119,14 @@ public class Passreg {
     public void poistaPaasy(int nro) {
         paasyt.poista(nro);
         //TODO 7 vaiheessa
+    }
+    
+    /**
+     * @param p p‰‰sy, jonka kategoriaID asetetaan
+     * @param id asetettava kategoriaID
+     */
+    public void setkID(Paasy p, int id) {
+        paasyt.setKid(p, id);
     }
 
     
@@ -181,26 +201,39 @@ public class Passreg {
 
     /**
      * Tallettaa rekisterin tiedot tiedostoon. kesken
-     * @throws IOException jos kirjoittamisessa sattuu virheit‰
      */
-    public void talleta() throws IOException {
-        paasyt.tallenna();
-        kategoriat.tallenna();
+    public void tallenna() {
+        String virhe = "";
+        try {
+            paasyt.tallenna(getTiedostonNimi());
+        } catch (Exception e) {
+            virhe += e.getMessage();
+        }
+        try {
+            kategoriat.tallenna(getTiedostonNimi());
+        } catch (Exception e) {
+            virhe += e.getMessage();
+        }
+        System.out.println(virhe);
     }
     
     /**
      * Lukee rekisterin tiedot tiedostosta
-     * @param nimi hakemiston polku
-     * @throws IOException jos lukeminen ei onnistu
+     * @param hakemisto hakemiston polku
      */
-    public void lueTiedostosta(String nimi) throws IOException {
-         paasyt.lueTiedostosta(nimi);
+    public void lueTiedostosta(String hakemisto) {
+         setTiedostonNimi(hakemisto);
+         paasyt.lueTiedostosta(getTiedostonNimi());
+         kategoriat.lueTiedostosta(getTiedostonNimi());
     }
 
     /**
-     * @param tunnusNro poistettavan kategorian tunnusnumero
+     * Poistetaan kategoria, jonka tunnusnumero on v‰litetty parametrina.
+     * Samalla p‰ivitet‰‰n kaikki ne p‰‰syt, joiden kategorian id vastasi poistetun kategorian tunnusnumeroa
+     * @param tunnusNro poistettavan kategorian tunnusnumero. 
      */
     public void poistaKategoria(int tunnusNro) {
         kategoriat.poista(tunnusNro);
+        paasyt.paivitakID(tunnusNro, 0);
     }
 }

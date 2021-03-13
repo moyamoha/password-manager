@@ -15,7 +15,7 @@ public class Merkkijonot {
     
     private static final char[] PIENET_KIRJAIMET  = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private static final char[] ISO_KIRJAIMET     = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-    private static final char[] ERIKOIS_MERKIT    = "_?!></&%#.:;,*'^~`´+-\\\"=)([]{}|$€".toCharArray();
+    private static final char[] ERIKOIS_MERKIT    = "_?!></&%#.:;,*'^~+-\\\"=)([]{}|$€".toCharArray();
     private static final char[] NUMEROT           = "0123456789".toCharArray();
     
     // #import java.util.Arrays;

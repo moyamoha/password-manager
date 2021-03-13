@@ -187,9 +187,10 @@
                   <Insets bottom="4.0" top="4.0" />
                </HBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onAction="#liitaKategoriaan" prefHeight="26.0" prefWidth="104.0" text="Liitä kategoriaan" />
             <Button mnemonicParsing="false" onAction="#handleLisaaKategoria" text="Uusi kategoria">
                <HBox.margin>
-                  <Insets left="475.0" />
+                  <Insets left="360.0" />
                </HBox.margin>
             </Button>
          </children>

@@ -73,6 +73,8 @@ public class PassregGUIController implements Initializable {
     @FXML private void handleAboutDialog()      { avaaAboutDialog(); }
     
     @FXML private void handleApua()             { haeApua(); }
+    
+    @FXML private void liitaKategoriaan()       { liita();   }
    
     // #######################################################
     // 
@@ -100,13 +102,13 @@ public class PassregGUIController implements Initializable {
     }
     
     
-    private void naytaPaasy() {
+    private PrintStream naytaPaasy() {
         Paasy valittuPaasy = paasyChooser.getSelectedObject();
-        if (valittuPaasy == null) return;
+        if (valittuPaasy == null) return null;
         areaPaasy.setText("");
-        @SuppressWarnings("resource")
         PrintStream ps = TextAreaOutputStream.getTextPrintStream(areaPaasy);
         valittuPaasy.tulosta(ps);
+        return ps;
     }
 
     /**
@@ -121,7 +123,7 @@ public class PassregGUIController implements Initializable {
     /**
      * Tallennetaan muutoksia tiedostoon.
      */
-    private void tallenna() {
+    protected void tallenna() {
         //TODO: tähän oikeaa tallennustoimintaa
         Dialogs.showMessageDialog("Tallennetaan, mutta vielä ei toimi! ");
     }
@@ -188,6 +190,20 @@ public class PassregGUIController implements Initializable {
         }
         paasyChooser.setSelectedIndex(index);
     }
+    
+    // tilapäinen. Poistetaan kun ei tarvitse enää
+    private void liita() {
+        Paasy p = paasyChooser.getSelectedObject();
+        Kategoria k = kPuu.getSelectedObject();
+        if (k == null || p == null) {
+            Dialogs.showMessageDialog("Kategoriaa tai pääsyä ei ole valittu");
+            return;
+        }
+        passreg.setkID(p, k.getTunnusNro());
+        @SuppressWarnings("resource")
+        PrintStream ps = naytaPaasy();
+        k.tulosta(ps);
+    }
 
     /**
      * Asettaa kategoriat puurakenteeseen.
@@ -215,6 +231,7 @@ public class PassregGUIController implements Initializable {
      * Poistetaan valittu pääsy. Ennen varsinaista poistoa, kysytään josko käyttäjä on varma toiminnasta.
      */
     private void poistaPaasy() {
+        Dialogs.showMessageDialog("Poistetaan, mutta vielä ei toimi");
         Paasy poistettava = paasyChooser.getSelectedObject();
         if (poistettava == null) return;
         boolean voiPoistaa = varmistaPoisto(poistettava.getOtsikko());
@@ -226,12 +243,10 @@ public class PassregGUIController implements Initializable {
     }
 
     private boolean varmistaPoisto(String poistettavanNimi) {
-        // TODO Auto-generated method stub
         return Dialogs.showQuestionDialog("Poisto?", "Haluatko varmasti poistaa " + poistettavanNimi , "Kyllä", "Ei");
     }
 
     private void naytaPaasytListaan() {
-        // TODO Auto-generated method stub
         paasyChooser.clear();
         for (int i = 0; i < passreg.getPaasytLkm(); i++) {
             Paasy p = passreg.annaPaasy(i);
@@ -240,6 +255,7 @@ public class PassregGUIController implements Initializable {
         }
         if (paasyChooser.getObjects().size() == 0) areaPaasy.setText("");
     }
+    
 
     /**
      * Avataan kategorian muokkaikkuna tyhjänä
@@ -264,15 +280,16 @@ public class PassregGUIController implements Initializable {
      * Poistetaan valittu kategoria
      */
     private void poistaKategoria() {
-        //Dialogs.showMessageDialog("Poistetaan, mutta vielä ei toimi");
         Kategoria valittu = kPuu.getSelectedObject();
         if (valittu == null) return;
-        boolean voiPoistaa = varmistaPoisto(valittu.getNimi());
+        boolean voiPoistaa = varmistaPoisto(kPuu.getObjectView(valittu));
         if (voiPoistaa) {
             passreg.poistaKategoria(valittu.getTunnusNro());
             kPuu.remove(valittu);
         }
     }
+    
+    
     
     
     /**

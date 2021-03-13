@@ -3,12 +3,18 @@
  */
 package passreg;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * Luokkaa, joka kokoaa yhteen alkiot.
@@ -17,10 +23,10 @@ import java.util.NoSuchElementException;
  * |-------------------------------------------------------------------------
  * | Vastuualueet:                                      |                   | 
  * |                                                    |  - kategoria      | 
- * | - pitää yllä varsinaista kategoriarekisteriä,      |                   |
- * |     eli osaa lisää ja poistaa kategorian           |                   | 
+ * | - pitÃ¤Ã¤ yllï¿½ varsinaista kategoriarekisteriï¿½,      |                   |
+ * |     eli osaa lisï¿½ï¿½ ja poistaa kategorian           |                   | 
  * | - lukee ja kirjoittaa kategorioita tiedostoon      |                   | 
- * | - osaa etsiä ja lajitella                          |                   | 
+ * | - osaa etsiï¿½ ja lajitella                          |                   | 
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author Yahya
@@ -31,7 +37,7 @@ import java.util.NoSuchElementException;
 public class Kategoriat implements Iterable<Kategoria> {
 
     private final List<Kategoria> alkiot = new ArrayList<>();
-    private String tiedostonNimi = "";
+    private static final String tiedostonNimi = "/kategoriat.dat";
     
     /**
      * Alustetaan Kategoriat
@@ -58,9 +64,8 @@ public class Kategoriat implements Iterable<Kategoria> {
         kg3.rekisteroi();
         
         kgt.lisaa(kg1); kgt.lisaa(kg2); kgt.lisaa(kg3);
-        int lkm = kgt.getLkm();
-        for(int i = 0; i < lkm; i++) {
-            kgt.anna(i).tulosta(System.out);
+        for(Kategoria k : kgt) {
+            k.tulosta(System.out);
         }
     }
     
@@ -69,7 +74,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @example
      * <pre name="test">
      *   Kategoriat kgt = new Kategoriat();
-     *   Kategoria k1 = new Kategoria("työ");
+     *   Kategoria k1 = new Kategoria("tyï¿½");
      *   Kategoria k2 = new Kategoria("opiskelu");
      *   Kategoria k3 = new Kategoria("muu");
      *   kgt.getLkm()   === 0;
@@ -109,7 +114,7 @@ public class Kategoriat implements Iterable<Kategoria> {
     }
     
     /**
-     * Palauttaa yksittäinen kategoria tietystÃ¤ indeksistÃ¤
+     * Palauttaa yksittï¿½inen kategoria tietystÃ¤ indeksistÃ¤
      * @param i annettavan kategorian indeksi
      * @return Kategoria kyseisestÃ¤ indeksistÃ¤
      * @throws IndexOutOfBoundsException jos vÃ¤Ã¤rÃ¤stÃ¤ indeksista haetaan
@@ -117,7 +122,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * <pre name="test">
      *   Kategoriat kgt = new Kategoriat();
      *   
-     *   Kategoria kg1 = new Kategoria("työ");
+     *   Kategoria kg1 = new Kategoria("tyï¿½");
      *   kg1.rekisteroi();
      *
      *   Kategoria kg2 = new Kategoria("muu");
@@ -130,7 +135,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      *   kgt.lisaa(kg2);    
      *   kgt.lisaa(kg3);    
      *   
-     *   kgt.anna(0).getNimi()  === "työ";
+     *   kgt.anna(0).getNimi()  === "tyï¿½";
      *   kgt.anna(1).getNimi()  === "muu";
      *   kgt.anna(2).getNimi()  === "opiskelu";
      * </pre>
@@ -145,21 +150,38 @@ public class Kategoriat implements Iterable<Kategoria> {
     
     /**
      * Lukee kategorioiden tietoja tiedostosta
-     * @param polku hakemisto josta tiedosto löytyy
-     * @throws IOException jos lukemisessa tapahtuu vikaa
+     * @param hakemisto hakemisto josta tiedosto lï¿½ytyy
      */
-    public void lueTiedostosta(String polku) throws IOException{
-        tiedostonNimi = polku + "/alkiot.dat";
-        //TODO: oikeaa tiedostonluku tÃ¤hÃ¤n
+    public void lueTiedostosta(String hakemisto) {
+        File fTied = new File(hakemisto + tiedostonNimi);
+        String rivi = "";
+        try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
+            while (fi.hasNextLine()) {
+                rivi = fi.nextLine();
+                Kategoria kategoria = new Kategoria();
+                kategoria.parse(rivi);
+                lisaa(kategoria);
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
     }
     
     
     /**
-     *  Tallettaa kategorioiden tiedot tiedostoon
-     * @throws IOException jos kirjoittamisessa tapahtuu jokin vika
+     * Tallennetaan kategoria tiedostoon. kesken
+     * @param hakemisto tallennettavan tiedoston sijainti
      */
-    public void tallenna() throws IOException {
-        // TODO toimivaa tallennus tähän
+    public void tallenna(String hakemisto) {
+        File fTied = new File(hakemisto + tiedostonNimi);
+        try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
+            for (Kategoria kategoria : this) {
+                fo.println(kategoria.toString());
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei lÃ¶ydy");
+        }
     }
 
     /**
@@ -169,7 +191,7 @@ public class Kategoriat implements Iterable<Kategoria> {
         // TODO Auto-generated method stub
         List<Kategoria> leikisti = new ArrayList<>();
         leikisti.add(new Kategoria("some"));
-        leikisti.add(new Kategoria("työ"));
+        leikisti.add(new Kategoria("tyÃ¶"));
         leikisti.add(new Kategoria("opiskelu"));
         leikisti.add(new Kategoria("banking"));
         return leikisti;
@@ -177,7 +199,6 @@ public class Kategoriat implements Iterable<Kategoria> {
 
     @Override
     public Iterator<Kategoria> iterator() {
-        // TODO Auto-generated method stub
         return new Iter();
     }
     
@@ -197,7 +218,7 @@ public class Kategoriat implements Iterable<Kategoria> {
 
         @Override
         public Kategoria next() {
-            if (!hasNext()) throw new NoSuchElementException("Ei oo enää");
+            if (!hasNext()) throw new NoSuchElementException("Ei oo enï¿½ï¿½");
             return anna(kohdalla++);
         }
         

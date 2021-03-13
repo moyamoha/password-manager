@@ -31,6 +31,7 @@ public class PassregMain extends Application {
 			
 			if (!passCtrl.avaaTiedosto()) Platform.exit();
 			primaryStage.show();
+			primaryStage.setOnCloseRequest(e -> passCtrl.tallenna());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
