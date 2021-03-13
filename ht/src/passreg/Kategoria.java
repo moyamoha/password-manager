@@ -124,7 +124,10 @@ public class Kategoria {
         return sb.toString();
     }
     
-    public void parse(String rivi) {
+    /**
+     * @param rivi josta luetaan tiedot
+     */
+    public void parse(@SuppressWarnings("unused") String rivi) {
         //
     }
     
