@@ -41,7 +41,12 @@ public class Kategoria {
      */
     public static void main(String[] args) {
         Kategoria kg = new Kategoria("some");
-        kg.tulosta(System.out);
+        kg.tulosta(System.out); // tulostaa 000 some
+        int nro = kg.getTunnusNro();
+        System.out.println(nro);  // tulostaa 0
+        kg.rekisteroi();
+        System.out.println(kg.getTunnusNro()); // tulostaa 1
+        
     }
     
     /**

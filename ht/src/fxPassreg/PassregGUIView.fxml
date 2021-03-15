@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="519.0" prefWidth="741.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PassregGUIController">
+<BorderPane prefHeight="519.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PassregGUIController">
    <top>
       <MenuBar prefWidth="800.0" BorderPane.alignment="CENTER">
         <menus>
@@ -200,9 +200,9 @@
       </HBox>
    </bottom>
    <right>
-      <ScrollPane prefHeight="455.0" prefWidth="187.0" BorderPane.alignment="CENTER">
+      <ScrollPane prefHeight="455.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="puuVbox" alignment="TOP_CENTER" prefHeight="452.0" prefWidth="182.0">
+            <VBox fx:id="puuVbox" alignment="TOP_CENTER" prefHeight="452.0" prefWidth="195.0">
                <children>
                   <Label text="Kategoriat">
                      <padding>

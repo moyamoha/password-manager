@@ -102,6 +102,27 @@ public class Kategoriat implements Iterable<Kategoria> {
     /**
      * Poistaa kategoria, jolla tunnusnumerona <b>nro</b>
      * @param nro poistettavan kategorian tunnusnro
+     * @example
+     * <pre name="test">
+     *    Kategoriat kat = new Kategoriat();
+     *    Kategoria k1 = new Kategoria("opiskelu"); 
+     *    k1.rekisteroi();
+     *    int n = k1.getTunnusNro();
+     *    Kategoria k2 = new Kategoria("työ"); k2.rekisteroi();
+     *    kat.getLkm() === 0;
+     *    kat.anna(0); #THROWS IndexOutOfBoundsException
+     *    kat.lisaa(k1);
+     *    kat.anna(0).getNimi() === "opiskelu";
+     *    kat.getLkm() === 1;
+     *    kat.lisaa(k2);
+     *    kat.anna(1).getNimi() === "työ";
+     *    kat.getLkm() === 2;
+     *    kat.poista(n);
+     *    kat.getLkm() === 1;
+     *    kat.poista(n+1);
+     *    kat.getLkm() === 0;
+     *    kat.anna(0); #THROWS IndexOutOfBoundsException 
+     * </pre>
      */
     public void poista(int nro) {
         int lkm = this.getLkm();
@@ -182,19 +203,6 @@ public class Kategoriat implements Iterable<Kategoria> {
         } catch (FileNotFoundException e) {
             System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei löydy");
         }
-    }
-
-    /**
-     * @return kaikki kategoriat
-     */
-    public List<Kategoria> getKategoriat() {
-        // TODO Auto-generated method stub
-        List<Kategoria> leikisti = new ArrayList<>();
-        leikisti.add(new Kategoria("some"));
-        leikisti.add(new Kategoria("työ"));
-        leikisti.add(new Kategoria("opiskelu"));
-        leikisti.add(new Kategoria("banking"));
-        return leikisti;
     }
 
     @Override

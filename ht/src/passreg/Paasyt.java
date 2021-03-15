@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 /**
  * |------------------------------------------------------------------------|
- * | Luokan nimi:   Jasenet                             | Avustajat:        |
+ * | Luokan nimi:   Paasyt                              | Avustajat:        |
  * |-------------------------------------------------------------------------
  * | Vastuualueet:                                      |                   | 
  * |                                                    | - Paasy           | 

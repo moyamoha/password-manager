@@ -67,6 +67,7 @@ public class CTreeView<T> extends TreeView<T> {
     public void add(T t, String view) {
         CTreeItem<T> lisattava = new CTreeItem<>(t, view);
         this.getRoot().getChildren().add(lisattava);
+        this.getSelectionModel().select(lisattava);
     }
     
     /**
@@ -187,6 +188,16 @@ public class CTreeView<T> extends TreeView<T> {
             }
             else this.setText("");
         }
-        
+    }
+    
+    /**
+     * @param object lis‰tt‰v‰ olio
+     * @param View miten lis‰tt‰v‰ olio esitet‰‰n
+     */
+    public void addToSelected(T object, String View) {
+        CTreeItem<T> lisattava = new CTreeItem<T>(object, View);
+        CTreeItem<T> selected = (CTreeView<T>.CTreeItem<T>) this.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+        selected.getChildren().add(lisattava);
     }
 }

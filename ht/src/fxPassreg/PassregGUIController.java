@@ -202,7 +202,9 @@ public class PassregGUIController implements Initializable {
         passreg.setkID(p, k.getTunnusNro());
         @SuppressWarnings("resource")
         PrintStream ps = naytaPaasy();
+        ps.print("Kuuluu kategoriaan ");
         k.tulosta(ps);
+        
     }
 
     /**
