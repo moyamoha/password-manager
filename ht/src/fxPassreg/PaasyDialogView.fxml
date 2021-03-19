@@ -16,30 +16,28 @@
       <Label layoutX="143.0" layoutY="5.0" text="Muokkaa pääsyn tiedot" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="117.0" />
       <Separator layoutY="30.0" prefHeight="2.0" prefWidth="384.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <TextField layoutX="150.0" layoutY="32.0" prefHeight="26.0" prefWidth="214.0" text="facebook" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="40.0" />
-      <TextField layoutX="150.0" layoutY="73.0" prefHeight="26.0" prefWidth="214.0" text="some" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="70.0" />
-      <TextField layoutX="150.0" layoutY="103.0" prefHeight="26.0" prefWidth="214.0" text="soturi123" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="100.0" />
-      <TextField layoutX="150.0" layoutY="152.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="130.0" />
-      <TextField layoutX="150.0" layoutY="164.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="160.0" />
-      <TextField fx:id="passText1" layoutX="150.0" layoutY="226.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
-      <PasswordField fx:id="passField1" layoutX="150.0" layoutY="226.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
-      <TextField fx:id="passText2" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="220.0" />
-      <PasswordField fx:id="passField2" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="220.0" />
-      <TextField layoutX="150.0" layoutY="253.0" prefHeight="26.0" prefWidth="214.0" text="www.facebook.com" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="250.0" />
-      <TextArea layoutX="151.0" layoutY="276.0" prefHeight="126.0" prefWidth="214.0" text="facebook tilini" wrapText="true" AnchorPane.bottomAnchor="84.6" AnchorPane.leftAnchor="150.99999999999997" AnchorPane.rightAnchor="18.599999999999994" AnchorPane.topAnchor="280.0" />
+      <TextField layoutX="150.0" layoutY="69.0" prefHeight="26.0" prefWidth="214.0" text="soturi123" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="69.0" />
+      <TextField layoutX="150.0" layoutY="99.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="99.0" />
+      <TextField layoutX="151.0" layoutY="129.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="18.600000000000023" AnchorPane.topAnchor="129.0" />
+      <TextField fx:id="passText1" layoutX="150.0" layoutY="159.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="159.0" />
+      <PasswordField fx:id="passField1" layoutX="150.0" layoutY="159.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="159.0" />
+      <TextField fx:id="passText2" layoutX="150.0" layoutY="190.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
+      <PasswordField fx:id="passField2" layoutX="150.0" layoutY="190.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
+      <TextField layoutX="150.0" layoutY="220.0" prefHeight="26.0" prefWidth="214.0" text="www.facebook.com" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="220.0" />
+      <TextArea layoutX="151.0" layoutY="254.0" prefHeight="146.0" prefWidth="214.0" text="facebook tilini" wrapText="true" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="254.0" />
       <Label layoutX="87.0" layoutY="44.0" text="Otsikko" />
-      <Label layoutX="76.0" layoutY="74.0" text="Kategoria" />
-      <Label layoutX="102.0" layoutY="280.0" text="Info" />
-      <Label layoutX="87.0" layoutY="104.0" text="Tunnus" />
-      <Label layoutX="66.0" layoutY="134.0" text="Sähköposti" />
-      <Label layoutX="42.0" layoutY="164.0" text="Puhelin numero" />
-      <Label layoutX="79.0" layoutY="194.0" text="Salasana" />
-      <Label layoutX="44.0" layoutY="224.0" text="Toista salasana" />
-      <Label layoutX="102.0" layoutY="254.0" prefHeight="18.0" prefWidth="28.0" text="URL" />
-      <CheckBox fx:id="naytaCheckBox" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="310.0" layoutY="194.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="51.0" text="näytä" AnchorPane.rightAnchor="23.0">
+      <Label layoutX="102.0" layoutY="254.0" text="Info" />
+      <Label layoutX="87.0" layoutY="74.0" text="Tunnus" />
+      <Label layoutX="66.0" layoutY="104.0" text="Sähköposti" />
+      <Label layoutX="42.0" layoutY="134.0" text="Puhelin numero" />
+      <Label layoutX="79.0" layoutY="164.0" text="Salasana" />
+      <Label layoutX="44.0" layoutY="194.0" text="Toista salasana" />
+      <Label layoutX="102.0" layoutY="224.0" prefHeight="18.0" prefWidth="28.0" text="URL" />
+      <CheckBox fx:id="naytaCheckBox" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="311.0" layoutY="163.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="51.0" text="näytä" AnchorPane.rightAnchor="21.80000000000001">
          <font>
             <Font size="10.0" />
          </font></CheckBox>
-      <Button fx:id="generoiButton" layoutX="312.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleGeneroiButton" prefHeight="26.0" prefWidth="51.0" text="Generoi" AnchorPane.rightAnchor="21.0">
+      <Button fx:id="generoiButton" layoutX="312.0" layoutY="190.0" mnemonicParsing="false" onAction="#handleGeneroiButton" prefHeight="26.0" prefWidth="51.0" text="Generoi" AnchorPane.rightAnchor="20.80000000000001">
          <font>
             <Font size="10.0" />
          </font>

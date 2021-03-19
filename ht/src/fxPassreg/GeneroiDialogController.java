@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import fi.jyu.mit.fxgui.CheckBoxChooser;
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 
 /**
@@ -34,18 +33,17 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
 
     @Override
     public String getResult() {
-        return null;
-        // TODO Auto-generated method stub
+        return palautettava;
     }
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
+        spPituus.requestFocus();
     }
 
     @Override
     public void setDefault(String oletus) {
-        // TODO Auto-generated method stub
+        //
     }
     
     @FXML private void handleCancelButton() { cancel(); }
@@ -59,11 +57,11 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
     private final int alkuArvo = 15;
     private final int suurinPituus = 20;
     private final int pieninPituus = 5;
+    private String palautettava = "";
     
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        //TODO: lis‰‰ alustuksia t‰h‰n
         SpinnerValueFactory.IntegerSpinnerValueFactory spFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(pieninPituus, suurinPituus, alkuArvo);
         spPituus.setValueFactory(spFactory);
         BooleanBinding bb = new BooleanBinding() {
@@ -77,20 +75,9 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
     
     
     /**
-     * N‰ytet‰‰n generointi-ikkuna.
-     */
-    public static void naytaGeneroiIkkuna() {
-        ModalController.showModal(
-                GeneroiDialogController.class.getResource("GeneroiDialogView.fxml"),
-                "Salasanan generointi",
-                null, "");
-    }
-    
-    
-    /**
      * Generoidaan k‰ytt‰j‰lle sopiva salasana ja n‰ytet‰‰n ruudulla
      */
-    public void generoi() {
+    private void generoi() {
         int pituus = spPituus.getValue();
         String s = Merkkijonot.generoiSalasana(pituus, getBoxinArvot());
         String color = generateHexColor();
@@ -112,17 +99,30 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
         return boxArvot;
     }
     
+    /**
+     * Poistutaan n‰kym‰st‰ palauttamatta mit‰‰n
+     */
     private void cancel() {
         ModalController.closeStage(spPituus);
     }
     
     /**
-     * Palauttaa generoidun salasanan
-     * @return salasana
+     * K‰ytet‰‰n generoitua salasanaa
      */
-    public String kaytaSalasanaa() {
-        Dialogs.showMessageDialog("Ei osata viel‰ toimia halutulla tavalla");
-        return showPassLabel.getText();
+    private void kaytaSalasanaa() {
+        palautettava = showPassLabel.getText();
+        ModalController.closeStage(spPituus);
+    }
+    
+    /**
+     * N‰ytet‰‰n generointi-ikkuna.
+     * @return generointi salasana
+     */
+    public static String haeGeneroituSalasana() {
+        return ModalController.showModal(
+                GeneroiDialogController.class.getResource("GeneroiDialogView.fxml"),
+                "Salasanan generointi",
+                null, "");
     }
 
 

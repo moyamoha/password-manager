@@ -3,7 +3,12 @@
  */
 package passreg;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * <pre>
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   Passreg                             | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -17,12 +22,12 @@ package passreg;
  * |-------------------------------------------------------------------------
  * @author Yahya
  * @version 18.2.2021
- * 
+ * </pre>
  */
 public class Passreg {
     
-    private final Paasyt paasyt = new Paasyt();
-    private final Kategoriat kategoriat = new Kategoriat();
+    private Paasyt paasyt = new Paasyt();
+    private Kategoriat kategoriat = new Kategoriat();
     private String tiedosto = "";
     
     /**
@@ -71,7 +76,11 @@ public class Passreg {
      * @param tiedNimi rekisterin tiedostojen sijainti
      */
     public void setTiedostonNimi(String tiedNimi) {
-        if (tiedNimi != null) this.tiedosto = tiedNimi;
+        if (tiedNimi != null) {
+            this.tiedosto = tiedNimi;
+            File hakemisto = new File(tiedNimi);
+            if ( ! hakemisto.exists() ) hakemisto.mkdir();
+        }
     }
     
     /**
@@ -118,15 +127,6 @@ public class Passreg {
      */
     public void poistaPaasy(int nro) {
         paasyt.poista(nro);
-        //TODO 7 vaiheessa
-    }
-    
-    /**
-     * @param p p‰‰sy, jonka kategoriaID asetetaan
-     * @param id asetettava kategoriaID
-     */
-    public void setkID(Paasy p, int id) {
-        paasyt.setKid(p, id);
     }
 
     
@@ -136,11 +136,9 @@ public class Passreg {
      * @example
      * <pre name="test">
      *   Passreg passreg = new Passreg();
-     *   
      *   Paasy p1 = new Paasy();
      *   p1.taytaGmailTiedoilla();
      *   p1.rekisteroi();
-     *   
      *   passreg.getPaasytLkm()  === 0;
      *   passreg.lisaa(p1);
      *   passreg.getPaasytLkm()  === 1;
@@ -203,6 +201,7 @@ public class Passreg {
      * Tallettaa rekisterin tiedot tiedostoon. kesken
      */
     public void tallenna() {
+        if ( !onMuutettu() ) return;
         String virhe = "";
         try {
             paasyt.tallenna(getTiedostonNimi());
@@ -215,6 +214,7 @@ public class Passreg {
             virhe += e.getMessage();
         }
         System.out.println(virhe);
+        setMuutettu(false);
     }
     
     /**
@@ -222,18 +222,73 @@ public class Passreg {
      * @param hakemisto hakemiston polku
      */
     public void lueTiedostosta(String hakemisto) {
-         setTiedostonNimi(hakemisto);
-         paasyt.lueTiedostosta(getTiedostonNimi());
-         kategoriat.lueTiedostosta(getTiedostonNimi());
+        Paasyt pst = new Paasyt();
+        Kategoriat kat = new Kategoriat();
+        setTiedostonNimi(hakemisto);
+        try {
+            pst.lueTiedostosta(getTiedostonNimi());
+            kat.lueTiedostosta(getTiedostonNimi());
+        } catch (Exception e) {
+            return; // Ei muuteta kerhoa, jos yksikin tiedostonluku ep‰onnistuu
+        }
+        paasyt = pst;
+        kategoriat = kat;
+        setMuutettu(false);
     }
 
     /**
      * Poistetaan kategoria, jonka tunnusnumero on v‰litetty parametrina.
-     * Samalla p‰ivitet‰‰n kaikki ne p‰‰syt, joiden kategorian id vastasi poistetun kategorian tunnusnumeroa
-     * @param tunnusNro poistettavan kategorian tunnusnumero. 
+     * Samalla poistetaan kaikki ne p‰‰syt, joiden kategorian id vastasi poistetun kategorian tunnusnumeroa
+     * @param kID poistettavan kategorian tunnusnumero. 
      */
-    public void poistaKategoria(int tunnusNro) {
-        kategoriat.poista(tunnusNro);
-        paasyt.paivitakID(tunnusNro, 0);
+    public void poistaKategoria(int kID) {
+        kategoriat.poista(kID);
+        paasyt.poistaKategorianPaasyt(kID);
+    }
+
+    /**
+     * Palauttaa listana kaikki p‰‰syt jotka kuuluvat kategoriaan, jonka tunnusnumero on kID
+     * @param kID kategorian tunnusnumero
+     * @return lista kategoriaan
+     * @example
+     * <pre name="test">
+     *   #import java.util.*;
+     *    Passreg pss = new Passreg();
+     *    Kategoria k = new Kategoria();
+     *    int n = k.getTunnusNro();
+     *    pss.lisaa(k);
+     *    Paasy p1 = new Paasy(n); p1.taytaGmailTiedoilla();
+     *    Paasy p2 = new Paasy(n); p1.taytaGmailTiedoilla();
+     *    Paasy p3 = new Paasy(n+1); p3.taytaGmailTiedoilla();
+     *    pss.lisaa(p1); pss.lisaa(p2); pss.lisaa(p3);
+     *    List<Paasy> pst = pss.getPaasyt(n);
+     *    Iterator<Paasy> i = pst.iterator();
+     *    i.next() === p1;
+     *    i.next() === p2;
+     *    i.hasNext() === false;
+     *    i.next(); #THROWS NoSuchElementException
+     * </pre>
+     */
+    public List<Paasy> getPaasyt(int kID) {
+        List<Paasy> pst = new ArrayList<Paasy>();
+        for (Paasy p : this.paasyt) {
+            if (p.getKategoriaId() == kID) pst.add(p);
+        }
+        return pst;
+    }
+    
+    /**
+     * @return true jos rekisteriin on tullut muutoksia
+     */
+    public boolean onMuutettu() {
+        return paasyt.onMuutettu() || kategoriat.onMuutettu();
+    }
+
+    /**
+     * @param b tieto siit‰ on muutoksia tehty rekisteriin
+     */
+    private void setMuutettu(boolean b) {
+        paasyt.setMuutettu(b);
+        kategoriat.setMuutettu(b);
     }
 }

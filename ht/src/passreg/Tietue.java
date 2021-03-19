@@ -10,7 +10,7 @@ import java.io.PrintStream;
  * @version 14.3.2021
  *
  */
-public interface Tieto {
+public interface Tietue {
 
     /**
      * rekisteröidään
@@ -36,4 +36,9 @@ public interface Tieto {
     
     @Override
     public String toString();
+    
+    /**
+     * @return tiedon merkkijonoesityksen eli miltä se näyttäisin käyttöliittymässä
+     */
+    public String getView();
 }

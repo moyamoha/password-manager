@@ -15,10 +15,10 @@ import javafx.util.Callback;
  * @param <T>
  */
 /**
- * Muokattu TreeView-luokka, johon on helppo liitt‰‰ olioita.
+ * Muokattu TreeView-luokka, johon on helppo liitt√§√§ olioita.
  * @author Yahya
  * @version 3.3.2021
- * @param <T> K‰ytetty tyyppi
+ * @param <T> K√§ytetty tyyppi
  *
  */
 public class CTreeView<T> extends TreeView<T> {
@@ -50,7 +50,7 @@ public class CTreeView<T> extends TreeView<T> {
     }
     
     /**
-     * @param t olio, jota liitet‰‰n puun juureen
+     * @param t olio, jota liitet√§√§n puun juureen
      * @param view juuren merkkijono esitys
      */
     public void setRoot(T t, String view) {
@@ -60,7 +60,7 @@ public class CTreeView<T> extends TreeView<T> {
     }
     
     /**
-     * Lis‰t‰‰n puuhun olio
+     * Lis√§t√§√§n puuhun olio
      * @param t lisattava olio
      * @param view olion merkkijonoesitys
      */
@@ -68,6 +68,7 @@ public class CTreeView<T> extends TreeView<T> {
         CTreeItem<T> lisattava = new CTreeItem<>(t, view);
         this.getRoot().getChildren().add(lisattava);
         this.getSelectionModel().select(lisattava);
+        lisattava.setExpanded(true);
     }
     
     /**
@@ -135,7 +136,7 @@ public class CTreeView<T> extends TreeView<T> {
     /**
      * @author Yahya
      * @version 1.3.2021
-     * @param <E> K‰ytetty tyyppi
+     * @param <E> K√§ytetty tyyppi
      *
      */
     public class CTreeItem<E> extends TreeItem<E> {
@@ -143,7 +144,7 @@ public class CTreeView<T> extends TreeView<T> {
         private String view = "";
         
         /**
-         * @param e olio, jota t‰m‰ puuelementti esitt‰‰
+         * @param e olio, jota t√§m√§ puuelementti esitt√§√§
          * @param show puuelementin merkkijonoesitys
          */
         public CTreeItem (E e, String show) {
@@ -153,7 +154,7 @@ public class CTreeView<T> extends TreeView<T> {
         
         /**
          * Asetetaan puuelementille, jokin merkkijonoesitys
-         * @param view t‰m‰n elementin merkkijonoesitys
+         * @param view t√§m√§n elementin merkkijonoesitys
          */
         public void setView(String view) {
             this.view = view;
@@ -170,7 +171,7 @@ public class CTreeView<T> extends TreeView<T> {
     /**
      * @author Yahya
      * @version 1.3.2021
-     * @param <TYPE> K‰ytetty tyyppi
+     * @param <TYPE> K√§ytetty tyyppi
      */
     public class CTreeCell<TYPE> extends TreeCell<TYPE> {
         
@@ -191,13 +192,29 @@ public class CTreeView<T> extends TreeView<T> {
     }
     
     /**
-     * @param object lis‰tt‰v‰ olio
-     * @param View miten lis‰tt‰v‰ olio esitet‰‰n
+     * @param object lis√§tt√§v√§ olio
+     * @param View miten lis√§tt√§v√§ olio esitet√§√§n
      */
     public void addToSelected(T object, String View) {
         CTreeItem<T> lisattava = new CTreeItem<T>(object, View);
         CTreeItem<T> selected = (CTreeView<T>.CTreeItem<T>) this.getSelectionModel().getSelectedItem();
         if (selected == null) return;
         selected.getChildren().add(lisattava);
+        lisattava.setExpanded(true);
+    }
+    
+    /**
+     * 
+     */
+    public void setExpandedAlways() {
+        this.getRoot().setExpanded(true);
+    }
+    
+    /**
+     * @param item jota, tutkitaan onko se juuri
+     * @return true jos on juuri
+     */
+    public boolean isRoot(TreeItem<T> item) {
+        return this.getRoot() == item;
     }
 }

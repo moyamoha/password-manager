@@ -6,11 +6,13 @@ package passreg;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
 import kanta.Merkkijonot;
 import kanta.Numerot;
 
 /**
  * Rekisterin p‰‰sy, joka osaa itse huolehtia mm. tunnusnumerostaan
+ * <pre>
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   P‰‰sy                               | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -26,18 +28,19 @@ import kanta.Numerot;
  * | - osaa antaa merkkijonona i:n kent‰n tiedot        |                   | 
  * | - osaa laittaa merkkijonon i:neksi kent‰ksi        |                   | 
  * |-------------------------------------------------------------------------
+ * </pre>
  * @author Yahya
  * @version 17.2.2021
  */
-public class Paasy {
+public class Paasy implements Tietue{
     
     private int         tunnusNro       = 0 ;
     private int         kID             = 0 ;
     private String      otsikko         = "";
     private String      tunnus          = "";
     private String      sPosti          = "";
-    private String      salasana        = "";
     private String      puhnro          = "";
+    private String      salasana        = "";
     private String      url             = "";
     private String      info            = "";
     
@@ -63,10 +66,24 @@ public class Paasy {
     }
     
     /**
+     * 
+     * @param kID kategorian id
+     */
+    public Paasy(int kID) {
+        this.kID = kID;
+    }
+    
+    /**
+     * oletus-muodostaja
+     */
+    public Paasy() {
+        //
+    }
+    
+    /**
      * T‰ytet‰‰n p‰‰sy gmail-tiedoilla. Tilap‰inen
      */
     public void taytaGmailTiedoilla() {
-        this.kID     = 1;
         this.otsikko = "gmail" + Numerot.rand(1, 100);
         this.tunnus  = Merkkijonot.generoiTunnus();
         this.sPosti  = this.tunnus + "@gmail.com";
@@ -80,6 +97,7 @@ public class Paasy {
      * Tulostetaan p‰‰syn tiedot
      * @param out tietovirta johon tulostetaan
      */
+    @Override
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", tunnusNro) + " " + this.otsikko);
         out.println(" tunnus: \t" + this.tunnus);
@@ -102,32 +120,42 @@ public class Paasy {
     
     /**
      * Rekisterˆid‰‰n p‰‰sy
-     * @return p‰‰syn saatu tunnusnumero
      * @example
      * <pre name="test">
      *    Paasy gmail1 = new Paasy();
      *    Paasy gmail2 = new Paasy();
      *    gmail1.getTunnusNro()  === 0;
      *    gmail1.rekisteroi();
-     *    gmail1.getTunnusNro()  === 1; 
-     *    gmail2.getTunnusNro()  === 0;
+     *    int n1 = gmail1.getTunnusNro();
+     *    gmail2.getTunnusNro() === 0;
      *    gmail2.rekisteroi();
-     *    gmail2.getTunnusNro()  === 2;
+     *    int n2 = gmail2.getTunnusNro();
+     *    n2 == n1 + 1 === true;
      * </pre>
      */
-    public int rekisteroi() {
+    @Override
+    public void rekisteroi() {
         this.tunnusNro = seuraavaNro;
         seuraavaNro++;
-        return this.tunnusNro;
     }
     
     /**
      * @return p‰‰syn tunnusnumero
      */
+    @Override
     public int getTunnusNro() {
         return this.tunnusNro;
     }
     
+    /**
+     * Asettaa tunnusnumeron ja samalla varmistaa ett‰
+     * seuraava numero on aina suurempi kuin t‰h‰n menness‰ suurin.
+     * @param nr asetettava tunnusnumero
+     */
+    private void setTunnusNro(int nr) {
+        tunnusNro = nr;
+        if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
+    }
     
     /**
      * @return p‰‰syn otsikko
@@ -145,17 +173,62 @@ public class Paasy {
         return this.kID;
     }
     
+    /**
+     * Palauttaa rivi, jossa p‰‰syn tiedot muodsossa 1|2|gmail|abrkjIhejjf|ankka@gmail.com... 
+     * @example
+     * <pre name="test">
+     *   Paasy p = new Paasy();
+     *   p.parse(" 1  | 4|  soturi123 | ankka@yahoo.com");
+     *   p.toString().startsWith("1|4|soturi123|ankka@yahoo.com") === true;
+     * </pre>
+     */
     @Override
     public String toString(){
-        // TODO: tiedon n‰ytt‰minen muodossa 1|gmail|...
-        return this.otsikko; // tallenna-metodin kokeilua varten
+        StringBuilder sb = new StringBuilder();
+        sb.append(tunnusNro); sb.append("|");
+        sb.append(kID); sb.append("|");
+        sb.append(otsikko); sb.append("|");
+        sb.append(tunnus); sb.append("|");
+        sb.append(sPosti); sb.append("|");
+        sb.append(puhnro); sb.append("|");
+        sb.append(salasana); sb.append("|");
+        sb.append(url); sb.append("|");
+        sb.append(info);
+        return sb.toString();
     }
     
     /**
-     * @param text osittava merkkijono
+     * Selvit‰‰ j‰senen tiedot | erotellusta merkkijonosta
+     * Pit‰‰ huolen ett‰ seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * @param rivi josta j‰senen tiedot otetaan
+     * 
+     * @example
+     * <pre name="test">
+     *   Paasy p = new Paasy();
+     *   p.parse("   3  |1 |  ankkaTHELion ");
+     *   p.getTunnusNro() === 3;
+     *   p.getKategoriaId() === 1;
+     *   p.toString().startsWith("3|1|ankkaTHELion|") === true; // on enemm‰kin kuin 3 kentt‰‰, siksi loppu |
+     *
+     *   p.rekisteroi();
+     *   int n = p.getTunnusNro();
+     *   p.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
+     *   p.rekisteroi();           // ja tarkistetaan ett‰ seuraavalla kertaa tulee yht‰ isompi
+     *   p.getTunnusNro() === n+20+1;
+     * </pre>
      */
-    public void parse(@SuppressWarnings("unused") String text) {
-        // TODO: lukee p‰‰syn tiedot merkkijonosta 1|gmail|.. 
+    @Override
+    public void parse( String rivi) {
+        StringBuilder sb = new StringBuilder(rivi);
+        setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
+        setKid(Mjonot.erota(sb, '|', getKategoriaId()));
+        otsikko = Mjonot.erota(sb, '|', otsikko);
+        tunnus = Mjonot.erota(sb, '|', tunnus);
+        sPosti = Mjonot.erota(sb, '|', sPosti);
+        puhnro = Mjonot.erota(sb, '|', puhnro);
+        salasana = Mjonot.erota(sb, '|', salasana);
+        url = Mjonot.erota(sb, '|', url);
+        info = Mjonot.erota(sb, '|', info);
     }
 
     /**
@@ -164,5 +237,10 @@ public class Paasy {
     public void setKid(int kID) {
         if (kID >= 0) this.kID = kID;
         return;
+    }
+
+    @Override
+    public String getView() {
+        return getOtsikko();
     }
 }

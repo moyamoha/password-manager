@@ -1,5 +1,5 @@
 package fxPassreg;
-	
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -7,7 +7,6 @@ import passreg.Passreg;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
-
 
 /**
  * @author Yahya
@@ -29,13 +28,18 @@ public class PassregMain extends Application {
 			Passreg passrekisteri = new Passreg();
 			passCtrl.setPassreg(passrekisteri);
 			
-			if (!passCtrl.avaaTiedosto()) Platform.exit();
 			primaryStage.show();
-			primaryStage.setOnCloseRequest(e -> passCtrl.tallenna());
+			primaryStage.setOnCloseRequest(e -> {
+			    if (passCtrl.voiSulkea()) Platform.exit();
+			    else e.consume();
+			});
+	        if (!passCtrl.avaaTiedosto()) Platform.exit();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	/**
 	 * @param args ei käytössä

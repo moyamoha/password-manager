@@ -142,10 +142,11 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     }
 
     /**
-     * N‰ytet‰‰n generoidialogi uudessa ikkunassa
+     * N‰ytet‰‰n generoidialogi uudessa ikkunassa, ja haetaan generoitu salasana k‰ytett‰v‰ksi
      */
     private void avaaGenerointiIkkuna() {
-        GeneroiDialogController.naytaGeneroiIkkuna();
+        String salasana = GeneroiDialogController.haeGeneroituSalasana();
+        passText1.setText(salasana); passText2.setText(salasana);
     }
 
 

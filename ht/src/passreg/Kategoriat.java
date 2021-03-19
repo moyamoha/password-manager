@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
+ * <pre>
  * Luokkaa, joka kokoaa yhteen alkiot.
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   Kategoriat                          | Avustajat:        |
@@ -29,6 +30,7 @@ import java.util.Scanner;
  * | - osaa etsi� ja lajitella                          |                   | 
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
+ * </pre>
  * @author Yahya
  * @version 1.3.2021
  *
@@ -38,6 +40,7 @@ public class Kategoriat implements Iterable<Kategoria> {
 
     private final List<Kategoria> alkiot = new ArrayList<>();
     private static final String tiedostonNimi = "/kategoriat.dat";
+    private boolean muutettu = false;
     
     /**
      * Alustetaan Kategoriat
@@ -64,6 +67,7 @@ public class Kategoriat implements Iterable<Kategoria> {
         kg3.rekisteroi();
         
         kgt.lisaa(kg1); kgt.lisaa(kg2); kgt.lisaa(kg3);
+        
         for(Kategoria k : kgt) {
             k.tulosta(System.out);
         }
@@ -88,6 +92,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      */
     public void lisaa(Kategoria kategoria) {
         alkiot.add(kategoria);
+        muutettu = true;
     }
  
     
@@ -129,6 +134,7 @@ public class Kategoriat implements Iterable<Kategoria> {
         for (int i = 0; i < lkm; i++) {
             if (this.anna(i).getTunnusNro() == nro) {
                 alkiot.remove(i);
+                muutettu = true;
                 lkm--;
             }
         }
@@ -142,20 +148,15 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @example
      * <pre name="test">
      *   Kategoriat kgt = new Kategoriat();
-     *   
      *   Kategoria kg1 = new Kategoria("ty�");
      *   kg1.rekisteroi();
-     *
      *   Kategoria kg2 = new Kategoria("muu");
      *   kg2.rekisteroi();
-     *   
      *   Kategoria kg3 = new Kategoria("opiskelu");
      *   kg3.rekisteroi();
-     *   
      *   kgt.lisaa(kg1);
      *   kgt.lisaa(kg2);    
      *   kgt.lisaa(kg3);    
-     *   
      *   kgt.anna(0).getNimi()  === "ty�";
      *   kgt.anna(1).getNimi()  === "muu";
      *   kgt.anna(2).getNimi()  === "opiskelu";
@@ -172,9 +173,36 @@ public class Kategoriat implements Iterable<Kategoria> {
     /**
      * Lukee kategorioiden tietoja tiedostosta
      * @param hakemisto hakemisto josta tiedosto l�ytyy
+     * @example
+     * <pre name="test">
+     * #import java.io.File;
+     * #import java.util.*;
+     * #import java.io.*;
+     *  Kategoriat kat = new Kategoriat();
+     *  Kategoria k1 = new Kategoria("opiskelu"), k2 = new Kategoria("työ");
+     *  k1.rekisteroi(); k2.rekisteroi();
+     *  String hakemisto = "testi";
+     *  File dir = new File(hakemisto);
+     *  dir.mkdir();
+     *  kat.lisaa(k1);
+     *  kat.lisaa(k2);
+     *  kat.tallenna(hakemisto);
+     *  kat.lueTiedostosta(hakemisto);  // johon ladataan tiedot tiedostosta.
+     *  Iterator<Kategoria> i = kat.iterator();
+     *  Kategoria kTest = i.next();
+     *  kTest.getNimi() === "opiskelu";
+     *  Kategoria kTest2 = i.next();
+     *  kTest2.getNimi()  === "työ";
+     *  kat.tallenna(hakemisto);
+     * </pre>
      */
     public void lueTiedostosta(String hakemisto) {
         File fTied = new File(hakemisto + tiedostonNimi);
+        try {
+            fTied.createNewFile();
+        } catch (IOException e1) {
+            //
+        }
         String rivi = "";
         try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
             while (fi.hasNextLine()) {
@@ -195,6 +223,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @param hakemisto tallennettavan tiedoston sijainti
      */
     public void tallenna(String hakemisto) {
+        if (!muutettu) return;
         File fTied = new File(hakemisto + tiedostonNimi);
         try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
             for (Kategoria kategoria : this) {
@@ -205,6 +234,29 @@ public class Kategoriat implements Iterable<Kategoria> {
         }
     }
 
+    /**
+     * Palauttaa iteraattori kategorioiden läpikäymiseen.
+     * @example
+     * <pre name="test">
+     *   Kategoriat kgt = new Kategoriat();
+     *   Kategoria kg1 = new Kategoria("tyo");
+     *   Kategoria kg2 = new Kategoria("muu");
+     *   Kategoria kg3 = new Kategoria("opiskelu");
+     *   Iterator<Kategoria> iter = kgt.iterator();
+     *   iter.hasNext()  === false;
+     *   iter.next(); #THROWS NoSuchElementException
+     *   kgt.lisaa(kg1);
+     *   iter.hasNext() === true;
+     *   iter.next().getNimi() === "tyo";
+     *   kgt.lisaa(kg2); 
+     *   kgt.lisaa(kg3);
+     *   iter.next()  === kg2;       
+     *   iter.next()  === kg3;
+     *   iter = kgt.iterator();
+     *   iter.next() == iter.next() === false;
+     *   iter.next().getNimi()  === "opiskelu";
+     * </pre>
+     */
     @Override
     public Iterator<Kategoria> iterator() {
         return new Iter();
@@ -217,7 +269,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      */
     public class Iter implements Iterator<Kategoria> {
         
-        int kohdalla;
+        private int kohdalla;
         
         @Override
         public boolean hasNext() {
@@ -229,8 +281,18 @@ public class Kategoriat implements Iterable<Kategoria> {
             if (!hasNext()) throw new NoSuchElementException("Ei oo en��");
             return anna(kohdalla++);
         }
-        
     }
+
+    
+    /**
+     * @return true jos kategorioita on lisätty tai poistettu rekisteristä
+     */
+    public boolean onMuutettu() { return muutettu;}
+    
+    /**
+     * @param b tieto siitä onko muutoksia tehty
+     */
+    public void setMuutettu(boolean b)   { muutettu = b; }
 
 }
 

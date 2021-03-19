@@ -18,14 +18,12 @@ import javafx.stage.Stage;
 public class AloitusIkkunaController implements ModalControllerInterface<String> {
     
     @FXML private TextField vastausKenttaText;
-    private String vastaus = null;
+    private String vastaus = "";
     
     
-    /**
-     * K‰sitell‰‰n ok-buttonin toiminta
-     */
+    /** K‰sitell‰‰n ok-buttonin toiminta */
     @FXML private void handleOk() {
-        vastaus = this.vastausKenttaText.getText();
+        vastaus = vastausKenttaText.getText();
         ModalController.closeStage(vastausKenttaText);
     }
     
@@ -34,30 +32,22 @@ public class AloitusIkkunaController implements ModalControllerInterface<String>
      * K‰sitell‰‰n cancel-buttonin toiminta
      */
     @FXML private void handleCancel() {
+        vastaus = null;
         ModalController.closeStage(vastausKenttaText);
     }
     
     
     @Override
-    public String getResult() {
-        // TODO Auto-generated method stub
-        return vastaus;
-    }
-
+    public String getResult() { return vastaus; }
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
         this.vastausKenttaText.requestFocus();
     }
 
 
     @Override
-    public void setDefault(String arg0) {
-        // TODO Auto-generated method stub
-        
-    }
-    
+    public void setDefault(String oletus) { vastausKenttaText.setText(oletus); }    
     
     /**
      * N‰ytet‰‰n aloitusikkunan dialogin ja kysell‰‰n k‰ytt‰j‰lt‰ jokin aukeava tiedoston nimi

@@ -7,12 +7,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
+ * <pre>
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   Paasyt                              | Avustajat:        |
  * |-------------------------------------------------------------------------
@@ -22,8 +24,8 @@ import java.util.Scanner;
  * |   lisätä ja poistaa pääsyn                         |                   | 
  * | - lukee ja kirjoittaa pääsyjä tiedostoon           |                   | 
  * | - osaa etsiä ja lajitella                          |                   | 
- * |                                                    |                   | 
  * |-------------------------------------------------------------------------
+ * </pre>
  * @author Yahya
  * @version 17.2.2021
  *
@@ -33,6 +35,7 @@ public class Paasyt implements Iterable<Paasy> {
     private static int MAX_KOKO = 6; 
     private Paasy[] alkiot;
     private int lkm;
+    private boolean muutettu = false;
     private static final String tiedostonNimi = "/salasanat.dat";
     
     /**
@@ -64,7 +67,7 @@ public class Paasyt implements Iterable<Paasy> {
         paasyt.lisaa(gmail1); paasyt.lisaa(gmail2);
         paasyt.lisaa(gmail3);
         
-        for (int i = 0; i < paasyt.alkiot.length; i++) {
+        for (int i = 0; i < paasyt.getLkm() ; i++) {
             paasyt.alkiot[i].tulosta(System.out);
             System.out.println();
         }
@@ -82,13 +85,31 @@ public class Paasyt implements Iterable<Paasy> {
     /**
      * Lisätään yksittäinen pääsy tietorakenteeseen
      * @param paasy lisättävä pääsy
+     * @example
+     * <pre name="test">
+     *   Paasyt pst = new Paasyt();
+     *   Paasy p1 = new Paasy();
+     *   Paasy p2 = new Paasy();
+     *   pst.getLkm() === 0;
+     *   pst.anna(1); #THROWS IndexOutOfBoundsException
+     *   pst.lisaa(p1);
+     *   pst.anna(0) === p1;
+     *   pst.getLkm() === 1;
+     *   pst.lisaa(p2);
+     *   pst.anna(2); #THROWS IndexOutOfBoundsException
+     *   pst.getLkm()  === 2;
+     *   pst.anna(1) === p2;
+     * </pre>
      */
     public void lisaa(Paasy paasy) {        
         if (getLkm() >= alkiot.length) {
             luoJaKopioi(); 
             lisaa(paasy);
         }
-        else this.alkiot[lkm++] = paasy;
+        else {
+            this.alkiot[lkm++] = paasy;
+            muutettu = true; 
+        }
     }
     
 
@@ -148,9 +169,37 @@ public class Paasyt implements Iterable<Paasy> {
     /**
      * Lukee pääsyjen tietoja tiedostosta
      * @param hakemisto hakemisto josta tiedosto l�ytyy
+     * @example
+     * <pre name="test">
+     * #import java.io.File;
+     * #import java.util.*;
+     * #import java.io.*;
+     *  Paasyt pst = new Paasyt();
+     *  Paasy p1 = new Paasy(1), p2 = new Paasy(2);
+     *  p1.taytaGmailTiedoilla();
+     *  p2.taytaGmailTiedoilla();
+     *  String hakemisto = "testi";
+     *  File fTied = new File(hakemisto);
+     *  fTied.mkdir();
+     *  pst.lisaa(p1);
+     *  pst.lisaa(p2);
+     *  pst.tallenna(hakemisto);
+     *  pst.lueTiedostosta(hakemisto);  // johon ladataan tiedot tiedostosta.
+     *  Iterator<Paasy> i = pst.iterator();
+     *  Paasy pTest = i.next();
+     *  pTest.getKategoriaId() === 1;
+     *  Paasy pTest2 = i.next();
+     *  pTest2.getKategoriaId()  === 2;
+     *  pst.tallenna(hakemisto);
+     * </pre>
      */
     public void lueTiedostosta(String hakemisto) {
         File fTied = new File(hakemisto + tiedostonNimi);
+        try {
+            fTied.createNewFile();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
         String rivi = "";
         try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
             while (fi.hasNextLine()) {
@@ -171,6 +220,7 @@ public class Paasyt implements Iterable<Paasy> {
      * @param hakemisto tallennettavan tiedoston nimi
      */
     public void tallenna(String hakemisto) {
+        if (!muutettu) return;
         File fTied = new File(hakemisto + tiedostonNimi);
         try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
             for (Paasy p : this) {
@@ -211,6 +261,7 @@ public class Paasyt implements Iterable<Paasy> {
             if (alkiot[i] == null) continue;
             if (alkiot[i].getTunnusNro() == nro) {
                 alkiot[i] = null;
+                muutettu = true;
                 shiftToLeft(i);
                 lkm--;
             }
@@ -224,15 +275,26 @@ public class Paasyt implements Iterable<Paasy> {
         }
     }
     
-    /**
-     * @param paasy pääsy, jonka kategorian id muutetaan
-     * @param kID asetettavan kategorian id
+    /** 
+     * Palauttaa iteraattori pääsyjen läpikäymiseen
+     * @example
+     * <pre name="test">
+     *  #import java.util.*;
+     *   Paasyt pst = new Paasyt();
+     *   Paasy p1 = new Paasy();
+     *   Paasy p2 = new Paasy();
+     *   Iterator<Paasy> i = pst.iterator();
+     *   i.hasNext()  === false;
+     *   i.next(); #THROWS NoSuchElementException
+     *   pst.lisaa(p1);
+     *   i.next() === p1;
+     *   i.hasNext() === false;
+     *   pst.lisaa(p2);
+     *   i.hasNext() === true;
+     *   i.next()    === p2;
+     *   i.next(); #THROWS NoSuchElementException
+     * </pre>
      */
-    public void setKid(Paasy paasy, int kID) {
-        paasy.setKid(kID);
-    }
-    
-
     @Override
     public Iterator<Paasy> iterator() {
         return new Iter();
@@ -261,14 +323,34 @@ public class Paasyt implements Iterable<Paasy> {
     }
 
     /**
-     * @param kid poistetun kategorian id
-     * @param uusiKID uusi kategorian id
+     * @param kID kategorian id
      */
-    public void paivitakID(int kid, int uusiKID) {
-        for (Paasy p : this) {
-            if (p.getKategoriaId() == kid) {
-                p.setKid(uusiKID);
+    public void poistaKategorianPaasyt(int kID) {
+        for (int i = 0; i < getLkm(); i++) {
+            if (alkiot[i] == null) continue;
+            if (alkiot[i].getKategoriaId() == kID) {
+                alkiot[i] = null;
+                muutettu = true;
+            }
+        }
+        for (int i = 0; i < getLkm(); i++) {
+            if (alkiot[i] == null) {
+                shiftToLeft(i);
+                lkm--;
             }
         }
     }
+    
+    /**
+     * @return true jos pääsyjä on lisätty tai poistettu kategoriasta
+     */
+    public boolean onMuutettu() { return muutettu; }
+
+    /**
+     * @param b tieto siitä on muutoksia tehty
+     */
+    public void setMuutettu(boolean b) {
+        muutettu = b;
+    }
+
 }

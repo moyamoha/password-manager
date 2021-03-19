@@ -14,8 +14,7 @@ public class Tarkistukset {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-    // TODO Auto-generated method stub
-    
+        // TODO Auto-generated method stub
     }
     
     /**
