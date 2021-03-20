@@ -25,10 +25,9 @@ import java.util.Scanner;
  * | Vastuualueet:                                      |                   | 
  * |                                                    |  - kategoria      | 
  * | - pitää yll� varsinaista kategoriarekisteri�,      |                   |
- * |     eli osaa lis�� ja poistaa kategorian           |                   | 
+ * |     eli osaa lisätä ja poistaa kategorian           |                   | 
  * | - lukee ja kirjoittaa kategorioita tiedostoon      |                   | 
  * | - osaa etsi� ja lajitella                          |                   | 
- * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * </pre>
  * @author Yahya

@@ -5,6 +5,7 @@ package passreg;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -220,6 +221,44 @@ public class Passreg {
     /**
      * Lukee rekisterin tiedot tiedostosta
      * @param hakemisto hakemiston polku
+     * @example
+     * <pre name="test">
+     * #import java.io.*;
+     * #import java.util.*;
+     *  Passreg regis = new Passreg();
+     *  Kategoria k1 = new Kategoria("opiskelu"); k1.rekisteroi();
+     *  Kategoria k2 = new Kategoria("viihde");   k2.rekisteroi();
+     *  Paasy p1 = new Paasy(k1.getTunnusNro());  p1.taytaGmailTiedoilla();  
+     *  Paasy p2 = new Paasy(k2.getTunnusNro());  p2.taytaGmailTiedoilla(); 
+     *  Paasy p3 = new Paasy(k2.getTunnusNro());  p3.taytaGmailTiedoilla();  
+     *  Paasy p4 = new Paasy(k1.getTunnusNro());  p4.taytaGmailTiedoilla();  
+     *  Paasy p5 = new Paasy(k2.getTunnusNro());  p5.taytaGmailTiedoilla(); 
+     *  String hakemisto = "testi";
+     *  File dir = new File(hakemisto);
+     *  dir.mkdir();  
+     *  regis.lueTiedostosta(hakemisto); 
+     *  regis.lisaa(p1);
+     *  regis.lisaa(p2);
+     *  regis.lisaa(p3);
+     *  regis.lisaa(k1);
+     *  regis.lisaa(p4);
+     *  regis.lisaa(k2);
+     *  regis.lisaa(p5);
+     *  regis.tallenna();
+     *  List<Paasy> pst = regis.getPaasyt(k1.getTunnusNro());
+     *  Iterator<Paasy> it = pst.iterator();
+     *  it.next() === p1;
+     *  it.next() === p4;
+     *  it.hasNext() === false;
+     *  List<Paasy> loytyneet = regis.getPaasyt(k2.getTunnusNro());
+     *  Iterator<Paasy> ih = loytyneet.iterator();
+     *  ih.hasNext()  === true;
+     *  ih.next() === p2;
+     *  ih.next() === p3;
+     *  ih.hasNext() === true;
+     *  ih.next()  === p5;
+     *  ih.next();  #THROWS NoSuchElementException
+     * </pre> 
      */
     public void lueTiedostosta(String hakemisto) {
         Paasyt pst = new Paasyt();
@@ -290,5 +329,15 @@ public class Passreg {
     private void setMuutettu(boolean b) {
         paasyt.setMuutettu(b);
         kategoriat.setMuutettu(b);
+    }
+
+    /**
+     * Haetaan t‰m‰n rekisterin p‰‰syt, jotka toteuttavat hakukriteerit
+     * @param ehto mink‰ ehdon perusteella haetaan
+     * @param kentta mik‰ on se ehdon tarkennus
+     * @return kokoelma kaikista p‰‰syist‰, jotka toteuttavat hakuehdon
+     */
+    public Collection<Paasy> getPaasyt(String ehto, String kentta) {
+        return paasyt.getPaasyt(ehto, kentta);
     }
 }

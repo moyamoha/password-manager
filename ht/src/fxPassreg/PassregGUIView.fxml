@@ -168,8 +168,8 @@
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <ComboBoxChooser prefHeight="26.0" prefWidth="190.0" rivit="Otsikko&#10;Kategoria&#10;Tunnus&#10;Sähköposti&#10;Puhelinnumero&#10;Url&#10;info" />
-                  <TextField>
+                  <ComboBoxChooser fx:id="cbKentat" prefHeight="26.0" prefWidth="190.0" rivit="Otsikko&#10;Tunnus&#10;Sähköposti&#10;Puhelinnumero&#10;Url&#10;info" />
+                  <TextField fx:id="hakuKentta" onKeyReleased="#handleHae">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>

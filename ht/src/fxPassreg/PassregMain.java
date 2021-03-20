@@ -28,12 +28,14 @@ public class PassregMain extends Application {
 			Passreg passrekisteri = new Passreg();
 			passCtrl.setPassreg(passrekisteri);
 			
+			if (!passCtrl.avaaTiedosto(true)) Platform.exit();
+			
 			primaryStage.show();
 			primaryStage.setOnCloseRequest(e -> {
 			    if (passCtrl.voiSulkea()) Platform.exit();
 			    else e.consume();
 			});
-	        if (!passCtrl.avaaTiedosto()) Platform.exit();
+	        
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

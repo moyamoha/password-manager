@@ -3,9 +3,13 @@
  */
 package fxPassreg;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -15,7 +19,7 @@ import javafx.stage.Stage;
  * Kontrolleri aloitusikkunaa varten. Aloitusikkunassa kysyt‰‰n k‰ytt‰j‰lt‰ jokin 
  * sopiva tiedoston nimi. Kun k‰ytt‰j‰ antaa tekstina tiedoston nimen, avataan se.
  */
-public class AloitusIkkunaController implements ModalControllerInterface<String> {
+public class AloitusIkkunaController implements ModalControllerInterface<String>, Initializable{
     
     @FXML private TextField vastausKenttaText;
     private String vastaus = "";
@@ -59,6 +63,11 @@ public class AloitusIkkunaController implements ModalControllerInterface<String>
         return ModalController.showModal(
                  AloitusIkkunaController.class.getResource("PassregAloitusIkkunaView.fxml"),
                  "Passreg", modalityStage, oletus);
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        //
     }
 
 }

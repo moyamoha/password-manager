@@ -5,7 +5,6 @@ package passreg;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import fi.jyu.mit.ohj2.Mjonot;
 import kanta.Merkkijonot;
 
@@ -24,7 +23,6 @@ import kanta.Merkkijonot;
  * |   kategorian tiedoiksi ja päinvastoin              |                   | 
  * | - osaa antaa merkkijonona i:n kentän tiedot        |                   | 
  * | - osaa laittaa merkkijonon i:neksi kentäksi        |                   | 
- * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * </pre>
  * @author Yahya

@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -32,7 +34,7 @@ import java.util.Scanner;
  */
 public class Paasyt implements Iterable<Paasy> {
     
-    private static int MAX_KOKO = 6; 
+    private static int MAX_KOKO = 3; 
     private Paasy[] alkiot;
     private int lkm;
     private boolean muutettu = false;
@@ -90,15 +92,19 @@ public class Paasyt implements Iterable<Paasy> {
      *   Paasyt pst = new Paasyt();
      *   Paasy p1 = new Paasy();
      *   Paasy p2 = new Paasy();
+     *   Paasy p3 = new Paasy(4);
      *   pst.getLkm() === 0;
      *   pst.anna(1); #THROWS IndexOutOfBoundsException
      *   pst.lisaa(p1);
      *   pst.anna(0) === p1;
      *   pst.getLkm() === 1;
      *   pst.lisaa(p2);
-     *   pst.anna(2); #THROWS IndexOutOfBoundsException
-     *   pst.getLkm()  === 2;
+     *   pst.lisaa(p3);
+     *   pst.getLkm()  === 3;
      *   pst.anna(1) === p2;
+     *   pst.anna(2).getKategoriaId()  === 4;
+     *   Paasy p4 = new Paasy(2);
+     *   pst.lisaa(p4); // Ei pitäisi heittää poikkeusta
      * </pre>
      */
     public void lisaa(Paasy paasy) {        
@@ -257,6 +263,11 @@ public class Paasyt implements Iterable<Paasy> {
      * </pre>
      */
     public void poista(int nro) {
+        if (getLkm() == 1 && anna(0).getTunnusNro() == nro) {
+            alkiot[0] = null;
+            lkm = 0;
+            return;
+        }
         for (int i = 0; i < getLkm(); i++) {
             if (alkiot[i] == null) continue;
             if (alkiot[i].getTunnusNro() == nro) {
@@ -269,10 +280,10 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     private final void shiftToLeft(int i) {
-        int p = i;
-        for (int j = p + 1; j < getLkm() ; j++ ,p++) {
-            alkiot[p] = alkiot[j];
-        }
+        int last = getLkm();
+        Paasy p = anna(last - 1);
+        alkiot[i] = p;
+        alkiot[last - 1] = null;
     }
     
     /** 
@@ -326,18 +337,13 @@ public class Paasyt implements Iterable<Paasy> {
      * @param kID kategorian id
      */
     public void poistaKategorianPaasyt(int kID) {
-        for (int i = 0; i < getLkm(); i++) {
-            if (alkiot[i] == null) continue;
-            if (alkiot[i].getKategoriaId() == kID) {
-                alkiot[i] = null;
-                muutettu = true;
+        int i = 0;
+        while (i < getLkm()) {
+            Paasy p = anna(i);
+            if (p.getKategoriaId() == kID) {
+                poista(p.getTunnusNro());
             }
-        }
-        for (int i = 0; i < getLkm(); i++) {
-            if (alkiot[i] == null) {
-                shiftToLeft(i);
-                lkm--;
-            }
+            else i++;
         }
     }
     
@@ -351,6 +357,20 @@ public class Paasyt implements Iterable<Paasy> {
      */
     public void setMuutettu(boolean b) {
         muutettu = b;
+    }
+
+    /**
+     * Haetaan pääsyt, jotka toteuttavat hakukriteerit
+     * @param ehto minkä ehdon perusteella haetaan
+     * @param kentta mikä on se ehdon tarkennus
+     * @return kokoelma kaikista pääsyistä, jotka toteuttavat hakuehdon
+     */
+    public Collection<Paasy> getPaasyt(String ehto, String kentta) {
+        Collection<Paasy> pst = new ArrayList<>();
+        for (Paasy p : this) {
+            if (p.oletko(ehto, kentta)) pst.add(p);
+        }
+        return pst;
     }
 
 }

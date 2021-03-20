@@ -22,8 +22,7 @@ import kanta.Numerot;
  * | - tiet‰‰ p‰‰syn kent‰t (otsikko, tunnus, puhnro    |                   |
  * |   , salasana jne.)                                 |                   | 
  * | - osaa tarkistaa tietyn kent‰n oikeellisuuden      |                   |
- * |   (syntaksin)                                      |                   | 
- * | - osaa muuttaa 1|gmail|..| - merkkijonon           |                   |
+ * | - osaa muuttaa 1|gmail|..| - merkkijono            |                   |
  * |   p‰‰syn tiedoiksi                                 |                   | 
  * | - osaa antaa merkkijonona i:n kent‰n tiedot        |                   | 
  * | - osaa laittaa merkkijonon i:neksi kent‰ksi        |                   | 
@@ -242,5 +241,14 @@ public class Paasy implements Tietue{
     @Override
     public String getView() {
         return getOtsikko();
+    }
+
+    /**
+     * @param ehto mink‰ ehdon perusteella haetaan
+     * @param kentta mik‰ on se ehdon tarkennus
+     * @return true jos vastaa hakukriteerit
+     */
+    public boolean oletko(@SuppressWarnings("unused") String ehto, @SuppressWarnings("unused") String kentta) {
+        return true;
     }
 }
