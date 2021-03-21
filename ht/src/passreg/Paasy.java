@@ -98,13 +98,13 @@ public class Paasy implements Tietue{
      */
     @Override
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", tunnusNro) + " " + this.otsikko);
-        out.println(" tunnus: \t" + this.tunnus);
-        out.println(" sähköposti: \t" + this.sPosti);
-        out.println(" puhelinnro: \t" + this.puhnro);
-        out.println(" salasana: \t" + this.salasana);
-        out.println(" url: \t\t" + this.url);
-        out.println(" lisää tietoa: \t" + this.info);
+        out.println(" \t" + getTunnusNro() + this.otsikko);
+        out.println(" \ttunnus: \t" + this.tunnus);
+        out.println(" \tsähköposti: \t" + this.sPosti);
+        out.println(" \tpuhelinnro: \t" + this.puhnro);
+        out.println(" \tsalasana: \t" + this.salasana);
+        out.println(" \turl: \t\t" + this.url);
+        out.println(" \tlisää tietoa: \t" + this.info);
     }
     
     

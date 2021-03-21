@@ -232,23 +232,23 @@ public class PassregGUIController implements Initializable {
         if (voiSulkea()) Platform.exit();
     }
     
-    /** Avataan tulostusikkuna ja tulostetaan siihen valitun kategorian kaikki pääsyt.*/
+    /** Avataan tulostusikkuna ja listataan kategoriat pääsyineen valmiiksi tulostettavaksi*/
     private void tulosta() {
-        Kategoria k = valittuKategoria;
-        if ( k == null) {
-            naytaIlmoitus(2, AlertType.WARNING, "Valitse jokin kategoria, jonka pääsyt haluat tulostaa");
-            return;
-        }
         TulostusDialogController tulostusCtrl = TulostusDialogController.tulosta();
         TextArea alue = tulostusCtrl.getTextArea();
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(alue)) {
-            os.println("Tulostetaan kaikki tämän kategorian tiedot"); os.println();
-            k.tulosta(os);
-            os.print("\n\n");
-            for (Paasy p: passreg.getPaasyt(k.getTunnusNro())) { 
-                p.tulosta(os);
-                os.println("\n======================================");
+            os.println("Tulostetaan kaikki pääsyt"); os.println();
+            for (int i = 0; i < passreg.getKategoriatLkm(); i++) {
+                Kategoria k = passreg.annaKategoria(i);
+                Collection<Paasy> pst = passreg.getPaasyt(k.getTunnusNro());
+                os.print("");
+                k.tulosta(os); os.println();
+                for (Paasy p : pst) {
+                    p.tulosta(os); os.println("===============================");
+                }
+                os.println();
             }
+            
         }
     }
     
@@ -327,6 +327,7 @@ public class PassregGUIController implements Initializable {
                 if (puu.isRoot(puu.getSelectionModel().getSelectedItem())) valittuKategoria = null;
                 else {
                     valittuKategoria = (Kategoria) t;
+                    paasyChooser.getSelectionModel().select(null);
                     valittuPaasy = null;
                 }
             }

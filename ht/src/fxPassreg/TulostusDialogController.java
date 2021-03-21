@@ -78,7 +78,7 @@ public class TulostusDialogController implements ModalControllerInterface<String
     }
 
     /**
-     * Kun painetaan tulosta-painikkeen, tulostetaan ...
+     * Kun painetaan tulosta-painikkeen, tulostetaan tulostusalueen teksti
      */
     private void handleTulosta() {
         PrinterJob job = PrinterJob.createPrinterJob();
