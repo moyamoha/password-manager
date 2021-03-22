@@ -61,7 +61,7 @@ public class PassregGUIController implements Initializable {
 
     @FXML private void handleLisaaUusiPaasy()   { uusiPaasy(); }
     
-    @FXML private void handleMuokkaaPaasy()     { avaaPaasyDialogTaytettyna(); }
+    @FXML private void handleMuokkaaPaasy()     { muokkaa(); }
     
     @FXML private void handlePoistaPaasy()      { poistaPaasy(); }
     
@@ -153,7 +153,7 @@ public class PassregGUIController implements Initializable {
     /**
      * Avataan pääsyn muokkausikkuna täytettynä valitun pääsyn tiedoilla
      */
-    private void avaaPaasyDialogTaytettyna() {
+    private void muokkaa() {
         PaasyDialogController.naytaPaasyDialog();
     }
 
