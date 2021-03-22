@@ -251,4 +251,13 @@ public class Paasy implements Tietue{
     public boolean oletko(@SuppressWarnings("unused") String ehto, @SuppressWarnings("unused") String kentta) {
         return true;
     }
+    
+    /**
+     * 
+     */
+    @Override
+    public Paasy clone() throws CloneNotSupportedException {
+        Paasy uusi = (Paasy) super.clone();
+        return uusi;
+    }
 }

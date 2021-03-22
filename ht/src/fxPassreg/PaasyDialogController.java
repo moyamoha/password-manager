@@ -16,13 +16,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import passreg.Paasy;
 
 /**
  * @author Yahya
  * @version 5.2.2021
  * Kontrolleri p‰‰sydialogin toimintaa varten
  */
-public class PaasyDialogController implements ModalControllerInterface<String>, Initializable {
+public class PaasyDialogController implements ModalControllerInterface<Paasy>, Initializable {
     
     @FXML private Button generoiButton; 
     @FXML private CheckBox naytaCheckBox;
@@ -34,7 +35,6 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO: T‰h‰n lis‰‰ alustuksia
         Tooltip tooltip = new Tooltip();
         tooltip.setText("Avaa uuden ikkunan, jossa generoidaan antamasi kenttien arvojen mukainen salasana");
         generoiButton.setTooltip(tooltip);
@@ -45,13 +45,13 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
 
     /**
      * N‰ytet‰‰n p‰‰syn muokkausikkuna modaalisena
+     * @return t‰m‰n kontrollerin muokkaama p‰‰sy
      */
-    @FXML
-    public static void naytaPaasyDialog() {
-         ModalController.showModal(
-                PaasyDialogController.class.getResource("PaasyDialogView.fxml"),
-                "muokkaus",
-                null, "");
+    public static Paasy kysyPaasy() {
+         return ModalController.showModal(
+                  PaasyDialogController.class.getResource("PaasyDialogView.fxml"),
+                  "muokkaus",
+                  null, null);
     }
     
     @FXML private void handleCancelButton() {
@@ -73,12 +73,12 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     //                                                        //
     // ########################################################
     
+    
     /**
      * Cancel-buttonin painettua poistutaan ikkunasta, mik‰li tallennattomia tietoja ei ole.
      * Jos tallentamatonta tietoa lˆytyy, kysyt‰‰n k‰ytt‰j‰lt‰ haluaako h‰n varmasti poistua
      */
     private void handleCancel() {
-        // TODO lis‰‰ kysymysdialogi, jossa varmistetaan, ett‰ k‰ytt‰j‰ varmasti haluaa poistua.
         ModalController.closeStage(generoiButton);
     }
     
@@ -151,7 +151,7 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
 
 
     @Override
-    public String getResult() {
+    public Paasy getResult() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -163,9 +163,8 @@ public class PaasyDialogController implements ModalControllerInterface<String>, 
     }
 
     @Override
-    public void setDefault(String arg0) {
-        // TODO Auto-generated method stub
-        
+    public void setDefault(Paasy oletus) {
+        //
     }
     
     

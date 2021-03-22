@@ -154,7 +154,7 @@ public class PassregGUIController implements Initializable {
      * Avataan pääsyn muokkausikkuna täytettynä valitun pääsyn tiedoilla
      */
     private void muokkaa() {
-        PaasyDialogController.naytaPaasyDialog();
+        PaasyDialogController.kysyPaasy();
     }
 
     /**
