@@ -268,7 +268,7 @@ public class Passreg {
             pst.lueTiedostosta(getTiedostonNimi());
             kat.lueTiedostosta(getTiedostonNimi());
         } catch (Exception e) {
-            return; // Ei muuteta kerhoa, jos yksikin tiedostonluku epäonnistuu
+            e.printStackTrace();
         }
         paasyt = pst;
         kategoriat = kat;

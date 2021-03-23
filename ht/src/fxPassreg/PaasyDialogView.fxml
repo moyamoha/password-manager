@@ -11,20 +11,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PaasyDialogController">
+<AnchorPane  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PaasyDialogController">
    <children>
       <Label layoutX="143.0" layoutY="5.0" text="Muokkaa pääsyn tiedot" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="117.0" />
       <Separator layoutY="30.0" prefHeight="2.0" prefWidth="384.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <TextField layoutX="150.0" layoutY="32.0" prefHeight="26.0" prefWidth="214.0" text="facebook" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="40.0" />
-      <TextField layoutX="150.0" layoutY="69.0" prefHeight="26.0" prefWidth="214.0" text="soturi123" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="69.0" />
-      <TextField layoutX="150.0" layoutY="99.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="99.0" />
-      <TextField layoutX="151.0" layoutY="129.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="18.600000000000023" AnchorPane.topAnchor="129.0" />
-      <TextField fx:id="passText1" layoutX="150.0" layoutY="159.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="159.0" />
-      <PasswordField fx:id="passField1" layoutX="150.0" layoutY="159.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="159.0" />
+      <TextField id="1" styleClass="kentta" layoutX="150.0" layoutY="32.0" prefHeight="26.0" prefWidth="214.0" text="" AnchorPane.leftAnchor="149.99999999999997" AnchorPane.rightAnchor="19.599999999999994" AnchorPane.topAnchor="40.0" />
+      <TextField id="2" styleClass="kentta" layoutX="150.0" layoutY="69.0" prefHeight="26.0" prefWidth="214.0" text="" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="69.0" />
+      <TextField id="3" styleClass="kentta" layoutX="150.0" layoutY="99.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="99.0" />
+      <TextField id="4" styleClass="kentta" layoutX="151.0" layoutY="129.0" prefHeight="26.0" prefWidth="214.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="18.600000000000023" AnchorPane.topAnchor="129.0" />
+      <TextField id="5" styleClass="kentta" fx:id="passText1" layoutX="150.0" layoutY="159.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="159.0" />
+      <PasswordField fx:id="passField1" layoutX="150.0" layoutY="159.0" prefHeight="26.0" prefWidth="151.0" text="" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="159.0" />
       <TextField fx:id="passText2" layoutX="150.0" layoutY="190.0" prefHeight="26.0" prefWidth="151.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
-      <PasswordField fx:id="passField2" layoutX="150.0" layoutY="190.0" prefHeight="26.0" prefWidth="151.0" text="12345" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
-      <TextField layoutX="150.0" layoutY="220.0" prefHeight="26.0" prefWidth="214.0" text="www.facebook.com" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="220.0" />
-      <TextArea layoutX="151.0" layoutY="254.0" prefHeight="146.0" prefWidth="214.0" text="facebook tilini" wrapText="true" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="254.0" />
+      <PasswordField fx:id="passField2" layoutX="150.0" layoutY="190.0" prefHeight="26.0" prefWidth="151.0" text="" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
+      <TextField id="6" styleClass="kentta" layoutX="150.0" layoutY="220.0" prefHeight="26.0" prefWidth="214.0" text="" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="220.0" />
+      <TextArea id="7" styleClass="kentta" layoutX="151.0" layoutY="254.0" prefHeight="146.0" prefWidth="214.0" text="" wrapText="true" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="254.0" />
       <Label layoutX="87.0" layoutY="44.0" text="Otsikko" />
       <Label layoutX="102.0" layoutY="254.0" text="Info" />
       <Label layoutX="87.0" layoutY="74.0" text="Tunnus" />

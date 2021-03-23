@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import fi.jyu.mit.ohj2.Mjonot;
 import kanta.Merkkijonot;
 import kanta.Numerot;
+import kanta.Tarkistukset;
 
 /**
  * Rekisterin p‰‰sy, joka osaa itse huolehtia mm. tunnusnumerostaan
@@ -221,13 +222,9 @@ public class Paasy implements Tietue, Cloneable{
         StringBuilder sb = new StringBuilder(rivi);
         setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
         setKid(Mjonot.erota(sb, '|', getKategoriaId()));
-        otsikko = Mjonot.erota(sb, '|', otsikko);
-        tunnus = Mjonot.erota(sb, '|', tunnus);
-        sPosti = Mjonot.erota(sb, '|', sPosti);
-        puhnro = Mjonot.erota(sb, '|', puhnro);
-        salasana = Mjonot.erota(sb, '|', salasana);
-        url = Mjonot.erota(sb, '|', url);
-        info = Mjonot.erota(sb, '|', info);
+        for (int i = ekaKentta(); i < kenttaLkm(); i++) {
+            aseta(i, Mjonot.erota(sb, '|'));
+        }
     }
 
     /**
@@ -293,7 +290,33 @@ public class Paasy implements Tietue, Cloneable{
      * @return virhe, jos arvo ei ole sopiva
      */
     public String aseta(int k, String arvo) {
-        return arvo + k;
+        String s = arvo;
+        switch (k) {
+        case 0:
+            return "ei voi asettaa noin";
+        case 1:
+            if (Tarkistukset.onValidiOtsikko(s))         { otsikko = s; return null; }
+            return "Liian lyhyt otsikko tai v‰‰ri‰ kirjaimia ";
+        case 2: 
+            if (Tarkistukset.onValidiTunnus(s, 5, 30))   { tunnus = s; return null; }
+            return "v‰‰r‰ tunnus";
+        case 3: 
+            if (Tarkistukset.onValidiEmail(s))           { sPosti = s; return null; }
+            return "v‰‰r‰ s‰hkˆpostiosoite";
+        case 4: 
+            if (Tarkistukset.onValidiPuhelinNro(s))      { puhnro = s; return null; }
+            return "v‰‰r‰ puhelinnumero";
+        case 5: 
+            if (Tarkistukset.onValidiSalasana(s, 5, 20)) { salasana = s; return null; }
+            return "v‰‰r‰ tunnus";
+        case 6:
+            url = s; return null;
+        case 7:
+            info = s; return null;
+        default:
+            return null;
+        }
+        
     }
 
     /**
@@ -301,5 +324,17 @@ public class Paasy implements Tietue, Cloneable{
      */
     public int ekaKentta() {
         return 1;
+    }
+    
+    /**
+     * @param p p‰‰sy johon verrataan
+     * @return true jos p‰‰syjen kenttien arvot ovat samoja
+     */
+    public boolean equals(Paasy p) {
+        if (getTunnusNro() != p.getTunnusNro()) return false;
+        for (int i = 0; i <= kenttaLkm(); i++) {
+            if (! anna(i).equals(p.anna(i))) return false;
+        }
+        return true;
     }
 }

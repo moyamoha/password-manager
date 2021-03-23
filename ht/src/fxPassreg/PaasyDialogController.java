@@ -1,11 +1,10 @@
 package fxPassreg;
 
 
+import static fi.jyu.mit.fxgui.Functions.getNodes;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
-
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.beans.binding.BooleanBinding;
@@ -17,8 +16,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import passreg.Paasy;
 
@@ -36,7 +35,6 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     @FXML private TextField passText2;
     @FXML private PasswordField passField2;
     @FXML private Label virheText;
-    @FXML private AnchorPane anchor;
  
     
     @FXML private void handleCancelButton() {
@@ -59,9 +57,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     // ########################################################
     
     private Paasy current;
-    @SuppressWarnings("unused")
-    private TextField[] edits;
-    @SuppressWarnings("unused")
+    private TextInputControl[] edits;
     private static Paasy apuPaasy = new Paasy();
     
     
@@ -72,41 +68,33 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         generoiButton.setTooltip(tooltip);
         hallitseGeneroimista();
         bindSalasanaKentat();
-        /*edits = new TextField[apuPaasy.kenttaLkm()];
-        Collection<Node> solmut =  anchor.getChildren();
-        for (Node solmu : solmut) {
+        Node parent = generoiButton.getParent();
+        edits = new TextInputControl[apuPaasy.kenttaLkm()];
+        Collection<TextInputControl> solmut =  getNodes(parent, TextInputControl.class, 
+                        n -> n.getStyleClass().contains("kentta"), true);
+        for (TextInputControl solmu : solmut) {
             if (solmu.getId() != null) {
-                TextField edit = (TextField) solmu;
-                edits[Integer.valueOf(solmu.getId()) - 1] = edit; // koska id:t tulisi alkaa nollasta
-                edit.setOnKeyReleased(e -> kasitteleMuutosTietueeseen((TextField)(e.getSource())));
+                TextInputControl edit = solmu;
+                String id = edit.getId();
+                edits[Integer.valueOf(id) - 1] = edit; // koska id:t tulisi alkaa nollasta
+                edit.setOnKeyReleased(e -> kasitteleMuutosTietueeseen((TextInputControl)(e.getSource())));
             }
-        }*/
+        }
     }
     
-    /**
-     * Nytetn psyn muokkausikkuna modaalisena
-     * @return tmn kontrollerin muokkaama psy
-     */
-    public static Paasy kysyPaasy() {
-         return ModalController.showModal(
-                  PaasyDialogController.class.getResource("PaasyDialogView.fxml"),
-                  "muokkaus",
-                  null, null);
-    }
-
     
-    @SuppressWarnings("unused")
-    private void kasitteleMuutosTietueeseen(TextField edit) {
+    private void kasitteleMuutosTietueeseen(TextInputControl edit) {
         if (current == null) return;
         String s = edit.getText();
-        String virhe = current.aseta(Integer.valueOf(edit.getId()), s); 
+        int k = Integer.valueOf(edit.getId());
+        String virhe = current.aseta(k, s); 
         if (virhe == null) {
             naytaVirhe(virhe);
         }
+        else naytaVirhe(virhe);
     }
 
     private void naytaVirhe(String virhe) {
-        // TODO Auto-generated method stub
         if ( virhe == null || virhe.isEmpty() ) {
             virheText.setText("");
             return;
@@ -119,11 +107,11 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
      * @param edits tekstikent‰t joihin n‰ytet‰‰n tietueen tiedot
      * @param paasy n‰ytett‰v‰ p‰‰sy
      */
-    public static void naytaPaasy(TextField[] edits, Paasy paasy) {
+    public static void naytaPaasy(TextInputControl[] edits, Paasy paasy) {
         if (paasy == null) return;
         for (int i = paasy.ekaKentta(); i <= paasy.kenttaLkm(); i++) {
             String s = paasy.anna(i);
-            edits[i].setText(s);
+            edits[i-1].setText(s);
         }
     }
 
@@ -193,18 +181,14 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
      */
     private void handleOk() {
         // TODO tallentaa muutokset 
-        if (salasanatTasmaa()) {
-            virheText.setText("");
-            Dialogs.showMessageDialog("Tallennetaan, mutta viel‰ ei toimi!");
+        if ( ! salasanatTasmaa()) {
+            virheText.setText("Salasanat ei t‰sm‰‰");
             return;
         }
-        virheText.setText("Salasanat eiv‰t t‰sm‰‰");
-        Dialogs.showMessageDialog("Tallennetaan, mutta viel‰ ei toimi!");
+        ModalController.closeStage(generoiButton);
     }
     
     private boolean salasanatTasmaa() {
-        // TODO Auto-generated method stub
-        if (! naytaCheckBox.isSelected()) return passField1.getText().equals(passField2.getText()); 
         return passText1.getText().equals(passText2.getText());
     }
 
@@ -219,21 +203,22 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
 
     @Override
     public Paasy getResult() {
-        return null;
+        return current;
     }
 
     @Override
     public void handleShown() {
-        /*for (TextField edit : edits) {
+        for (TextInputControl edit : edits) {
             if (edit.getText().equals("")) edit.requestFocus();
             return;
         }
-        edits[apuPaasy.kenttaLkm() - 1].requestFocus();*/
+        edits[apuPaasy.kenttaLkm() - 1].requestFocus();
     }
 
     @Override
     public void setDefault(Paasy oletus) {
-        // current = oletus;
+        current = oletus;
+        naytaPaasy(edits, oletus);
     }
     
     

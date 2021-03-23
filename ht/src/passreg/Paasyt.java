@@ -218,6 +218,7 @@ public class Paasyt implements Iterable<Paasy> {
         catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
+        muutettu = false;
     }
     
     
@@ -235,6 +236,7 @@ public class Paasyt implements Iterable<Paasy> {
         } catch (FileNotFoundException e) {
             System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei löydy");
         }
+        muutettu = false;
         
     }
     

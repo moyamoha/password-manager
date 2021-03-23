@@ -1,5 +1,7 @@
 package fxPassreg;
 
+import static fi.jyu.mit.fxgui.Functions.getNodes;
+
 import java.awt.Desktop;
 import java.io.PrintStream;
 import java.net.URI;
@@ -7,25 +9,23 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
-import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -47,9 +47,7 @@ public class PassregGUIController implements Initializable {
     @FXML private ComboBoxChooser<String> cbKentat;
     @FXML private TextField passText;
     @FXML private CheckBox naytaCheckBox;
-    @FXML private Hyperlink hyperLink;
     @FXML private ListChooser<Paasy> paasyChooser;
-    @FXML private ScrollPane panelPaasy;
     @FXML private VBox puuVbox;
 
     
@@ -84,7 +82,8 @@ public class PassregGUIController implements Initializable {
     // omaa koodia t‰st‰ eteenp‰in
     
     private Passreg passreg;
-    private TextArea areaPaasy = new TextArea();   // TODO: poistettava
+    private TextInputControl[] edits;
+    private static Paasy apuPaasy = new Paasy();
     private CTreeView<Tietue> puu;
     private Paasy valittuPaasy;
     private Kategoria valittuKategoria;
@@ -92,10 +91,18 @@ public class PassregGUIController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         alustaPuu();
-        hallitseSalasanaKentta();
         alustaPaasyLista();
-        hyperLink.setOnMouseClicked(e -> { avaaLinkki(hyperLink.getText());
-        hyperLink.setStyle("-fx-text-fill:#ff0000;"); } );
+        hallitseSalasanaKentta();
+        Node parent = naytaCheckBox.getParent();
+        edits = new TextInputControl[apuPaasy.kenttaLkm()];
+        Collection<TextInputControl> solmut =  getNodes(parent, TextInputControl.class, 
+                        n -> n.getStyleClass().contains("kentta"), true);
+        for (TextInputControl kentta : solmut) {
+            if (kentta.getId() != null) {
+                String id = kentta.getId();
+                edits[Integer.valueOf(id) - 1] = kentta; // koska id:t tulisi alkaa nollasta
+            }
+        }
     }
 
     /** Tallennetaan muutoksia tiedostoon, mik‰li tallentamattomia muutoksia lˆytyy*/
@@ -128,7 +135,7 @@ public class PassregGUIController implements Initializable {
      * @param tiedosto luettava tiedosto
      */
     private void lueTiedosto(String nimi) {
-        ModalController.getStage(panelPaasy).setTitle("Passreg - " + nimi);
+        //ModalController.getStage(this.passField).setTitle("Passreg - " + nimi);
         passreg.lueTiedostosta(nimi);
         paivitaPuu();
     }
@@ -143,30 +150,32 @@ public class PassregGUIController implements Initializable {
         }
         entry = new Paasy(k.getTunnusNro());
         entry.rekisteroi();
-        entry.taytaGmailTiedoilla();
+        entry = PaasyDialogController.kysyPaasy(null, entry);
+        if (entry == null) return;
         passreg.lisaa(entry);
         valittuPaasy = entry;
         lisaaPaasyPuuhun(entry, entry.getKategoriaId());
         etsiPaasyt();
+        naytaPaasy(entry);
     }
     
     /**
      * Avataan p‰‰syn muokkausikkuna t‰ytettyn‰ valitun p‰‰syn tiedoilla
      */
     private void muokkaa() {
-        PaasyDialogController.kysyPaasy();
-        /*if (valittuPaasy == null) return;
+        if (valittuPaasy == null) return;
         try {
             Paasy p;
             p = valittuPaasy.clone();
             p = PaasyDialogController.kysyPaasy(null, p);
             if (p == null) return;
+            if (p.equals(valittuPaasy)) return;
             passreg.korvaaTaiLisaa(p);
             paivitaPuu();
-            
+            naytaPaasy(p);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
-        }*/
+        }
         
     }
 
@@ -175,12 +184,18 @@ public class PassregGUIController implements Initializable {
      */
     private void poistaPaasy() {
         Paasy poistettava = valittuPaasy;
-        if (poistettava == null) return;
+        if (poistettava == null) {
+            naytaIlmoitus(1.5, AlertType.INFORMATION, "Valitse jokin kategoria");
+            naytaPaasy(null);
+            return;
+        }
         if (Dialogs.showQuestionDialog("Poisto?", "Haluatko varmasti poistaa " + poistettava.getView() + "?", "kyll‰", "ei")) {
             passreg.poistaPaasy(poistettava.getTunnusNro());
             paivitaPuu();
             valittuPaasy = null;
+            valittuKategoria = (Kategoria) puu.getSelectionModel().getSelectedItem().getValue();
             if (paasyChooser.getObjects().contains(poistettava)) etsiPaasyt();
+            naytaPaasy(null);
         }
         else return;
     }
@@ -313,13 +328,14 @@ public class PassregGUIController implements Initializable {
     
     /** Alustetaan paasychooser */
     private void alustaPaasyLista() {
-        panelPaasy.setContent(areaPaasy);
-        panelPaasy.setFitToHeight(true);
         paasyChooser.setOnMouseClicked(e -> { 
-            valittuPaasy = paasyChooser.getSelectedObject();
-            valittuKategoria = null;
-            puu.getSelectionModel().select(null);
-            naytaPaasy();
+            List<Paasy> t = paasyChooser.getObjects();
+            if (t.size() != 0 && t.get(0) != null) {
+                valittuPaasy = paasyChooser.getSelectedObject();
+                puu.getSelectionModel().select(null);
+                naytaPaasy(valittuPaasy);
+            }
+            else return;
         });
     }
     
@@ -332,29 +348,32 @@ public class PassregGUIController implements Initializable {
             Tietue t = puu.getSelectedObject();
             if (t instanceof Paasy) {
                 valittuPaasy = (Paasy) t;
-                valittuKategoria = null;
                 paasyChooser.getSelectionModel().select(null);
-                naytaPaasy();
+                naytaPaasy(valittuPaasy);
             }
             if (t instanceof Kategoria) {
                 if (puu.isRoot(puu.getSelectionModel().getSelectedItem())) valittuKategoria = null;
                 else {
                     valittuKategoria = (Kategoria) t;
                     paasyChooser.getSelectionModel().select(null);
-                    valittuPaasy = null;
                 }
             }
         });
     }
     
-    /** N‰ytet‰‰n p‰‰sy suureen tekstikentt‰‰n. Tilapaisesti*/
-   //TODO: Poistettava kun p‰‰syn tiedot osataan n‰ytt‰‰ kukin kentt‰ omaan tekstikentt‰‰n
-    private void naytaPaasy() {
-        if (valittuPaasy == null) return;
-        areaPaasy.setText("");
-        try (PrintStream ps = TextAreaOutputStream.getTextPrintStream(areaPaasy)) {
-            valittuPaasy.tulosta(ps);
-        };
+    /** N‰ytet‰‰n p‰‰sy tiedot kukin atribuutti omaan tekstikentt‰‰n. 
+     * Salasana n‰ytet‰‰n mustina palloina, mutta k‰ytt‰j‰ voi paljastaa niit‰ halutessaan
+     */
+    private void naytaPaasy(Paasy p) {
+        if (p == null) {
+            for(int i = apuPaasy.ekaKentta(); i <= apuPaasy.kenttaLkm(); i++) {
+                edits[i-1].setText("");
+            }
+            return;
+        }
+        for(int i = apuPaasy.ekaKentta(); i <= apuPaasy.kenttaLkm(); i++) {
+            edits[i-1].setText(p.anna(i));
+        }
     }
     
     /**

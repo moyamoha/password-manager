@@ -56,7 +56,7 @@ public class Tarkistukset {
      * </pre>
      */
     public static boolean onValidiTunnus(String tunnus, int minL , int maxL) {
-        return tunnus.matches("[a-zA-Z0-9]{" + minL + "," + maxL + "}");
+        return tunnus.matches("[a-zA-Z0-9äÄöÖ]{" + minL + "," + maxL + "}");
     }
     
     /**
@@ -87,7 +87,8 @@ public class Tarkistukset {
      * @return true jos otsikko on oikein
      */
     public static boolean onValidiOtsikko(String otsikko) {
-        return otsikko.length() > 0 && otsikko.matches("[a-zA-Z0-9]+");
+        //String eiSallitut = "_?!></&%#.:;,\\*'^~+-\\\\\"=)(\\[\\]{}|$€";
+        return otsikko.length() > 0 && otsikko.matches(".*");
     }
     
 
