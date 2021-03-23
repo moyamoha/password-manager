@@ -38,17 +38,6 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     @FXML private Label virheText;
     @FXML private AnchorPane anchor;
  
-
-    /**
-     * N‰ytet‰‰n p‰‰syn muokkausikkuna modaalisena
-     * @return t‰m‰n kontrollerin muokkaama p‰‰sy
-     */
-    public static Paasy kysyPaasy() {
-         return ModalController.showModal(
-                  PaasyDialogController.class.getResource("PaasyDialogView.fxml"),
-                  "muokkaus",
-                  null, null);
-    }
     
     @FXML private void handleCancelButton() {
         handleCancel();
@@ -70,7 +59,9 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     // ########################################################
     
     private Paasy current;
+    @SuppressWarnings("unused")
     private TextField[] edits;
+    @SuppressWarnings("unused")
     private static Paasy apuPaasy = new Paasy();
     
     
@@ -81,7 +72,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         generoiButton.setTooltip(tooltip);
         hallitseGeneroimista();
         bindSalasanaKentat();
-        edits = new TextField[apuPaasy.kenttaLkm()];
+        /*edits = new TextField[apuPaasy.kenttaLkm()];
         Collection<Node> solmut =  anchor.getChildren();
         for (Node solmu : solmut) {
             if (solmu.getId() != null) {
@@ -89,9 +80,22 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
                 edits[Integer.valueOf(solmu.getId()) - 1] = edit; // koska id:t tulisi alkaa nollasta
                 edit.setOnKeyReleased(e -> kasitteleMuutosTietueeseen((TextField)(e.getSource())));
             }
-        }
+        }*/
     }
     
+    /**
+     * Nytetn psyn muokkausikkuna modaalisena
+     * @return tmn kontrollerin muokkaama psy
+     */
+    public static Paasy kysyPaasy() {
+         return ModalController.showModal(
+                  PaasyDialogController.class.getResource("PaasyDialogView.fxml"),
+                  "muokkaus",
+                  null, null);
+    }
+
+    
+    @SuppressWarnings("unused")
     private void kasitteleMuutosTietueeseen(TextField edit) {
         if (current == null) return;
         String s = edit.getText();
@@ -135,6 +139,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
                   url, "muokkaus", modality, oletus);
          return ctrl;
     }
+    
     
     /**
      * Cancel-buttonin painettua poistutaan ikkunasta, mik‰li tallennattomia tietoja ei ole.
@@ -214,21 +219,21 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
 
     @Override
     public Paasy getResult() {
-        return current;
+        return null;
     }
 
     @Override
     public void handleShown() {
-        for (TextField edit : edits) {
+        /*for (TextField edit : edits) {
             if (edit.getText().equals("")) edit.requestFocus();
             return;
         }
-        edits[apuPaasy.kenttaLkm() - 1].requestFocus();
+        edits[apuPaasy.kenttaLkm() - 1].requestFocus();*/
     }
 
     @Override
     public void setDefault(Paasy oletus) {
-        current = oletus;
+        // current = oletus;
     }
     
     

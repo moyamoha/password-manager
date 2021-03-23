@@ -154,7 +154,8 @@ public class PassregGUIController implements Initializable {
      * Avataan p‰‰syn muokkausikkuna t‰ytettyn‰ valitun p‰‰syn tiedoilla
      */
     private void muokkaa() {
-        if (valittuPaasy == null) return;
+        PaasyDialogController.kysyPaasy();
+        /*if (valittuPaasy == null) return;
         try {
             Paasy p;
             p = valittuPaasy.clone();
@@ -165,7 +166,7 @@ public class PassregGUIController implements Initializable {
             
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
-        }
+        }*/
         
     }
 
