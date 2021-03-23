@@ -38,7 +38,7 @@ import passreg.Tietue;
 /**
  * @author Yahya
  * @version 19.1.2021
- * P√§√§ikkunan kontrolleeri
+ * P‰‰ikkunan kontrolleeri
  */
 public class PassregGUIController implements Initializable {
 
@@ -81,7 +81,7 @@ public class PassregGUIController implements Initializable {
     
    
     // #######################################################
-    // omaa koodia t√§st√§ eteenp√§in
+    // omaa koodia t‰st‰ eteenp‰in
     
     private Passreg passreg;
     private TextArea areaPaasy = new TextArea();   // TODO: poistettava
@@ -98,7 +98,7 @@ public class PassregGUIController implements Initializable {
         hyperLink.setStyle("-fx-text-fill:#ff0000;"); } );
     }
 
-    /** Tallennetaan muutoksia tiedostoon, mik√§li tallentamattomia muutoksia l√∂ytyy*/
+    /** Tallennetaan muutoksia tiedostoon, mik‰li tallentamattomia muutoksia lˆytyy*/
     private void tallenna() {
         if (! passreg.onMuutettu()) naytaIlmoitus(1.5, AlertType.INFORMATION, "Ei tallentamattomia muutoksia");
         else {
@@ -109,7 +109,7 @@ public class PassregGUIController implements Initializable {
     
     /**
      * Avataan luettava tiedosto ja palautetaan true jos avaaminen onnistuu
-     * @param onEkaKerta kertoo missa vaiheessa avaaminen tapahtuu. </br>Pit√§isi olla true jos avataan tiedosto ohjelman k√§ynnistyess√§
+     * @param onEkaKerta kertoo missa vaiheessa avaaminen tapahtuu. </br>Pit‰isi olla true jos avataan tiedosto ohjelman k‰ynnistyess‰
      * @return true jos avaaminen onnistui
      */
     public boolean avaaTiedosto(boolean onEkaKerta) {
@@ -117,14 +117,14 @@ public class PassregGUIController implements Initializable {
         if (uusTiedostonNimi == null) return false;
         if (uusTiedostonNimi.equals("")) uusTiedostonNimi = "passreg";
         if (!onEkaKerta) {
-            tallenna();  // Tallennetaan ettei menetett√§isi nykyisen rekisterin tietoja
+            tallenna();  // Tallennetaan ettei menetett‰isi nykyisen rekisterin tietoja
         }
         lueTiedosto(uusTiedostonNimi);
         return true;
     }
     
     /**
-     * Luetaan tiedoston sis√§lt√∂√§
+     * Luetaan tiedoston sis‰ltˆ‰
      * @param tiedosto luettava tiedosto
      */
     private void lueTiedosto(String nimi) {
@@ -133,7 +133,7 @@ public class PassregGUIController implements Initializable {
         paivitaPuu();
     }
   
-    /** Luodaan uusi p√§√§sy ja lis√§t√§√§n rekisteriin sek√§ puun√§kym√§√§n n√§kyv√§ksi*/
+    /** Luodaan uusi p‰‰sy ja lis‰t‰‰n rekisteriin sek‰ puun‰kym‰‰n n‰kyv‰ksi*/
     private void uusiPaasy() {
         Kategoria k = valittuKategoria;
         Paasy entry;
@@ -151,19 +151,31 @@ public class PassregGUIController implements Initializable {
     }
     
     /**
-     * Avataan p√§√§syn muokkausikkuna t√§ytettyn√§ valitun p√§√§syn tiedoilla
+     * Avataan p‰‰syn muokkausikkuna t‰ytettyn‰ valitun p‰‰syn tiedoilla
      */
     private void muokkaa() {
-        PaasyDialogController.kysyPaasy();
+        if (valittuPaasy == null) return;
+        try {
+            Paasy p;
+            p = valittuPaasy.clone();
+            p = PaasyDialogController.kysyPaasy(null, p);
+            if (p == null) return;
+            passreg.korvaaTaiLisaa(p);
+            paivitaPuu();
+            
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     /**
-     * Poistetaan valittu p√§√§sy. Ennen varsinaista poistoa, kysyt√§√§n josko k√§ytt√§j√§ on varma toiminnasta.
+     * Poistetaan valittu p‰‰sy. Ennen varsinaista poistoa, kysyt‰‰n josko k‰ytt‰j‰ on varma toiminnasta.
      */
     private void poistaPaasy() {
         Paasy poistettava = valittuPaasy;
         if (poistettava == null) return;
-        if (Dialogs.showQuestionDialog("Poisto?", "Haluatko varmasti poistaa " + poistettava.getView() + "?", "kyll√§", "ei")) {
+        if (Dialogs.showQuestionDialog("Poisto?", "Haluatko varmasti poistaa " + poistettava.getView() + "?", "kyll‰", "ei")) {
             passreg.poistaPaasy(poistettava.getTunnusNro());
             paivitaPuu();
             valittuPaasy = null;
@@ -172,7 +184,7 @@ public class PassregGUIController implements Initializable {
         else return;
     }
 
-    /** Avataan kategorian muokkaikkuna tyhj√§n√§ */
+    /** Avataan kategorian muokkaikkuna tyhj‰n‰ */
     private void lisaaUusiKategoria() {
         Kategoria k = new Kategoria();
         k.rekisteroi();
@@ -181,7 +193,7 @@ public class PassregGUIController implements Initializable {
         valittuKategoria = k;
     }
     
-    /** Avataan kategorian muokkausikkuna t√§ytettyn√§ valitun kategorian nimell√§ */
+    /** Avataan kategorian muokkausikkuna t‰ytettyn‰ valitun kategorian nimell‰ */
     private void muokkaaKategoria() {
         KategoriaDialogController kdc = new KategoriaDialogController();
         kdc.naytaKategoriaDialog();
@@ -193,8 +205,8 @@ public class PassregGUIController implements Initializable {
         if (v == null) {
             naytaIlmoitus(1.5, AlertType.INFORMATION, "Valitse jokin kategoria!!"); return;
         }
-        String viesti = "Haluatko varmasti poistaa " + v.getView() + "? T√§m√§n poistaminen poistaa kaikki t√§h√§n kategoriaan kuuluvat p√§√§syt!!!"; 
-        if (Dialogs.showQuestionDialog("Poisto?", viesti, "kyll√§", "ei")) {
+        String viesti = "Haluatko varmasti poistaa " + v.getView() + "? T‰m‰n poistaminen poistaa kaikki t‰h‰n kategoriaan kuuluvat p‰‰syt!!!"; 
+        if (Dialogs.showQuestionDialog("Poisto?", viesti, "kyll‰", "ei")) {
             passreg.poistaKategoria(v.getTunnusNro());
             puu.remove(v);
             puu.getSelectionModel().select(null);
@@ -205,12 +217,12 @@ public class PassregGUIController implements Initializable {
     }
     
     /**
-     *  Ohjataan k√§ytt√§j√§ tarkempaa dokumentaatiota n√§ytt√§v√§√§n web-sivuun.
+     *  Ohjataan k‰ytt‰j‰ tarkempaa dokumentaatiota n‰ytt‰v‰‰n web-sivuun.
      */
     private void haeApua() { avaaLinkki("https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/moyamoha#mtypuo4cyMgg"); }
     
     /**
-     * Etsit√§√§n p√§√§syt ja lajitellaan annetun hakukent√§n ja hakuehdon mukaan.
+     * Etsit‰‰n p‰‰syt ja lajitellaan annetun hakukent‰n ja hakuehdon mukaan.
      */
     private void etsiPaasyt() {
         String kentta = hakuKentta.getText();
@@ -232,12 +244,12 @@ public class PassregGUIController implements Initializable {
         if (voiSulkea()) Platform.exit();
     }
     
-    /** Avataan tulostusikkuna ja listataan kategoriat p√§√§syineen valmiiksi tulostettavaksi*/
+    /** Avataan tulostusikkuna ja listataan kategoriat p‰‰syineen valmiiksi tulostettavaksi*/
     private void tulosta() {
         TulostusDialogController tulostusCtrl = TulostusDialogController.tulosta();
         TextArea alue = tulostusCtrl.getTextArea();
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(alue)) {
-            os.println("Tulostetaan kaikki p√§√§syt"); os.println();
+            os.println("Tulostetaan kaikki p‰‰syt"); os.println();
             for (int i = 0; i < passreg.getKategoriatLkm(); i++) {
                 Kategoria k = passreg.annaKategoria(i);
                 Collection<Paasy> pst = passreg.getPaasyt(k.getTunnusNro());
@@ -253,8 +265,8 @@ public class PassregGUIController implements Initializable {
     }
     
     //############# 
-    // T√§st√§ eteenp√§in tulee l√§hinn√§ apumetodit
-    // TODO: siirr√§ muut apuMetodit t√§h√§n
+    // T‰st‰ eteenp‰in tulee l‰hinn‰ apumetodit
+    // TODO: siirr‰ muut apuMetodit t‰h‰n
 
     /**
      * Asetetaan kontrollerille salasanarekisteri
@@ -265,10 +277,10 @@ public class PassregGUIController implements Initializable {
     }
     
     /**
-     * N√§ytet√§√§n ilmoitus ruudulle. 
-     * @param aika kauanko ilmoitus j√§√§
-     * @param tyyppi mink√§tyyppinen ilmoitus
-     * @param teksti mik√§ on ilmoituksen sis√§lt√∂
+     * N‰ytet‰‰n ilmoitus ruudulle. 
+     * @param aika kauanko ilmoitus j‰‰
+     * @param tyyppi mink‰tyyppinen ilmoitus
+     * @param teksti mik‰ on ilmoituksen sis‰ltˆ
      */
     private void naytaIlmoitus(double aika, AlertType tyyppi, String teksti) {
         Alert alert = new Alert(tyyppi);
@@ -290,7 +302,7 @@ public class PassregGUIController implements Initializable {
         catch (Exception e) {return;} 
     }
     
-    /** N√§ytet√§√§n p√§√§syt paasyChooser:iin */
+    /** N‰ytet‰‰n p‰‰syt paasyChooser:iin */
     private void naytaPaasytListaan(Collection<Paasy> pst) {
         paasyChooser.clear();
         for (Paasy p : pst) {
@@ -310,7 +322,7 @@ public class PassregGUIController implements Initializable {
         });
     }
     
-    /** Alustaa puun√§kym√§ */
+    /** Alustaa puun‰kym‰ */
     private void alustaPuu() {
         puu = new CTreeView<Tietue>(new Kategoria(), "Kategoriat");
         puuVbox.getChildren().add(puu);
@@ -334,8 +346,8 @@ public class PassregGUIController implements Initializable {
         });
     }
     
-    /** N√§ytet√§√§n p√§√§sy suureen tekstikentt√§√§n. Tilapaisesti*/
-   //TODO: Poistettava kun p√§√§syn tiedot osataan n√§ytt√§√§ kukin kentt√§ omaan tekstikentt√§√§n
+    /** N‰ytet‰‰n p‰‰sy suureen tekstikentt‰‰n. Tilapaisesti*/
+   //TODO: Poistettava kun p‰‰syn tiedot osataan n‰ytt‰‰ kukin kentt‰ omaan tekstikentt‰‰n
     private void naytaPaasy() {
         if (valittuPaasy == null) return;
         areaPaasy.setText("");
@@ -345,17 +357,17 @@ public class PassregGUIController implements Initializable {
     }
     
     /**
-     * Kysyt√§√§n k√§ytt√§j√§lt√§ onko h√§n varma ohjelman sulkemisesta
-     * @return true jos tallentamattomia muutoksia l√∂ytyi tai 
+     * Kysyt‰‰n k‰ytt‰j‰lt‰ onko h‰n varma ohjelman sulkemisesta
+     * @return true jos tallentamattomia muutoksia lˆytyi tai 
      */
     public boolean voiSulkea() {
         if (passreg.onMuutettu()) {
             return Dialogs.showQuestionDialog("Suljetaanko?", 
-                    "Tallentamattomia muutoksia l√∂ytyi! Haluatko silti sulkea ohjelman?", "kyll√§", "ei");
+                    "Tallentamattomia muutoksia lˆytyi! Haluatko silti sulkea ohjelman?", "kyll‰", "ei");
         } return true;
     }
     
-    /** Kytket√§√§n passText ja passFied -kent√§t toisiins√§. Eli molemmilla tulee olemaan sama teksti. */
+    /** Kytket‰‰n passText ja passFied -kent‰t toisiins‰. Eli molemmilla tulee olemaan sama teksti. */
     private void hallitseSalasanaKentta() {
         passText.textProperty().bindBidirectional(passField.textProperty());
         BooleanBinding bb = new BooleanBinding() {
@@ -369,9 +381,9 @@ public class PassregGUIController implements Initializable {
     }
     
     /**
-     * Lis√§t√§√§n yksitt√§inen p√§√§sy puuhun
-     * @param p lis√§tt√§v√§ p√§√§sy
-     * @param kategoriaId lis√§tt√§v√§n p√§√§syn kategorian tunnusnumero
+     * Lis‰t‰‰n yksitt‰inen p‰‰sy puuhun
+     * @param p lis‰tt‰v‰ p‰‰sy
+     * @param kategoriaId lis‰tt‰v‰n p‰‰syn kategorian tunnusnumero
      */
     private void lisaaPaasyPuuhun(Paasy p, int kategoriaId) {
         for (TreeItem<Tietue> item : puu.getRoot().getChildren()) {

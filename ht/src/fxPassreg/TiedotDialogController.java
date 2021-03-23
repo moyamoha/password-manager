@@ -3,6 +3,8 @@
  */
 package fxPassreg;
 
+import java.net.URL;
+
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
@@ -21,7 +23,8 @@ public class TiedotDialogController implements ModalControllerInterface<String> 
      * N‰ytet‰‰n ohjelman tietoja sis‰lt‰v‰ ikkuna.
      */
     @FXML public static void naytaAboutDialog() {
-        ModalController.showModal(TiedotDialogController.class.getResource("PassregTiedotView.fxml"), "About us" , null, "");    
+        URL url = TiedotDialogController.class.getResource("PassregTiedotView.fxml");
+        ModalController.showModal(url, "About us" , null, "");    
     }
       
     /**

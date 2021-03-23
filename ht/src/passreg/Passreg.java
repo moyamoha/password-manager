@@ -340,4 +340,11 @@ public class Passreg {
     public Collection<Paasy> getPaasyt(String ehto, String kentta) {
         return paasyt.getPaasyt(ehto, kentta);
     }
+
+    /**
+     * @param p korvattava tai lis‰tt‰v‰ p‰‰sy
+     */
+    public void korvaaTaiLisaa(Paasy p) {
+        paasyt.korvaaTaiLisaa(p);
+    }
 }

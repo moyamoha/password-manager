@@ -373,4 +373,20 @@ public class Paasyt implements Iterable<Paasy> {
         return pst;
     }
 
+    /**
+     * @param p korvattava tai lis‰tt‰v‰ p‰‰sy
+     */
+    public void korvaaTaiLisaa(Paasy p) {
+        if (p == null) return;
+        int nro = p.getTunnusNro();
+        for (int i = 0; i < getLkm(); i++) {
+            if (alkiot[i].getTunnusNro() == nro) {
+                alkiot[i] = p;
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(p);
+    }
+
 }

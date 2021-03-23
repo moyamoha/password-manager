@@ -31,7 +31,7 @@ import kanta.Numerot;
  * @author Yahya
  * @version 17.2.2021
  */
-public class Paasy implements Tietue{
+public class Paasy implements Tietue, Cloneable{
     
     private int         tunnusNro       = 0 ;
     private int         kID             = 0 ;
@@ -259,5 +259,47 @@ public class Paasy implements Tietue{
     public Paasy clone() throws CloneNotSupportedException {
         Paasy uusi = (Paasy) super.clone();
         return uusi;
+    }
+
+    /**
+     * @return kenttien lukum‰‰r‰n
+     */
+    public int kenttaLkm() {
+        return 7;
+    }
+    
+    /**
+     * @param k kent‰n j‰rjestys
+     * @return k:nnes kent‰n arvo
+     */
+    public String anna(int k) {
+        switch (k) {
+        case 0: return "" + kID;
+        case 1: return otsikko;
+        case 2: return tunnus;
+        case 3: return sPosti;
+        case 4: return puhnro;
+        case 5: return salasana;
+        case 6: return url;
+        case 7: return info;
+        default:
+            return "ei mit‰‰n";
+        }
+    }
+
+    /**
+     * @param k kent‰n numero
+     * @param arvo mik‰ tulee asetettua kent‰n arvoksi
+     * @return virhe, jos arvo ei ole sopiva
+     */
+    public String aseta(int k, String arvo) {
+        return arvo + k;
+    }
+
+    /**
+     * @return ekan kent‰n numero
+     */
+    public int ekaKentta() {
+        return 1;
     }
 }
