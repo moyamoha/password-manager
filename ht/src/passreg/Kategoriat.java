@@ -293,5 +293,20 @@ public class Kategoriat implements Iterable<Kategoria> {
      */
     public void setMuutettu(boolean b)   { muutettu = b; }
 
+    /**
+     * @param k korvattava tai lisättävä kategoria
+     */
+    public void korvaaTaiLisaa(Kategoria k) {
+        if (k == null) return;
+        for (int i = 0; i < getLkm(); i++) {
+            if (alkiot.get(i).getTunnusNro() == k.getTunnusNro()) {
+                alkiot.set(i, k);
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(k);
+    }
+
 }
 

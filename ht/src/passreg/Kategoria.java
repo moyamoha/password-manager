@@ -6,7 +6,7 @@ package passreg;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import fi.jyu.mit.ohj2.Mjonot;
-import kanta.Merkkijonot;
+import kanta.Tarkistukset;
 
 /**
  * <pre>
@@ -29,7 +29,7 @@ import kanta.Merkkijonot;
  * @version 1.3.2021
  *
  */
-public class Kategoria implements Tietue {
+public class Kategoria implements Tietue, Cloneable {
     
     private String nimi     = "";
     private int tunnusNro;
@@ -53,8 +53,7 @@ public class Kategoria implements Tietue {
      * oletus-muodostaja
      */
     public Kategoria() {
-        // Testauksen vuoksi. TODO: poistetaan
-        this.nimi = Merkkijonot.generoiKNimi();
+        //
     }
     
     
@@ -138,9 +137,14 @@ public class Kategoria implements Tietue {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getTunnusNro()); sb.append("|");
-        sb.append(getNimi());
+        StringBuilder sb = new StringBuilder("");
+        sb.append(tunnusNro + "|"); 
+        String erotin = "";
+        for (int k = ekaKentta(); k <= kenttaLkm(); k++) {
+            sb.append(erotin);
+            sb.append(anna(k));
+            erotin = "|";
+        }
         return sb.toString();
     }
     
@@ -161,14 +165,15 @@ public class Kategoria implements Tietue {
      *   k.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
      *   k.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
      *   k.getTunnusNro() === n+20+1;
-     *     
      * </pre>
      */
     @Override
     public void parse(String rivi) {
         StringBuilder sb = new StringBuilder(rivi);
         setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
-        nimi = Mjonot.erota(sb, '|', nimi);
+        for (int i = ekaKentta(); i <= kenttaLkm(); i++) {
+            aseta(i, Mjonot.erota(sb, '|'));
+        }
     }
 
     /**
@@ -186,7 +191,62 @@ public class Kategoria implements Tietue {
         return getNimi();
     }
     
+    /**
+     * @return 1 eli ensimmäisen kentän järjestysluku
+     */
+    @Override
+    public int ekaKentta() { return 1; }
     
+    /**
+     * @return 1 koska tällä on pelkästään yksi kenttä
+     */
+    @Override
+    public int kenttaLkm() { return 1; }
+    
+    
+    @Override
+    public String aseta(int k, String arvo) {
+        String s = arvo.trim();
+        switch (k) {
+        case 1:
+            if (Tarkistukset.onValidiOtsikko(arvo)) {nimi = s; return null; }
+            return "väärä nimi";
+        default:
+            return null;
+        }
+        
+    }
+
+    @Override
+    public String anna(int k) {
+        switch (k) {
+        case 0:
+            return "" + getTunnusNro();
+        case 1:
+            return nimi;
+        default:
+            return null;
+        }
+    }
+    
+    @Override
+    public Kategoria clone() throws CloneNotSupportedException {
+        Kategoria k;
+        k = (Kategoria) super.clone();
+        return k;
+    }
+    
+    /**
+     * @param kat kategoria johon verrataan
+     * @return true jos molemmat samoja
+     */
+    public boolean equals(Kategoria kat) {
+        if (kat.getTunnusNro() != this.getTunnusNro()) return false;
+        for (int k = ekaKentta(); k <= kenttaLkm(); k++) {
+            if ( ! anna(k).equals(kat.anna(k))) return false;
+        }
+        return true;
+    }
     
 }
  

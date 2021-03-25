@@ -38,7 +38,7 @@ public class Tarkistukset {
      * </pre>
      */
     public static boolean onValidiEmail(String email) {
-        return email.matches("[a-z0-9A-z_.]{6,30}@[a-z.]+[^.]");
+        return email.matches("[a-z0-9A-z_.]{6,30}@[a-z.]+[^.]") || email.length() == 0;
     }
     
     /**
@@ -56,7 +56,7 @@ public class Tarkistukset {
      * </pre>
      */
     public static boolean onValidiTunnus(String tunnus, int minL , int maxL) {
-        return tunnus.matches("[a-zA-Z0-9äÄöÖ]{" + minL + "," + maxL + "}");
+        return tunnus.matches("[a-zA-Z0-9äÄöÖ]{" + minL + "," + maxL + "}") || tunnus.length() == 0;
     }
     
     /**
@@ -69,7 +69,7 @@ public class Tarkistukset {
      * </pre>
      */
     public static boolean onValidiPuhelinNro(String puhNro) {
-        return puhNro.matches("0{1}[1-9]{1}[1-9]{5,10}");
+        return puhNro.matches("0{1}[1-9]{1}[1-9]{5,10}") || puhNro.length() == 0;
     }
     
     /**

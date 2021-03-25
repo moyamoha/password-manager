@@ -149,9 +149,9 @@ public class PassregGUIController implements Initializable {
             return;
         }
         entry = new Paasy(k.getTunnusNro());
-        entry.rekisteroi();
         entry = PaasyDialogController.kysyPaasy(null, entry);
         if (entry == null) return;
+        entry.rekisteroi();
         passreg.lisaa(entry);
         valittuPaasy = entry;
         lisaaPaasyPuuhun(entry, entry.getKategoriaId());
@@ -203,6 +203,7 @@ public class PassregGUIController implements Initializable {
     /** Avataan kategorian muokkaikkuna tyhjänä */
     private void lisaaUusiKategoria() {
         Kategoria k = new Kategoria();
+        k = KategoriaDialogController.kysyKategoria(null, k);
         k.rekisteroi();
         passreg.lisaa(k);
         puu.add(k, k.getView());
@@ -211,8 +212,18 @@ public class PassregGUIController implements Initializable {
     
     /** Avataan kategorian muokkausikkuna täytettynä valitun kategorian nimellä */
     private void muokkaaKategoria() {
-        KategoriaDialogController kdc = new KategoriaDialogController();
-        kdc.naytaKategoriaDialog();
+        if (valittuKategoria == null) {
+            naytaIlmoitus(1.5, AlertType.INFORMATION, "Valitse jokin kategoria"); return;
+        }
+        try {
+            Kategoria k = valittuKategoria.clone();
+            k = KategoriaDialogController.kysyKategoria(null, k);
+            if (k == null) return;
+            passreg.korvaaTaiLisaa(k);
+            paivitaPuu();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
     
     /** Poistetaan valittu kategoria */
@@ -298,7 +309,7 @@ public class PassregGUIController implements Initializable {
      * @param tyyppi minkätyyppinen ilmoitus
      * @param teksti mikä on ilmoituksen sisältö
      */
-    private void naytaIlmoitus(double aika, AlertType tyyppi, String teksti) {
+    public static void naytaIlmoitus(double aika, AlertType tyyppi, String teksti) {
         Alert alert = new Alert(tyyppi);
         alert.setHeaderText(null); alert.setContentText(teksti);
         PauseTransition delay = new PauseTransition(Duration.seconds(aika));

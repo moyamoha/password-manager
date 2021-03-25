@@ -1,13 +1,16 @@
 package fxPassreg;
 
-
 import static fi.jyu.mit.fxgui.Functions.getNodes;
 import java.net.URL;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -18,6 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import passreg.Paasy;
 
@@ -51,67 +55,69 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     
 
     // ########################################################
-    //                                                        //
     //                    methods                             //
-    //                                                        //
     // ########################################################
     
     private Paasy current;
-    private TextInputControl[] edits;
+    private ArrayList<TextInputControl> edits;
     private static Paasy apuPaasy = new Paasy();
     
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        Tooltip tooltip = new Tooltip();
-        tooltip.setText("Avaa uuden ikkunan, jossa generoidaan antamasi kenttien arvojen mukainen salasana");
+        Tooltip tooltip = new Tooltip("Avaa uuden ikkunan, jossa generoidaan antamasi kenttien arvojen mukainen salasana");
         generoiButton.setTooltip(tooltip);
         hallitseGeneroimista();
         bindSalasanaKentat();
         Node parent = generoiButton.getParent();
-        edits = new TextInputControl[apuPaasy.kenttaLkm()];
-        Collection<TextInputControl> solmut =  getNodes(parent, TextInputControl.class, 
+        edits =  (ArrayList<TextInputControl>) getNodes(parent, TextInputControl.class, 
                         n -> n.getStyleClass().contains("kentta"), true);
-        for (TextInputControl solmu : solmut) {
+        for (TextInputControl solmu : edits) {
             if (solmu.getId() != null) {
-                TextInputControl edit = solmu;
-                String id = edit.getId();
-                edits[Integer.valueOf(id) - 1] = edit; // koska id:t tulisi alkaa nollasta
-                edit.setOnKeyReleased(e -> kasitteleMuutosTietueeseen((TextInputControl)(e.getSource())));
+                String id = solmu.getId();
+                solmu.textProperty().addListener(new ChangeListener<String>() {
+                    @Override 
+                    public void changed(ObservableValue<? extends String> ov, String vanha, String uusi) {                
+                        if (current == null) return;
+                        try {
+                            String virhe = current.aseta(Integer.valueOf(id), uusi);
+                            if (virhe == null) {
+                                naytaVirhe(virhe);
+                                solmu.setStyle("-fx-background-color: #ffffff");
+                                return;
+                            }
+                            solmu.getStyleClass().add("virhe");
+                            solmu.setStyle("-fx-background-color: #ff0000");
+                            naytaVirhe(virhe);
+                            return;  
+                        }
+                        catch (NumberFormatException e) { return; }
+                }});
             }
         }
     }
-    
-    
-    private void kasitteleMuutosTietueeseen(TextInputControl edit) {
-        if (current == null) return;
-        String s = edit.getText();
-        int k = Integer.valueOf(edit.getId());
-        String virhe = current.aseta(k, s); 
-        if (virhe == null) {
-            naytaVirhe(virhe);
-        }
-        else naytaVirhe(virhe);
-    }
 
+    /**
+     * Naytetaan virhe punaisena tekstina
+     * @param virhe
+     */
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
             virheText.setText("");
             return;
         }
         virheText.setText(virhe);
-        virheText.getStyleClass().add("virhe");
     }
 
     /**
      * @param edits tekstikent‰t joihin n‰ytet‰‰n tietueen tiedot
      * @param paasy n‰ytett‰v‰ p‰‰sy
      */
-    public static void naytaPaasy(TextInputControl[] edits, Paasy paasy) {
+    public static void naytaPaasy(ArrayList<TextInputControl> edits, Paasy paasy) {
         if (paasy == null) return;
-        for (int i = paasy.ekaKentta(); i <= paasy.kenttaLkm(); i++) {
+        for (int i = apuPaasy.ekaKentta(); i <= apuPaasy.kenttaLkm(); i++) {
             String s = paasy.anna(i);
-            edits[i-1].setText(s);
+            edits.get(i-1).setText(s);
         }
     }
 
@@ -134,6 +140,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
      * Jos tallentamatonta tietoa lˆytyy, kysyt‰‰n k‰ytt‰j‰lt‰ haluaako h‰n varmasti poistua
      */
     private void handleCancel() {
+        current = null;
         ModalController.closeStage(generoiButton);
     }
     
@@ -180,14 +187,33 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
      * Mik‰li tallennettavia muutoksia ei ole, poistutaan ikkunasta.
      */
     private void handleOk() {
-        // TODO tallentaa muutokset 
-        if ( ! salasanatTasmaa()) {
-            virheText.setText("Salasanat ei t‰sm‰‰");
+        for (TextInputControl edit : edits) {
+            try {
+                int id = Integer.valueOf(edit.getId());
+                if (! current.onValidi(id, edit.getText())) {
+                    PassregGUIController.naytaIlmoitus(1.5, AlertType.ERROR, "T‰yt‰ pakolliset kent‰t oikeilla arvoilla!");
+                    return;
+                }
+            } catch (NumberFormatException e2) {
+                //
+            }
+        }
+        String[] pakolliset = {
+                edits.get(1).getText(), edits.get(2).getText(), edits.get(3).getText()  
+        };
+        List<String> pakollisetList = Arrays.asList(pakolliset);
+        if (pakollisetList.stream().allMatch(e -> e.equals(""))) { // Varmistetaan, ett‰ v‰hint‰‰n yksi k‰ytt‰j‰tunnusta esitt‰v‰ kentt‰ t‰ytet‰‰n
+            virheText.setText("Jokin n‰ist‰ pit‰‰ olla t‰ytettyn‰: tunnus, s‰hkˆposti tai puhelinnumero");
             return;
         }
+        if ( ! salasanatTasmaa()) {  virheText.setText("Salasanat ei t‰sm‰‰"); return; }
         ModalController.closeStage(generoiButton);
     }
     
+    /**
+     * Tutkitaan t‰sm‰‰kˆ salasanakenttien arvot.
+     * @return
+     */
     private boolean salasanatTasmaa() {
         return passText1.getText().equals(passText2.getText());
     }
@@ -208,11 +234,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
 
     @Override
     public void handleShown() {
-        for (TextInputControl edit : edits) {
-            if (edit.getText().equals("")) edit.requestFocus();
-            return;
-        }
-        edits[apuPaasy.kenttaLkm() - 1].requestFocus();
+        //
     }
 
     @Override

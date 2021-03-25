@@ -81,6 +81,8 @@ public class Paasyt implements Iterable<Paasy> {
         gmail4.tulosta(System.out);
         
         paasyt.lisaa(gmail4);
+        int luku = 0x23;
+        System.out.println(luku);
     }
     
     

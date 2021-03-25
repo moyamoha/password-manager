@@ -38,7 +38,34 @@ public interface Tietue {
     public String toString();
     
     /**
-     * @return tiedon merkkijonoesityksen eli miltä se näyttäisin käyttöliittymässä
+     * @return tiedon merkkijonoesityksen eli miltä se näyttäisi käyttöliittymässä
      */
     public String getView();
+    
+    /**
+     * Asetetaan k:nnennen kentän arvo
+     * @param k kentän numero
+     * @param arvo asetettava arvo
+     * @return virheen jos asettaminen ei onnistu
+     */
+    public String aseta(int k, String arvo);
+    
+    /**
+     * Palautetaan k:nnennen kentän arvo
+     * @param k kentän numero
+     * @return kentän arvo
+     */
+    public String anna(int k);
+    
+    /**
+     * @return ensimmäisen muokattavissa olevan kentän numero 
+     */
+    public int ekaKentta();
+    
+    /**
+     * Palautetaan montako kenttä tietueellä on
+     * @return muokattavien kenttien lukumäärä, 
+     */
+    public int kenttaLkm();
+    
 }

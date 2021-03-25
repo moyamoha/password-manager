@@ -184,16 +184,15 @@ public class Paasy implements Tietue, Cloneable{
      */
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(tunnusNro); sb.append("|");
-        sb.append(kID); sb.append("|");
-        sb.append(otsikko); sb.append("|");
-        sb.append(tunnus); sb.append("|");
-        sb.append(sPosti); sb.append("|");
-        sb.append(puhnro); sb.append("|");
-        sb.append(salasana); sb.append("|");
-        sb.append(url); sb.append("|");
-        sb.append(info);
+        StringBuilder sb = new StringBuilder("");
+        sb.append(tunnusNro+ "|"); 
+        sb.append(kID + "|");
+        String erotin = "";
+        for (int k = ekaKentta(); k <= kenttaLkm(); k++) {
+            sb.append(erotin);
+            sb.append(anna(k));
+            erotin = "|";
+        }
         return sb.toString();
     }
     
@@ -222,7 +221,7 @@ public class Paasy implements Tietue, Cloneable{
         StringBuilder sb = new StringBuilder(rivi);
         setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
         setKid(Mjonot.erota(sb, '|', getKategoriaId()));
-        for (int i = ekaKentta(); i < kenttaLkm(); i++) {
+        for (int i = ekaKentta(); i <= kenttaLkm(); i++) {
             aseta(i, Mjonot.erota(sb, '|'));
         }
     }
@@ -230,7 +229,7 @@ public class Paasy implements Tietue, Cloneable{
     /**
      * @param kID kategorian id, joka asetetaan t‰ll‰ p‰‰sylle
      */
-    public void setKid(int kID) {
+    private void setKid(int kID) {
         if (kID >= 0) this.kID = kID;
         return;
     }
@@ -261,6 +260,7 @@ public class Paasy implements Tietue, Cloneable{
     /**
      * @return kenttien lukum‰‰r‰n
      */
+    @Override
     public int kenttaLkm() {
         return 7;
     }
@@ -269,6 +269,7 @@ public class Paasy implements Tietue, Cloneable{
      * @param k kent‰n j‰rjestys
      * @return k:nnes kent‰n arvo
      */
+    @Override
     public String anna(int k) {
         switch (k) {
         case 0: return "" + kID;
@@ -289,8 +290,9 @@ public class Paasy implements Tietue, Cloneable{
      * @param arvo mik‰ tulee asetettua kent‰n arvoksi
      * @return virhe, jos arvo ei ole sopiva
      */
+    @Override
     public String aseta(int k, String arvo) {
-        String s = arvo;
+        String s = arvo.trim();
         switch (k) {
         case 0:
             return "ei voi asettaa noin";
@@ -308,20 +310,47 @@ public class Paasy implements Tietue, Cloneable{
             return "v‰‰r‰ puhelinnumero";
         case 5: 
             if (Tarkistukset.onValidiSalasana(s, 5, 20)) { salasana = s; return null; }
-            return "v‰‰r‰ tunnus";
+            return "Salasanan vaadittu pituus on v‰lill‰ 5-20";
         case 6:
             url = s; return null;
-        case 7:
+         case 7:
             info = s; return null;
         default:
             return null;
         }
-        
+    }
+    
+    /**
+     * @param k k:nnennen kent‰n numero
+     * @param arvo kent‰n arvo/tuleva arvo
+     * @return true jos on sopiva arvo
+     */
+    public boolean onValidi(int k, String arvo) {
+        String s = arvo.trim();
+        switch (k) {
+        case 1:
+            return Tarkistukset.onValidiOtsikko(s);
+        case 2: 
+            return Tarkistukset.onValidiTunnus(s, 5, 30);
+        case 3: 
+            return Tarkistukset.onValidiEmail(s);
+        case 4: 
+            return Tarkistukset.onValidiPuhelinNro(s);
+        case 5: 
+            return Tarkistukset.onValidiSalasana(s, 5, 20);
+        case 6:
+            return true;
+         case 7:
+            return true;
+        default:
+            return true;
+        }
     }
 
     /**
      * @return ekan kent‰n numero
      */
+    @Override
     public int ekaKentta() {
         return 1;
     }

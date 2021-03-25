@@ -347,4 +347,11 @@ public class Passreg {
     public void korvaaTaiLisaa(Paasy p) {
         paasyt.korvaaTaiLisaa(p);
     }
+
+    /**
+     * @param k korvattava tai lisättävä kategoria
+     */
+    public void korvaaTaiLisaa(Kategoria k) {
+        kategoriat.korvaaTaiLisaa(k);
+    }
 }
