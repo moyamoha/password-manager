@@ -125,6 +125,7 @@ public class PassregGUIController implements Initializable {
         if (uusTiedostonNimi.equals("")) uusTiedostonNimi = "passreg";
         if (!onEkaKerta) {
             tallenna();  // Tallennetaan ettei menetettäisi nykyisen rekisterin tietoja
+            // passreg.nollaa(); nollataanko edellisen?
         }
         lueTiedosto(uusTiedostonNimi);
         return true;
