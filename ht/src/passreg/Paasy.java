@@ -253,7 +253,7 @@ public class Paasy implements Tietue{
     }
     
     /**
-     * 
+     * Otetaan kopio paasysta. Uudella syntyneella oliolla on sama ominaisuuksiltaan ja kaytokseltaan
      */
     @Override
     public Paasy clone() throws CloneNotSupportedException {
