@@ -43,7 +43,7 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
 
     @Override
     public void setDefault(String oletus) {
-        //
+        ModalController.getStage(checkBoxit).setOnCloseRequest(e -> cancel());
     }
     
     @FXML private void handleCancelButton() { cancel(); }

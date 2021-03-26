@@ -117,7 +117,11 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         if (paasy == null) return;
         for (int i = apuPaasy.ekaKentta(); i <= apuPaasy.kenttaLkm(); i++) {
             String s = paasy.anna(i);
-            edits.get(i-1).setText(s);
+            for (TextInputControl edit : edits) {
+                if (edit.getId().equals(String.valueOf(i))) {
+                    edit.setText(s); 
+                }
+            }
         }
     }
 
@@ -239,6 +243,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
 
     @Override
     public void setDefault(Paasy oletus) {
+        ModalController.getStage(generoiButton).setOnCloseRequest(e -> handleCancel());
         current = oletus;
         naytaPaasy(edits, oletus);
     }

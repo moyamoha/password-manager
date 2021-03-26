@@ -116,7 +116,7 @@ public class KategoriaDialogController
 
     @Override
     public void setDefault(Kategoria oletus) {
-        // TODO Auto-generated method stub
+        ModalController.getStage(virheText).setOnCloseRequest(e -> handleCancel());
         current = oletus;
         naytaKategoria(oletus);
     }

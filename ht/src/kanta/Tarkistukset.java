@@ -6,16 +6,9 @@ package kanta;
 /**
  * @author Yahya
  * @version 25.2.2021
- *
+ * Tarkistamiseen liittyviä yleismaailmallisia metodia
  */
 public class Tarkistukset {
-
-    /**
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-    }
     
     /**
      * Tarkistaa onko sähköposti oikein.
@@ -65,11 +58,12 @@ public class Tarkistukset {
      * @example
      * <pre name="test">
      *    onValidiPuhelinNro("0123456789")      === true;
-     *    onValidiPuhelinNro(0093788351233")      
+     *    onValidiPuhelinNro("0093788351233")    === true;
+     *    onValidiPuhelinNro("00abc")            === false;
      * </pre>
      */
     public static boolean onValidiPuhelinNro(String puhNro) {
-        return puhNro.matches("0{1}[1-9]{1}[1-9]{5,10}") || puhNro.length() == 0;
+        return puhNro.matches("[0-9]*");
     }
     
     /**
@@ -77,19 +71,29 @@ public class Tarkistukset {
      * @param minPituus montako merkkia saa olla enimmillään
      * @param maxPituus montako merkkiä pitää olla vähintään
      * @return true jos salasana on oikeapituista
+     * @example
+     * <pre name="test">
+     *    onValidiSalasana("abcde", 5, 20) === true;
+     *    onValidiSalasana("", 5, 20)      === false;
+     * </pre>
      */
     public static boolean onValidiSalasana(String salasana, int minPituus, int maxPituus) {
         return salasana.length() >= minPituus && salasana.length() <= maxPituus;
     }
     
     /**
-     * @param otsikko käsiteltävä otsikko
-     * @return true jos otsikko on oikein
+     * @param otsikko kasiteltava otsikko
+     * @return true jos otsikko on vähintään yhden merkin pituinen
+     * @example
+     * <pre name="test">
+     *    onValidiOtsikko("") === false;
+     *    onValidiOtsikko("    ") === false;
+     *    onValidiOtsikko(".")    === true;
+     *    onValidiOtsikko("abc")  === true;
+     * </pre>
      */
     public static boolean onValidiOtsikko(String otsikko) {
-        //String eiSallitut = "_?!></&%#.:;,\\*'^~+-\\\\\"=)(\\[\\]{}|$€";
-        return otsikko.length() > 0 && otsikko.matches(".*");
+        return !otsikko.isBlank();
     }
-    
 
 }

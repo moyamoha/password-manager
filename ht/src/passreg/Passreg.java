@@ -337,7 +337,7 @@ public class Passreg {
      * @param kentta mik‰ on se ehdon tarkennus
      * @return kokoelma kaikista p‰‰syist‰, jotka toteuttavat hakuehdon
      */
-    public Collection<Paasy> getPaasyt(String ehto, String kentta) {
+    public Collection<Paasy> getPaasyt(String ehto, int kentta) {
         return paasyt.getPaasyt(ehto, kentta);
     }
 

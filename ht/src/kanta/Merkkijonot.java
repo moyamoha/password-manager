@@ -20,20 +20,6 @@ public class Merkkijonot {
     
     // #import java.util.Arrays;
     
-    
-    /**
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        int i = 0;
-        while (i < 10) {
-            System.out.println(generoiKNimi());
-            i++;
-        }
-        
-        System.out.println(Arrays.toString(yhdista(PIENET_KIRJAIMET, NUMEROT)));
-    }
-    
     /** 
      * Generoidaan merkkijono, jonka pituus on väliltä  <b>alarajaPituus</b> - <b>ylarajaPituus</b> ja merkit on valittu joukosta <b>charJoukko</b>
      * @param charJoukko char joukko, josta valitaan umpimähkään merkkejä

@@ -244,7 +244,7 @@ public class Paasy implements Tietue, Cloneable{
      * @param kentta mikä on se ehdon tarkennus
      * @return true jos vastaa hakukriteerit
      */
-    public boolean oletko(@SuppressWarnings("unused") String ehto, @SuppressWarnings("unused") String kentta) {
+    public boolean oletko(@SuppressWarnings("unused") String ehto, @SuppressWarnings("unused") int kentta) {
         return true;
     }
     
@@ -298,7 +298,7 @@ public class Paasy implements Tietue, Cloneable{
             return "ei voi asettaa noin";
         case 1:
             if (Tarkistukset.onValidiOtsikko(s))         { otsikko = s; return null; }
-            return "Liian lyhyt otsikko tai vääriä kirjaimia ";
+            return "Otsikko ei voi olla tyhjä!";
         case 2: 
             if (Tarkistukset.onValidiTunnus(s, 5, 30))   { tunnus = s; return null; }
             return "väärä tunnus";
@@ -366,4 +366,22 @@ public class Paasy implements Tietue, Cloneable{
         }
         return true;
     }
+    
+    /**
+     * @param k k:nnes kentta
+     * @return kentan nimi
+     */
+    public String getKysymys(int k) {
+        switch (k) {
+        case 1: return "Otsikko";
+        case 2: return "Tunnus";
+        case 3: return "Sähköposti";
+        case 4: return "Puhelin numero";
+        case 5: return "Salasana";
+        case 6: return "URL";
+        case 7: return "Info";
+        default: return null;
+        }
+    }
+    
 }

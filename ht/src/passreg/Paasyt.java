@@ -369,7 +369,7 @@ public class Paasyt implements Iterable<Paasy> {
      * @param kentta mikä on se ehdon tarkennus
      * @return kokoelma kaikista pääsyistä, jotka toteuttavat hakuehdon
      */
-    public Collection<Paasy> getPaasyt(String ehto, String kentta) {
+    public Collection<Paasy> getPaasyt(String ehto, int kentta) {
         Collection<Paasy> pst = new ArrayList<>();
         for (Paasy p : this) {
             if (p.oletko(ehto, kentta)) pst.add(p);

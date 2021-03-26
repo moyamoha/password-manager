@@ -162,7 +162,7 @@ public class CTreeView<T> extends TreeView<T> {
         
         @Override
         public String toString() {
-            if ( view.equals("") ) return this.getValue().toString();
+            if (this.view.equals("")) return this.getValue().toString();
             return this.view;
         }
         
@@ -217,4 +217,5 @@ public class CTreeView<T> extends TreeView<T> {
     public boolean isRoot(TreeItem<T> item) {
         return this.getRoot() == item;
     }
+    
 }

@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -51,7 +52,10 @@ public class AloitusIkkunaController implements ModalControllerInterface<String>
 
 
     @Override
-    public void setDefault(String oletus) { vastausKenttaText.setText(oletus); }    
+    public void setDefault(String oletus) { 
+        ModalController.getStage(vastausKenttaText).setOnCloseRequest(e -> Platform.exit());
+        vastausKenttaText.setText(oletus);
+    }    
     
     /**
      * N‰ytet‰‰n aloitusikkunan dialogin ja kysell‰‰n k‰ytt‰j‰lt‰ jokin aukeava tiedoston nimi
