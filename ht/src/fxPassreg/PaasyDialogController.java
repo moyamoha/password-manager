@@ -4,6 +4,7 @@ import static fi.jyu.mit.fxgui.Functions.getNodes;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 import fi.jyu.mit.fxgui.ModalController;
@@ -13,6 +14,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -70,8 +72,20 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         hallitseGeneroimista();
         bindSalasanaKentat();
         Node parent = generoiButton.getParent();
+        Collection<Label> labelit =  getNodes(parent, Label.class, 
+                n -> n.getStyleClass().contains("label"), true);
         edits =  (ArrayList<TextInputControl>) getNodes(parent, TextInputControl.class, 
                         n -> n.getStyleClass().contains("kentta"), true);
+        for (Label label : labelit) {
+            if (label.getId() != null) {
+                try {
+                    String id = label.getId();
+                    label.setLayoutX(0); label.setAlignment(Pos.CENTER_RIGHT);
+                    label.setPrefWidth(120);
+                    label.setText(apuPaasy.getKysymys(Integer.valueOf(id))); // koska id:t tulisi alkaa nollasta
+                } catch (NumberFormatException e) {/*..*/}
+            }
+        }
         for (TextInputControl solmu : edits) {
             if (solmu.getId() != null) {
                 String id = solmu.getId();

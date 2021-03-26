@@ -17,10 +17,12 @@ import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -97,12 +99,24 @@ public class PassregGUIController implements Initializable {
         }
         Node parent = naytaCheckBox.getParent();
         edits = new TextInputControl[apuPaasy.kenttaLkm()];
-        Collection<TextInputControl> solmut =  getNodes(parent, TextInputControl.class, 
+        Collection<TextInputControl> tekstit =  getNodes(parent, TextInputControl.class, 
                         n -> n.getStyleClass().contains("kentta"), true);
-        for (TextInputControl kentta : solmut) {
+        Collection<Label> labelit =  getNodes(parent, Label.class, 
+                n -> n.getStyleClass().contains("label"), true);
+        for (TextInputControl kentta : tekstit) {
             if (kentta.getId() != null) {
                 String id = kentta.getId();
                 edits[Integer.valueOf(id) - 1] = kentta; // koska id:t tulisi alkaa nollasta
+            }
+        }
+        for (Label label : labelit) {
+            if (label.getId() != null) {
+                try {
+                    String id = label.getId();
+                    label.setLayoutX(0); label.setAlignment(Pos.CENTER_RIGHT);
+                    label.setPrefWidth(118.4);
+                    label.setText(apuPaasy.getKysymys(Integer.valueOf(id))); // koska id:t tulisi alkaa nollasta
+                } catch (NumberFormatException e) {/*..*/}
             }
         }
     }
