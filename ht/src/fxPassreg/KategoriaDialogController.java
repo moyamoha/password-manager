@@ -13,6 +13,7 @@ import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
@@ -51,8 +52,20 @@ public class KategoriaDialogController
     public void initialize(URL arg0, ResourceBundle arg1) {
         Node parent = virheText.getParent();
         edits = new TextInputControl[apuK.kenttaLkm()];
+        Collection<Label> labelit =  getNodes(parent, Label.class, 
+                n -> n.getStyleClass().contains("l"), true);
         Collection<TextInputControl> solmut =  getNodes(parent, TextInputControl.class, 
                         n -> n.getStyleClass().contains("kentta"), true);
+        for (Label label : labelit) {
+            if (label.getId() != null) {
+                try {
+                    String id = label.getId();
+                    label.setLayoutX(0); label.setAlignment(Pos.CENTER_RIGHT);
+                    label.setPrefWidth(120);
+                    label.setText(apuK.getKysymys(Integer.valueOf(id))); // koska id:t tulisi alkaa nollasta
+                } catch (NumberFormatException e) {/*..*/}
+            }
+        }
         for (TextInputControl solmu : solmut) {
             if (solmu.getId() != null) {
                 TextInputControl edit = solmu;

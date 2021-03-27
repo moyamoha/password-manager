@@ -25,14 +25,14 @@
       <PasswordField fx:id="passField2" layoutX="150.0" layoutY="190.0" prefHeight="26.0" prefWidth="151.0" text="" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="82.80000000000001" AnchorPane.topAnchor="190.0" />
       <TextField id="6" layoutX="150.0" layoutY="220.0" prefHeight="26.0" prefWidth="214.0" styleClass="kentta" text="" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="19.599999999999966" AnchorPane.topAnchor="220.0" />
       <TextArea id="7" layoutX="151.0" layoutY="254.0" prefHeight="146.0" prefWidth="214.0" styleClass="kentta" text="" wrapText="true" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="254.0" />
-      <Label id="1" layoutY="44.0" styleClass="label" text="" />
-      <Label id="2" layoutY="74.0" styleClass="label" text="" />
-      <Label id="3" layoutY="104.0" styleClass="label" text="" />
-      <Label id="4" layoutY="134.0" styleClass="label" text="" />
-      <Label id="5" layoutY="164.0" styleClass="label" text="" />
+      <Label id="1" layoutY="44.0" styleClass="l" text="" />
+      <Label id="2" layoutY="74.0" styleClass="l" text="" />
+      <Label id="3" layoutY="104.0" styleClass="l" text="" />
+      <Label id="4" layoutY="134.0" styleClass="l" text="" />
+      <Label id="5" layoutY="164.0" styleClass="l" text="" />
       <Label alignment="CENTER_RIGHT" layoutX="0" layoutY="194.0" prefHeight="18.0" prefWidth="120.0" text="Toista salasana" />
-      <Label id="6" layoutY="224.0" prefHeight="18.0" styleClass="label" text="" />
-      <Label id="7" layoutY="254.0" styleClass="label" text="" />
+      <Label id="6" layoutY="224.0" prefHeight="18.0" styleClass="l" text="" />
+      <Label id="7" layoutY="254.0" styleClass="l" text="" />
       <CheckBox fx:id="naytaCheckBox" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="311.0" layoutY="163.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="51.0" text="näytä" AnchorPane.rightAnchor="21.80000000000001">
          <font>
             <Font size="10.0" />

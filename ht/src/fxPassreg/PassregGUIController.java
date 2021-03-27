@@ -187,7 +187,7 @@ public class PassregGUIController implements Initializable {
      */
     private void muokkaa() {
         if (valittuPaasy == null) {
-            naytaIlmoitus(1.5, AlertType.INFORMATION, "Valiste jokin p‰‰sy");
+            naytaIlmoitus(1.5, AlertType.INFORMATION, "Valiste jokin p‰‰sy"); return;
         }
         try {
             Paasy p;

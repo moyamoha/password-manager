@@ -151,6 +151,7 @@ public class Paasy implements Tietue, Cloneable{
      * Asettaa tunnusnumeron ja samalla varmistaa ett‰
      * seuraava numero on aina suurempi kuin t‰h‰n menness‰ suurin.
      * @param nr asetettava tunnusnumero
+     * 
      */
     private void setTunnusNro(int nr) {
         tunnusNro = nr;
@@ -178,8 +179,10 @@ public class Paasy implements Tietue, Cloneable{
      * @example
      * <pre name="test">
      *   Paasy p = new Paasy();
-     *   p.parse(" 1  | 4|  soturi123 | ankka@yahoo.com");
-     *   p.toString().startsWith("1|4|soturi123|ankka@yahoo.com") === true;
+     *   p.parse(" 1  | 4|  soturi123 | ankkaAku");
+     *   p.toString().startsWith("1|4|soturi123|ankkaAku") === true;
+     *   p.parse("   2");
+     *   p.getTunnusNro()  === 2;
      * </pre>
      */
     @Override
@@ -208,7 +211,6 @@ public class Paasy implements Tietue, Cloneable{
      *   p.getTunnusNro() === 3;
      *   p.getKategoriaId() === 1;
      *   p.toString().startsWith("3|1|ankkaTHELion|") === true; // on enemm‰kin kuin 3 kentt‰‰, siksi loppu |
-     *
      *   p.rekisteroi();
      *   int n = p.getTunnusNro();
      *   p.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
@@ -249,7 +251,18 @@ public class Paasy implements Tietue, Cloneable{
     }
     
     /**
-     * 
+     * Tehdaan identiteetti klooni paasysta
+     * @return uusi kloonattu paasy
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Paasy p = new Paasy();
+     *   p.parse("   3  | 2|  Ankka Aku   | 123");
+     *   Paasy kopio = p.clone();
+     *   kopio.toString() === p.toString();
+     *   p.parse("   4  | 2|  toinen gmail   | 123sKfe");
+     *   kopio.toString().equals(p.toString()) === false;
+     * </pre>
      */
     @Override
     public Paasy clone() throws CloneNotSupportedException {
@@ -268,6 +281,16 @@ public class Paasy implements Tietue, Cloneable{
     /**
      * @param k kent‰n j‰rjestys
      * @return k:nnes kent‰n arvo
+     * @example
+     * <pre name="test">
+     *   Paasy p = new Paasy();
+     *   p.parse("1|  2|  gmail| | ankkaaku@gmail.com");
+     *   p.anna(1) === "gmail";
+     *   p.anna(2) === "";
+     *   p.anna(3) === "ankkaaku@gmail.com";
+     *   p.parse("|||||kkkl123");
+     *   p.anna(3) === ""; 
+     * </pre>
      */
     @Override
     public String anna(int k) {
@@ -289,6 +312,17 @@ public class Paasy implements Tietue, Cloneable{
      * @param k kent‰n numero
      * @param arvo mik‰ tulee asetettua kent‰n arvoksi
      * @return virhe, jos arvo ei ole sopiva
+     * @example
+     * <pre name="test">
+     *   Paasy p = new Paasy();
+     *   p.parse("1|  2|  gmail| | ankkaaku@gmail.com");
+     *   p.anna(1) === "gmail";
+     *   p.anna(2) === "";
+     *   p.aseta(1, "toinen gmail");
+     *   p.anna(1)  === "toinen gmail";
+     *   p.aseta(3, "x@yahoo.com") === "v‰‰r‰ s‰hkˆpostiosoite";
+     *   p.anna(3) === "ankkaaku@gmail.com";
+     * </pre>
      */
     @Override
     public String aseta(int k, String arvo) {
@@ -358,6 +392,20 @@ public class Paasy implements Tietue, Cloneable{
     /**
      * @param p p‰‰sy johon verrataan
      * @return true jos p‰‰syjen kenttien arvot ovat samoja
+     * @example
+     * <pre name="test">
+     *   Paasy p1 = new Paasy();
+     *   p1.parse("   3 | 1 | gmail   | soturi123");
+     *   Paasy p2 = new Paasy();
+     *   p2.parse("   3 | 1 | gmail   | soturi123");
+     *   Paasy p3 = new Paasy();
+     *   p3.parse("   3 | 1 | gmail   | soturi124");
+     *   
+     *   p1.equals(p2) === true;
+     *   p2.equals(p1) === true;
+     *   p1.equals(p3) === false;
+     *   p3.equals(p2) === false;
+     * </pre>
      */
     public boolean equals(Paasy p) {
         if (getTunnusNro() != p.getTunnusNro()) return false;
@@ -370,6 +418,14 @@ public class Paasy implements Tietue, Cloneable{
     /**
      * @param k k:nnes kentta
      * @return kentan nimi
+     * @example
+     * <pre name="test">
+     *   Paasy p = new Paasy();
+     *   p.getKysymys(1) === "Otsikko";
+     *   p.getKysymys(1) == "otsikko" === false;
+     *   p.getKysymys(4) === "Puhelin numero";
+     *   p.getKysymys(10) === null;
+     * </pre>
      */
     public String getKysymys(int k) {
         switch (k) {

@@ -73,7 +73,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         bindSalasanaKentat();
         Node parent = generoiButton.getParent();
         Collection<Label> labelit =  getNodes(parent, Label.class, 
-                n -> n.getStyleClass().contains("label"), true);
+                n -> n.getStyleClass().contains("l"), true);
         edits =  (ArrayList<TextInputControl>) getNodes(parent, TextInputControl.class, 
                         n -> n.getStyleClass().contains("kentta"), true);
         for (Label label : labelit) {
@@ -97,11 +97,10 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
                             String virhe = current.aseta(Integer.valueOf(id), uusi);
                             if (virhe == null) {
                                 naytaVirhe(virhe);
-                                solmu.setStyle("-fx-background-color: #ffffff");
+                                solmu.setStyle("-fx-control-inner-background: white");
                                 return;
                             }
-                            solmu.getStyleClass().add("virhe");
-                            solmu.setStyle("-fx-background-color: #ff0000");
+                            solmu.setStyle("-fx-control-inner-background: red");
                             naytaVirhe(virhe);
                             return;  
                         }

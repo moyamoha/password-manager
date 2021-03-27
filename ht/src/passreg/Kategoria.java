@@ -248,5 +248,16 @@ public class Kategoria implements Tietue, Cloneable {
         return true;
     }
     
+    /**
+     * @param k k:nnes kentta
+     * @return kentan nimi
+     */
+    public String getKysymys(int k) {
+        switch (k) {
+        case 1: return "Nimi";
+        default: return null;
+        }
+    }
+    
 }
  
