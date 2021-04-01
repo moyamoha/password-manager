@@ -27,7 +27,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import kanta.CTreeView;
@@ -39,7 +38,7 @@ import passreg.Tietue;
 /**
  * @author Yahya
  * @version 19.1.2021
- * P‰‰ikkunan kontrolleeri
+ * P‰‰ikkunan kontrolleri
  */
 public class PassregGUIController implements Initializable {
 
@@ -97,6 +96,7 @@ public class PassregGUIController implements Initializable {
         for (int i = apuPaasy.ekaKentta(); i <= apuPaasy.kenttaLkm(); i++) {
             cbKentat.add(apuPaasy.getKysymys(i));
         }
+        cbKentat.getSelectionModel().select(1);
         Node parent = naytaCheckBox.getParent();
         edits = new TextInputControl[apuPaasy.kenttaLkm()];
         Collection<TextInputControl> tekstit =  getNodes(parent, TextInputControl.class, 
@@ -131,7 +131,7 @@ public class PassregGUIController implements Initializable {
     }
     
     /**
-     * Avataan luettava tiedosto ja palautetaan true jos avaaminen onnistuu
+     * Avataan luettava tiedosto lukemaan ja palautetaan true jos avaaminen onnistuu
      * @param onEkaKerta kertoo missa vaiheessa avaaminen tapahtuu. </br>Pit‰isi olla true jos avataan tiedosto ohjelman k‰ynnistyess‰
      * @return true jos avaaminen onnistui
      */
@@ -141,15 +141,13 @@ public class PassregGUIController implements Initializable {
         if (uusTiedostonNimi.equals("")) uusTiedostonNimi = "passreg";
         if (!onEkaKerta) {
             tallenna();  // Tallennetaan ettei menetett‰isi nykyisen rekisterin tietoja
-            naytaPaasy(null);
-            valittuKategoria = null;
-            valittuPaasy = null;
-            puu.getSelectionModel().select(null);
         }
         lueTiedosto(uusTiedostonNimi);
-        valittuKategoria = null;
-        valittuPaasy = null;
-        puu.getSelectionModel().select(null);
+        paivitaPuu(null);
+        Tietue t = puu.getSelectedObject();
+        valittuPaasy = (t instanceof Paasy) ? (Paasy) t : null;
+        valittuKategoria = (t instanceof Kategoria) ? (Kategoria) t : null;
+        naytaPaasy(valittuPaasy);
         return true;
     }
     
@@ -158,9 +156,7 @@ public class PassregGUIController implements Initializable {
      * @param tiedosto luettava tiedosto
      */
     private void lueTiedosto(String nimi) {
-        //ModalController.getStage(this.passField).setTitle("Passreg - " + nimi);
         passreg.lueTiedostosta(nimi);
-        paivitaPuu();
     }
   
     /** Luodaan uusi p‰‰sy ja lis‰t‰‰n rekisteriin sek‰ puun‰kym‰‰n n‰kyv‰ksi*/
@@ -177,7 +173,7 @@ public class PassregGUIController implements Initializable {
         entry.rekisteroi();
         passreg.lisaa(entry);
         valittuPaasy = entry;
-        lisaaPaasyPuuhun(entry, entry.getKategoriaId());
+        paivitaPuu(entry);
         etsiPaasyt();
         naytaPaasy(entry);
     }
@@ -197,8 +193,7 @@ public class PassregGUIController implements Initializable {
             if (p.equals(valittuPaasy)) return;
             passreg.korvaaTaiLisaa(p);
             valittuPaasy = p;
-            paivitaPuu();
-            valittuKategoria = (Kategoria) puu.getSelectedObject();
+            paivitaPuu(p);
             naytaPaasy(p);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
@@ -218,7 +213,7 @@ public class PassregGUIController implements Initializable {
         }
         if (Dialogs.showQuestionDialog("Poisto?", "Haluatko varmasti poistaa " + poistettava.getView() + "?", "kyll‰", "ei")) {
             passreg.poistaPaasy(poistettava.getTunnusNro());
-            paivitaPuu();
+            paivitaPuu(null);
             valittuPaasy = null;
             valittuKategoria = (Kategoria) puu.getSelectedObject();
             if (paasyChooser.getObjects().contains(poistettava)) etsiPaasyt();
@@ -234,7 +229,7 @@ public class PassregGUIController implements Initializable {
         if (k == null) return;
         k.rekisteroi();
         passreg.lisaa(k);
-        puu.add(k, k.getView());
+        paivitaPuu(k);
         valittuKategoria = k;
     }
     
@@ -248,8 +243,7 @@ public class PassregGUIController implements Initializable {
             k = KategoriaDialogController.kysyKategoria(null, k);
             if (k == null) return;
             passreg.korvaaTaiLisaa(k);
-            paivitaPuu();
-            puu.getSelectionModel().select(null);
+            paivitaPuu(k);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -290,7 +284,7 @@ public class PassregGUIController implements Initializable {
         if (paikka == 0) {
             naytaIlmoitus(1.5, AlertType.ERROR, "Valitse jokin kentt‰, jonka mukaan etsit!"); return;
         }
-        Collection<Paasy> paasyt =  passreg.getPaasyt(pattern, paikka);
+        Collection<Paasy> paasyt =  passreg.etsi(pattern, paikka);
         naytaPaasytListaan(paasyt);
     }
     
@@ -376,6 +370,11 @@ public class PassregGUIController implements Initializable {
             List<Paasy> t = paasyChooser.getObjects();
             if (t.size() != 0 && t.get(0) != null) {
                 valittuPaasy = paasyChooser.getSelectedObject();
+                Tietue t1 = puu.getSelectedObject();
+                if (t1 == null || (t1 instanceof Kategoria)) { 
+                    naytaPaasy(valittuPaasy);
+                    return;
+                }
                 puu.getSelectionModel().select(null);
                 naytaPaasy(valittuPaasy);
             }
@@ -385,7 +384,7 @@ public class PassregGUIController implements Initializable {
     
     /** Alustaa puun‰kym‰ */
     private void alustaPuu() {
-        puu = new CTreeView<Tietue>(new Kategoria(), "Kategoriat");
+        puu = new CTreeView<Tietue>(new Kategoria(), "Database");
         puuVbox.getChildren().add(puu);
         puu.setMinHeight(427);
         puu.setOnMouseClicked(e -> {
@@ -446,35 +445,27 @@ public class PassregGUIController implements Initializable {
     }
     
     /**
-     * Lis‰t‰‰n yksitt‰inen p‰‰sy puuhun. paivitaPuu-metodin myˆs toimisis t‰h‰n
-     * @param p lis‰tt‰v‰ p‰‰sy
-     * @param kategoriaId lis‰tt‰v‰n p‰‰syn kategorian tunnusnumero
+     * Asettaa kategoriat kuuluvineen p‰‰syineen puurakenteeseen. 
+     * @param t tietue, joka tulee valituksi prosessin p‰‰tytty‰.
      */
-    private void lisaaPaasyPuuhun(Paasy p, int kategoriaId) {
-        for (TreeItem<Tietue> item : puu.getRoot().getChildren()) {
-            if (item.getValue().getTunnusNro() == kategoriaId) {
-                puu.getSelectionModel().select(item);
-                puu.addToSelected(p, p.getView());
-                valittuKategoria = (Kategoria)item.getValue();
-                return;
-            }
-        }
-    }
-    
-    /**
-     * Asettaa kategoriat puurakenteeseen.
-     */
-    private void paivitaPuu() {
+    private void paivitaPuu(Tietue t) {
         puu.getRoot().getChildren().clear();
-        for (int i = 0; i < passreg.getKategoriatLkm(); i++) {
-            Kategoria lisattava = passreg.annaKategoria(i);
+        List<Kategoria> kategoriat = passreg.annaKategoriat();
+        int index = 0;
+        boolean lasketaan = true;
+        for (Kategoria lisattava : kategoriat) {
             if (lisattava != null) {
                 puu.add(lisattava, lisattava.getView());
+                if (lasketaan) index += 1;
+                if (lisattava == t) lasketaan = false;
                 List<Paasy> paasyt = passreg.getPaasyt(lisattava.getTunnusNro());
                 for (Tietue p : paasyt) {
+                    if (lasketaan) index += 1;
+                    if (p == t) lasketaan = false;
                     puu.addToSelected(p, p.getView());
                 }
             }
         }
+        puu.getSelectionModel().select(index);
     }
 }

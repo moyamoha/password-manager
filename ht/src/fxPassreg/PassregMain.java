@@ -23,12 +23,13 @@ public class PassregMain extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("passreg.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Passreg");
 			
 			Passreg passrekisteri = new Passreg();
 			passCtrl.setPassreg(passrekisteri);
 			
 			if (!passCtrl.avaaTiedosto(true)) Platform.exit();
+			
+			primaryStage.setTitle("Passreg - " + passrekisteri.getName());
 			
 			primaryStage.show();
 			primaryStage.setOnCloseRequest(e -> {

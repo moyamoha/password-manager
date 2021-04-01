@@ -6,24 +6,14 @@ package passreg;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * <pre>
- * |------------------------------------------------------------------------|
- * | Luokan nimi:   Passreg                             | Avustajat:        |
- * |-------------------------------------------------------------------------
- * | Vastuualueet:                                      |                   | 
- * |                                                    | - Paasyt          | 
- * | - huolehtii Paasyt ja Kategoriat - luokkien        | - Kategoriat      | 
- * |   välisestä yhteistyöstä ja välittää näitä tietoja | - Paasy           | 
- * |   pyydettäessä                                     | - Kategoria       | 
- * | - lukee ja kirjoittaa passregin tiedostoon         |                   | 
- * |    pyytämällä apua avustajiltaan                   |                   | 
- * |-------------------------------------------------------------------------
+ * Luokka, joka huolehtii pääsyjen ja kategorioiden välisestä yhteistyöstä, 
+ * sekä osaa lukea/kirjoittaa niiden tiedot tiedostoon.
  * @author Yahya
  * @version 18.2.2021
- * </pre>
  */
 public class Passreg {
     
@@ -313,6 +303,7 @@ public class Passreg {
         for (Paasy p : this.paasyt) {
             if (p.getKategoriaId() == kID) pst.add(p);
         }
+        Collections.sort(pst, new Paasy.Vertailija(1)); // 
         return pst;
     }
     
@@ -337,8 +328,8 @@ public class Passreg {
      * @param kentta mikä on se ehdon tarkennus
      * @return kokoelma kaikista pääsyistä, jotka toteuttavat hakuehdon
      */
-    public Collection<Paasy> getPaasyt(String ehto, int kentta) {
-        return paasyt.getPaasyt(ehto, kentta);
+    public Collection<Paasy> etsi(String ehto, int kentta) {
+        return paasyt.etsi(ehto, kentta);
     }
 
     /**
@@ -353,5 +344,19 @@ public class Passreg {
      */
     public void korvaaTaiLisaa(Kategoria k) {
         kategoriat.korvaaTaiLisaa(k);
+    }
+
+    /**
+     * @return rekisterin nimi
+     */
+    public String getName() {
+        return tiedosto;
+    }
+    
+    /**
+     * @return kaikki rekisterin kategoriat sortattuna
+     */
+    public List<Kategoria> annaKategoriat() {
+        return this.kategoriat.annaKategoriat();
     }
 }

@@ -11,9 +11,13 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import fi.jyu.mit.ohj2.WildChars;
 
 /**
  * <pre>
@@ -22,10 +26,10 @@ import java.util.Scanner;
  * |-------------------------------------------------------------------------
  * | Vastuualueet:                                      |                   | 
  * |                                                    | - Paasy           | 
- * | - pit√§√§ yll√§ varsinaista paasyrekisteri√§, eli osaa |                   | 
- * |   lis√§t√§ ja poistaa p√§√§syn                         |                   | 
- * | - lukee ja kirjoittaa p√§√§syj√§ tiedostoon           |                   | 
- * | - osaa etsi√§ ja lajitella                          |                   | 
+ * | - pit‰‰ yll‰ varsinaista paasyrekisteri‰, eli osaa |                   | 
+ * |   lis‰t‰ ja poistaa p‰‰syn                         |                   | 
+ * | - lukee ja kirjoittaa p‰‰syj‰ tiedostoon           |                   | 
+ * | - osaa etsi‰ ja lajitella                          |                   | 
  * |-------------------------------------------------------------------------
  * </pre>
  * @author Yahya
@@ -48,7 +52,7 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /**
-     * @param args ei k√§yt√∂ss√§
+     * @param args ei k‰yt√∂ss‰
      */
     public static void main(String[] args) {
         Paasyt paasyt = new Paasyt();
@@ -87,8 +91,8 @@ public class Paasyt implements Iterable<Paasy> {
     
     
     /**
-     * Lis√§t√§√§n yksitt√§inen p√§√§sy tietorakenteeseen
-     * @param paasy lis√§tt√§v√§ p√§√§sy
+     * Lis‰t‰‰n yksitt‰inen p‰‰sy tietorakenteeseen
+     * @param paasy lis‰tt‰v‰ p‰‰sy
      * @example
      * <pre name="test">
      *   Paasyt pst = new Paasyt();
@@ -106,7 +110,7 @@ public class Paasyt implements Iterable<Paasy> {
      *   pst.anna(1) === p2;
      *   pst.anna(2).getKategoriaId()  === 4;
      *   Paasy p4 = new Paasy(2);
-     *   pst.lisaa(p4); // Ei pit√§isi heitt√§√§ poikkeusta
+     *   pst.lisaa(p4); // Ei pit‰isi heitt‰‰ poikkeusta
      * </pre>
      */
     public void lisaa(Paasy paasy) {        
@@ -120,9 +124,8 @@ public class Paasyt implements Iterable<Paasy> {
         }
     }
     
-
     /**
-     * Kun p√§√§syt tulee t√§yteen kutsutaan t√§t√§. Luodaan uusi taulukko, jonka tilaa on kaksinkertainen. 
+     * Kun p‰‰syt tulee t‰yteen kutsutaan t‰t‰. Luodaan uusi taulukko, jonka tilaa on kaksinkertainen. 
      * Samalla kopioidaan alkiot uuteen taulukkoon ja Tuhotaan vanha taulukko.
      */
     private final void luoJaKopioi() {
@@ -137,7 +140,7 @@ public class Paasyt implements Iterable<Paasy> {
     
 
     /**
-     * @return p√§√§syjen lukum√§√§r√§
+     * @return p‰‰syjen lukum‰‰r‰
      */
     public int getLkm() {
         return this.lkm;
@@ -145,9 +148,9 @@ public class Paasyt implements Iterable<Paasy> {
     
     
     /**
-     * Palautetaan tiety p√§√§syn viite sen indeksin perusteella
-     * @param i p√§√§syn indeksi taulukossa <b>alkiot</b>
-     * @return viite P√§√§sy-olioon
+     * Palautetaan tiety p‰‰syn viite sen indeksin perusteella
+     * @param i p‰‰syn indeksi taulukossa <b>alkiot</b>
+     * @return viite P‰‰sy-olioon
      * @throws IndexOutOfBoundsException jos indeksi ei ole sopiva
      * @example
      * <pre name="test">
@@ -175,7 +178,7 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /**
-     * Lukee p√§√§syjen tietoja tiedostosta
+     * Lukee p‰‰syjen tietoja tiedostosta
      * @param hakemisto hakemisto josta tiedosto lÔøΩytyy
      * @example
      * <pre name="test">
@@ -195,7 +198,7 @@ public class Paasyt implements Iterable<Paasy> {
      *  pst.lueTiedostosta(hakemisto);  // johon ladataan tiedot tiedostosta.
      *  Iterator<Paasy> i = pst.iterator();
      *  Paasy pTest = i.next();
-     *  pTest.getKategoriaId() === 1;
+     *  pTest.getKategoriaId()   === 1;
      *  Paasy pTest2 = i.next();
      *  pTest2.getKategoriaId()  === 2;
      *  pst.tallenna(hakemisto);
@@ -225,7 +228,7 @@ public class Paasyt implements Iterable<Paasy> {
     
     
     /**
-     * Tallennetaan p√§√§syt tiedostoon. kesken
+     * Tallennetaan p‰‰syt tiedostoon. kesken
      * @param hakemisto tallennettavan tiedoston nimi
      */
     public void tallenna(String hakemisto) {
@@ -243,8 +246,8 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /**
-     * poistaa tietty p√§√§sy
-     * @param nro poistettavan p√§√§syn tunnusNro
+     * poistaa tietty p‰‰sy
+     * @param nro poistettavan p‰‰syn tunnusNro
      * @example
      * <pre name="test">
      *    Paasyt pst = new Paasyt();
@@ -277,13 +280,13 @@ public class Paasyt implements Iterable<Paasy> {
             if (alkiot[i].getTunnusNro() == nro) {
                 alkiot[i] = null;
                 muutettu = true;
-                shiftToLeft(i);
+                swap(i);
                 lkm--;
             }
         }
     }
     
-    private final void shiftToLeft(int i) {
+    private void swap(int i) {
         int last = getLkm();
         Paasy p = anna(last - 1);
         alkiot[i] = p;
@@ -291,7 +294,7 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /** 
-     * Palauttaa iteraattori p√§√§syjen l√§pik√§ymiseen
+     * Palauttaa iteraattori p‰‰syjen l‰pik‰ymiseen
      * @example
      * <pre name="test">
      *  #import java.util.*;
@@ -318,7 +321,7 @@ public class Paasyt implements Iterable<Paasy> {
     /**
      * @author Yahya
      * @version 9.3.2021
-     * 
+     *  Iteraattori p‰‰syjen l‰pik‰ymiseen
      */
     public class Iter implements Iterator<Paasy> {
         
@@ -331,7 +334,7 @@ public class Paasyt implements Iterable<Paasy> {
 
         @Override
         public Paasy next() {
-            if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en√§√§!");
+            if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en‰‰!");
             return anna(kohdalla++);
         }
  
@@ -352,29 +355,34 @@ public class Paasyt implements Iterable<Paasy> {
     }
     
     /**
-     * @return true jos p√§√§syj√§ on lis√§tty tai poistettu kategoriasta
+     * @return true jos p‰‰syj‰ on lis‰tty tai poistettu kategoriasta
      */
     public boolean onMuutettu() { return muutettu; }
 
     /**
-     * @param b tieto siit√§ on muutoksia tehty
+     * @param b tieto siit‰ on muutoksia tehty
      */
     public void setMuutettu(boolean b) {
         muutettu = b;
     }
 
     /**
-     * Haetaan p√§√§syt, jotka toteuttavat hakukriteerit
-     * @param ehto mink√§ ehdon perusteella haetaan
-     * @param kentta mik√§ on se ehdon tarkennus
-     * @return kokoelma kaikista p√§√§syist√§, jotka toteuttavat hakuehdon
+     * Haetaan p‰‰syt, jotka toteuttavat hakukriteerit
+     * @param ehto mink‰ ehdon perusteella haetaan
+     * @param kentta mik‰ on se ehdon tarkennus
+     * @return kokoelma kaikista p‰‰syist‰, jotka toteuttavat hakuehdon
+     * @example
+     * <pre name="test">
+     *   
+     * </pre>
      */
-    public Collection<Paasy> getPaasyt(String ehto, int kentta) {
-        Collection<Paasy> pst = new ArrayList<>();
-        for (Paasy p : this) {
-            if (p.oletko(ehto, kentta)) pst.add(p);
-        }
-        return pst;
+    public Collection<Paasy> etsi(String ehto, int kentta) {
+        List<Paasy> loytyneet = new ArrayList<Paasy>(); 
+        for (Paasy p : this) { 
+            if (WildChars.onkoSamat(p.anna(kentta), ehto)) loytyneet.add(p);   
+        } 
+        Collections.sort(loytyneet, new Paasy.Vertailija(kentta)); 
+        return loytyneet;
     }
 
     /**

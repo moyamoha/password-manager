@@ -5,6 +5,7 @@ package passreg;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Comparator;
 
 import fi.jyu.mit.ohj2.Mjonot;
 import kanta.Merkkijonot;
@@ -240,15 +241,6 @@ public class Paasy implements Tietue, Cloneable{
     public String getView() {
         return getOtsikko();
     }
-
-    /**
-     * @param ehto mink‰ ehdon perusteella haetaan
-     * @param kentta mik‰ on se ehdon tarkennus
-     * @return true jos vastaa hakukriteerit
-     */
-    public boolean oletko(@SuppressWarnings("unused") String ehto, @SuppressWarnings("unused") int kentta) {
-        return true;
-    }
     
     /**
      * Tehdaan identiteetti klooni paasysta
@@ -438,6 +430,28 @@ public class Paasy implements Tietue, Cloneable{
         case 7: return "Info";
         default: return null;
         }
+    }
+    
+    /**
+     * @author Yahya
+     * @version 31.3.2021
+     * P‰‰syjen vertailija-luokka
+     */
+    public static class Vertailija implements Comparator<Paasy>{
+        private int k;
+        
+        /**
+         * @param kentta kentt‰, jonka mukaan vertaillaan
+         */
+        public Vertailija(int kentta) {
+            k = kentta;
+        }
+        
+        @Override
+        public int compare(Paasy o1, Paasy o2) {
+            return o1.anna(k).compareTo(o2.anna(k));
+        }
+        
     }
     
 }

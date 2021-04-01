@@ -9,27 +9,12 @@ import fi.jyu.mit.ohj2.Mjonot;
 import kanta.Tarkistukset;
 
 /**
- * <pre>
- * |------------------------------------------------------------------------|
- * | Luokan nimi:   Kategoria                           | Avustajat:        |
- * |-------------------------------------------------------------------------
- * | Vastuualueet:                                      |                   | 
- * |                                                    |                   | 
- * | (- ei tied‰ kerhosta, eik‰ k‰yttˆliittym‰st‰)      |                   | 
- * | - tiet‰‰ kategorian kent‰t                         |                   | 
- * | - osaa tarkistaa tietyn kent‰n oikeellisuuden      |                   |
- * |   syntaksin)                                       |                   | 
- * | - osaa muuttaa 4|some - merkkijonon                |                   |
- * |   kategorian tiedoiksi ja p‰invastoin              |                   | 
- * | - osaa antaa merkkijonona i:n kent‰n tiedot        |                   | 
- * | - osaa laittaa merkkijonon i:neksi kent‰ksi        |                   | 
- * |-------------------------------------------------------------------------
- * </pre>
+ * Luokkaa, jossa m‰‰ritell‰‰n p‰‰syjen kokoavaa rakennetta. Jokaisen p‰‰syn t‰ytyy 
+ * kuulua t‰sm‰lleen yhteen kategoriaan.
  * @author Yahya
  * @version 1.3.2021
- *
  */
-public class Kategoria implements Tietue, Cloneable {
+public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
     
     private String nimi     = "";
     private int tunnusNro;
@@ -133,6 +118,7 @@ public class Kategoria implements Tietue, Cloneable {
      *   k.parse(" 1  | opiskelu");
      *   k.toString() === "1|opiskelu";
      *   k.getTunnusNro() === 1;
+     *   k.getNimi()  === "opiskelu";
      * </pre>
      */
     @Override
@@ -159,7 +145,6 @@ public class Kategoria implements Tietue, Cloneable {
      *   k.getTunnusNro() === 1;
      *   k.getNimi()      === "opiskelu";
      *   k.toString()     === "1|opiskelu"
-     *
      *   k.rekisteroi();
      *   int n = k.getTunnusNro();
      *   k.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
@@ -179,7 +164,7 @@ public class Kategoria implements Tietue, Cloneable {
     /**
      * Asettaa tunnusnumeron ja samalla varmistaa ett‰
      * seuraava numero on aina suurempi kuin t‰h‰n menness‰ suurin.
-     * @param nr asetettava tunnusnumero
+     * @param nro asetettava tunnusnumero
      */
     private void setTunnusNro(int nro) {
         tunnusNro = nro;
@@ -198,12 +183,24 @@ public class Kategoria implements Tietue, Cloneable {
     public int ekaKentta() { return 1; }
     
     /**
-     * @return 1 koska t‰ll‰ on pelk‰st‰‰n yksi kentt‰
+     * @return 1 koska {@code Kategoria} luokalla on pelk‰st‰‰n yksi kentt‰
      */
     @Override
     public int kenttaLkm() { return 1; }
     
     
+    /**
+     * Asettaa k:nnennen kent‰n arvoksi {@code arvo}
+     * @example
+     * <pre name="test">
+     *    Kategoria k = new Kategoria("opiskelu");
+     *    k.anna(1)  === "opiskelu";
+     *    k.aseta(1, "  tyo") === null;
+     *    k.anna(1)  ===  "tyo";
+     *    k.anna(0)  === "" + k.getTunnusNro();
+     *    k.aseta(2, "jotain")   === null;
+     * </pre>
+     */
     @Override
     public String aseta(int k, String arvo) {
         String s = arvo.trim();
@@ -214,9 +211,20 @@ public class Kategoria implements Tietue, Cloneable {
         default:
             return null;
         }
-        
     }
 
+    /**
+     * @example
+     * <pre name="test">
+     *    Kategoria k = new Kategoria();
+     *    k.parse("10|  sahkopostit");
+     *    k.anna(0)   === "10";
+     *    k.getTunnusNro() === 10;
+     *    k.aseta(1, "tyo");
+     *    k.anna(1)  === "tyo";
+     *    k.getNimi()   === "tyo";
+     * </pre>
+     */
     @Override
     public String anna(int k) {
         switch (k) {
@@ -229,6 +237,20 @@ public class Kategoria implements Tietue, Cloneable {
         }
     }
     
+    /**
+     * Palauttaa kopio {@code Kategoria} oliosta, joka k‰ytt‰ytyy identtisesti alkuper‰‰ns‰ n‰hden
+     * @example
+     * <pre name="test">
+     *  #THROWS CloneNotSupportedException
+     *   Kategoria alkuK = new Kategoria("tyo");
+     *   Kategoria kopio = alkuK.clone();
+     *   kopio.anna(1)  === "tyo";
+     *   alkuK.anna(1)  === "tyo";
+     *   kopio.aseta(1, "opiskelu")  === null;
+     *   alkuK.anna(1)  === "tyo";
+     *   kopio.anna(1)  === "opiskelu";
+     * </pre>
+     */
     @Override
     public Kategoria clone() throws CloneNotSupportedException {
         Kategoria k;
@@ -239,6 +261,11 @@ public class Kategoria implements Tietue, Cloneable {
     /**
      * @param kat kategoria johon verrataan
      * @return true jos molemmat samoja
+     * @example
+     * <pre name="test">
+     *    Kategoria k1 = new Kategoria();
+     *    k1.parse("1   |    tyo");
+     * </pre>
      */
     public boolean equals(Kategoria kat) {
         if (kat.getTunnusNro() != this.getTunnusNro()) return false;
@@ -251,12 +278,39 @@ public class Kategoria implements Tietue, Cloneable {
     /**
      * @param k k:nnes kentta
      * @return kentan nimi
+     * @example
+     * <pre name="test">
+     *   Kategoria k = new Kategoria();
+     *   k.getKysymys(1)  === "Nimi";
+     *   k.getKysymys(0)  === null;
+     * </pre>
      */
     public String getKysymys(int k) {
         switch (k) {
         case 1: return "Nimi";
         default: return null;
         }
+    }
+
+    /**
+     * @example
+     * <pre name="test">
+     *   Kategoria k1 = new Kategoria("tyo");
+     *   Kategoria k2 = new Kategoria("opiskelu");
+     *   Kategoria k3 = new Kategoria("Tyo");
+     *   int n1 = k1.compareTo(k2);
+     *   int n2 = k2.compareTo(k1);
+     *   int n3 = k1.compareTo(k3);
+     *   int n4 = k3.compareTo(k2);
+     *   n1 > 0 === true;
+     *   n2 < 0 === true;
+     *   n3 === 0;
+     *   n4 > 0 === true;
+     * </pre>
+     */
+    @Override
+    public int compareTo(Kategoria o) {
+        return anna(1).compareToIgnoreCase(o.anna(1));
     }
     
 }

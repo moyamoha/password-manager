@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,10 +25,10 @@ import java.util.Scanner;
  * |-------------------------------------------------------------------------
  * | Vastuualueet:                                      |                   | 
  * |                                                    |  - kategoria      | 
- * | - pitää yll� varsinaista kategoriarekisteri�,      |                   |
- * |     eli osaa lisätä ja poistaa kategorian           |                   | 
+ * | - pitaa ylla varsinaista kategoriarekisteria,      |                   |
+ * |     eli osaa lisata ja poistaa kategorian          |                   | 
  * | - lukee ja kirjoittaa kategorioita tiedostoon      |                   | 
- * | - osaa etsi� ja lajitella                          |                   | 
+ * | - osaa etsi� ja lajitella                          |                   | 
  * |-------------------------------------------------------------------------
  * </pre>
  * @author Yahya
@@ -50,7 +51,7 @@ public class Kategoriat implements Iterable<Kategoria> {
     
     /**
      * 
-     * @param args ei käytössä
+     * @param args ei k�yt�ss�
      */
     public static void main(String[] args) {
         //
@@ -62,7 +63,7 @@ public class Kategoriat implements Iterable<Kategoria> {
         Kategoria kg2 = new Kategoria("opiskelu");
         kg2.rekisteroi();
         
-        Kategoria kg3 = new Kategoria("työ");
+        Kategoria kg3 = new Kategoria("tyo");
         kg3.rekisteroi();
         
         kgt.lisaa(kg1); kgt.lisaa(kg2); kgt.lisaa(kg3);
@@ -77,7 +78,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @example
      * <pre name="test">
      *   Kategoriat kgt = new Kategoriat();
-     *   Kategoria k1 = new Kategoria("ty�");
+     *   Kategoria k1 = new Kategoria("tyo");
      *   Kategoria k2 = new Kategoria("opiskelu");
      *   Kategoria k3 = new Kategoria("muu");
      *   kgt.getLkm()   === 0;
@@ -112,14 +113,14 @@ public class Kategoriat implements Iterable<Kategoria> {
      *    Kategoria k1 = new Kategoria("opiskelu"); 
      *    k1.rekisteroi();
      *    int n = k1.getTunnusNro();
-     *    Kategoria k2 = new Kategoria("työ"); k2.rekisteroi();
+     *    Kategoria k2 = new Kategoria("tyo"); k2.rekisteroi();
      *    kat.getLkm() === 0;
      *    kat.anna(0); #THROWS IndexOutOfBoundsException
      *    kat.lisaa(k1);
      *    kat.anna(0).getNimi() === "opiskelu";
      *    kat.getLkm() === 1;
      *    kat.lisaa(k2);
-     *    kat.anna(1).getNimi() === "työ";
+     *    kat.anna(1).getNimi() === "tyo";
      *    kat.getLkm() === 2;
      *    kat.poista(n);
      *    kat.getLkm() === 1;
@@ -147,7 +148,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @example
      * <pre name="test">
      *   Kategoriat kgt = new Kategoriat();
-     *   Kategoria kg1 = new Kategoria("ty�");
+     *   Kategoria kg1 = new Kategoria("tyo");
      *   kg1.rekisteroi();
      *   Kategoria kg2 = new Kategoria("muu");
      *   kg2.rekisteroi();
@@ -156,7 +157,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      *   kgt.lisaa(kg1);
      *   kgt.lisaa(kg2);    
      *   kgt.lisaa(kg3);    
-     *   kgt.anna(0).getNimi()  === "ty�";
+     *   kgt.anna(0).getNimi()  === "tyo";
      *   kgt.anna(1).getNimi()  === "muu";
      *   kgt.anna(2).getNimi()  === "opiskelu";
      * </pre>
@@ -178,7 +179,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * #import java.util.*;
      * #import java.io.*;
      *  Kategoriat kat = new Kategoriat();
-     *  Kategoria k1 = new Kategoria("opiskelu"), k2 = new Kategoria("työ");
+     *  Kategoria k1 = new Kategoria("opiskelu"), k2 = new Kategoria("tyo");
      *  k1.rekisteroi(); k2.rekisteroi();
      *  String hakemisto = "testi";
      *  File dir = new File(hakemisto);
@@ -191,7 +192,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      *  Kategoria kTest = i.next();
      *  kTest.getNimi() === "opiskelu";
      *  Kategoria kTest2 = i.next();
-     *  kTest2.getNimi()  === "työ";
+     *  kTest2.getNimi()  === "tyo";
      *  kat.tallenna(hakemisto);
      * </pre>
      */
@@ -229,7 +230,7 @@ public class Kategoriat implements Iterable<Kategoria> {
                 fo.println(kategoria.toString());
             }
         } catch (FileNotFoundException e) {
-            System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei löydy");
+            System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei loydy");
         }
     }
 
@@ -306,6 +307,18 @@ public class Kategoriat implements Iterable<Kategoria> {
             }
         }
         lisaa(k);
+    }
+
+    /**
+     * @return Palauttaa kaikki kategoriat sortattuna otsikon perusteella
+     */
+    public List<Kategoria> annaKategoriat() {
+        List<Kategoria> kategoriat = new ArrayList<>(getLkm());
+        for (Kategoria k : this) {
+            kategoriat.add(k);
+        }
+        Collections.sort(kategoriat);
+        return kategoriat;
     }
 
 }
