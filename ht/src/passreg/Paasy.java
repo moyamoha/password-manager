@@ -13,23 +13,11 @@ import kanta.Numerot;
 import kanta.Tarkistukset;
 
 /**
- * Rekisterin p‰‰sy, joka osaa itse huolehtia mm. tunnusnumerostaan
- * <pre>
- * |------------------------------------------------------------------------|
- * | Luokan nimi:   P‰‰sy                               | Avustajat:        |
- * |-------------------------------------------------------------------------
- * | Vastuualueet:                                      |                   | 
- * |                                                    |                   | 
- * | (- ei tied‰ passregista eik‰ k‰yttˆliittym‰st‰     |                   |
- * | - tiet‰‰ p‰‰syn kent‰t (otsikko, tunnus, puhnro    |                   |
- * |   , salasana jne.)                                 |                   | 
- * | - osaa tarkistaa tietyn kent‰n oikeellisuuden      |                   |
- * | - osaa muuttaa 1|gmail|..| - merkkijono            |                   |
- * |   p‰‰syn tiedoiksi                                 |                   | 
- * | - osaa antaa merkkijonona i:n kent‰n tiedot        |                   | 
- * | - osaa laittaa merkkijonon i:neksi kent‰ksi        |                   | 
- * |-------------------------------------------------------------------------
- * </pre>
+ * Rekisterin p‰‰sy, joka osaa itse huolehtia mm. tunnusnumerostaan. 
+ * P‰‰syll‰ pit‰‰ olla v‰hint‰‰n otsikko, jokin k‰ytt‰j‰tunnusta vastaava kentt‰ ja salasana.
+ * Lis‰ksi jokainen p‰‰sy kuuluu ainoastaan yhteen kategoriaan eik‰ se pysty muuttamaan
+ * kategoriaansa kerran kun se on jo luotu.
+ * @see passreg.Kategoria
  * @author Yahya
  * @version 17.2.2021
  */
@@ -347,9 +335,19 @@ public class Paasy implements Tietue, Cloneable{
     }
     
     /**
+     * Tarkistaa onko p‰‰syn tietty kentt‰ 
      * @param k k:nnennen kent‰n numero
      * @param arvo kent‰n arvo/tuleva arvo
      * @return true jos on sopiva arvo
+     * @example
+     * <pre name="test">
+     *   Paasy p = new Paasy();
+     *   p.parse("1|1|facebook||akuAnkka@gmail.com||12345k||");
+     *   p.onValidi(1, p.anna(1)) === true;
+     *   p.onValidi(2, p.anna(2)) === true;
+     *   p.onValidi(5, p.anna(5)) === true;
+     *   p.onValidi(3, "akuankka")  === false; 
+     * </pre>
      */
     public boolean onValidi(int k, String arvo) {
         String s = arvo.trim();
@@ -392,7 +390,6 @@ public class Paasy implements Tietue, Cloneable{
      *   p2.parse("   3 | 1 | gmail   | soturi123");
      *   Paasy p3 = new Paasy();
      *   p3.parse("   3 | 1 | gmail   | soturi124");
-     *   
      *   p1.equals(p2) === true;
      *   p2.equals(p1) === true;
      *   p1.equals(p3) === false;
@@ -451,7 +448,6 @@ public class Paasy implements Tietue, Cloneable{
         public int compare(Paasy o1, Paasy o2) {
             return o1.anna(k).compareTo(o2.anna(k));
         }
-        
     }
     
 }

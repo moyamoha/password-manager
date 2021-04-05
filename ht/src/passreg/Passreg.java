@@ -218,11 +218,13 @@ public class Passreg {
      *  Passreg regis = new Passreg();
      *  Kategoria k1 = new Kategoria("opiskelu"); k1.rekisteroi();
      *  Kategoria k2 = new Kategoria("viihde");   k2.rekisteroi();
-     *  Paasy p1 = new Paasy(k1.getTunnusNro());  p1.taytaGmailTiedoilla();  
-     *  Paasy p2 = new Paasy(k2.getTunnusNro());  p2.taytaGmailTiedoilla(); 
-     *  Paasy p3 = new Paasy(k2.getTunnusNro());  p3.taytaGmailTiedoilla();  
-     *  Paasy p4 = new Paasy(k1.getTunnusNro());  p4.taytaGmailTiedoilla();  
-     *  Paasy p5 = new Paasy(k2.getTunnusNro());  p5.taytaGmailTiedoilla(); 
+     *  int n1 = k1.getTunnusNro();
+     *  int n2 = k2.getTunnusNro();
+     *  Paasy p1 = new Paasy(n1);  p1.aseta(1, "gmail1");  
+     *  Paasy p2 = new Paasy(n2);  p2.aseta(1, "gmail2");  
+     *  Paasy p3 = new Paasy(n2);  p3.aseta(1, "gmail3");  
+     *  Paasy p4 = new Paasy(n1);  p4.aseta(1, "gmail4");  
+     *  Paasy p5 = new Paasy(n2);  p5.aseta(1, "gmail5"); 
      *  String hakemisto = "testi";
      *  File dir = new File(hakemisto);
      *  dir.mkdir();  
@@ -235,12 +237,12 @@ public class Passreg {
      *  regis.lisaa(k2);
      *  regis.lisaa(p5);
      *  regis.tallenna();
-     *  List<Paasy> pst = regis.getPaasyt(k1.getTunnusNro());
+     *  List<Paasy> pst = regis.getPaasyt(n1);
      *  Iterator<Paasy> it = pst.iterator();
      *  it.next() === p1;
      *  it.next() === p4;
      *  it.hasNext() === false;
-     *  List<Paasy> loytyneet = regis.getPaasyt(k2.getTunnusNro());
+     *  List<Paasy> loytyneet = regis.getPaasyt(n2);
      *  Iterator<Paasy> ih = loytyneet.iterator();
      *  ih.hasNext()  === true;
      *  ih.next() === p2;
@@ -287,13 +289,15 @@ public class Passreg {
      *    int n = k.getTunnusNro();
      *    pss.lisaa(k);
      *    Paasy p1 = new Paasy(n); p1.taytaGmailTiedoilla();
-     *    Paasy p2 = new Paasy(n); p1.taytaGmailTiedoilla();
+     *    Paasy p2 = new Paasy(n); p2.taytaGmailTiedoilla();
      *    Paasy p3 = new Paasy(n+1); p3.taytaGmailTiedoilla();
      *    pss.lisaa(p1); pss.lisaa(p2); pss.lisaa(p3);
      *    List<Paasy> pst = pss.getPaasyt(n);
      *    Iterator<Paasy> i = pst.iterator();
-     *    i.next() === p1;
-     *    i.next() === p2;
+     *    Paasy p = i.next();
+     *    (p == p1 || p == p2) === true;
+     *    i.hasNext() === true;
+     *    i.next();
      *    i.hasNext() === false;
      *    i.next(); #THROWS NoSuchElementException
      * </pre>

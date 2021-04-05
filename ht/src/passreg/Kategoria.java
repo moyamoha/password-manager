@@ -13,6 +13,7 @@ import kanta.Tarkistukset;
  * kuulua täsmälleen yhteen kategoriaan.
  * @author Yahya
  * @version 1.3.2021
+ * @see passreg.Paasy
  */
 public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
     
@@ -41,7 +42,6 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
         //
     }
     
-    
     /**
      * Muodostaja kun parametrina kategorian nimi
      * @param inimi annettava nimi
@@ -59,7 +59,6 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
         out.println(getTunnusNro() + " " + this.getNimi());
     }
     
-    
     /**
      * Tulostetaan Kategorian tiedot kohdetietovirtaan
      * @param os kohdetietovirta johon tulostetaan
@@ -68,7 +67,6 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
         tulosta(new PrintStream(os));
     }
     
-    
     /**
      * @return kategorian nimi
      */
@@ -76,7 +74,6 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
         return this.nimi;
     }
     
-
     /**
      * @return kategorian tunnusNro
      */
@@ -84,7 +81,6 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
     public int getTunnusNro() {
         return this.tunnusNro;
     }
-    
 
     /**
      * Rekisteröidään kategoria. Samalla kasvatetaan seuraavaNro yhdellä.
@@ -293,6 +289,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
     }
 
     /**
+     * Vertaa kategorian nimen mukaan aakkosjärjestyksessä
      * @example
      * <pre name="test">
      *   Kategoria k1 = new Kategoria("tyo");

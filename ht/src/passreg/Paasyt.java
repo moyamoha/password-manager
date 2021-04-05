@@ -20,21 +20,10 @@ import java.util.Scanner;
 import fi.jyu.mit.ohj2.WildChars;
 
 /**
- * <pre>
- * |------------------------------------------------------------------------|
- * | Luokan nimi:   Paasyt                              | Avustajat:        |
- * |-------------------------------------------------------------------------
- * | Vastuualueet:                                      |                   | 
- * |                                                    | - Paasy           | 
- * | - pit‰‰ yll‰ varsinaista paasyrekisteri‰, eli osaa |                   | 
- * |   lis‰t‰ ja poistaa p‰‰syn                         |                   | 
- * | - lukee ja kirjoittaa p‰‰syj‰ tiedostoon           |                   | 
- * | - osaa etsi‰ ja lajitella                          |                   | 
- * |-------------------------------------------------------------------------
- * </pre>
+ * Tietorakenne, joka yll‰pit‰‰ p‰‰syj‰ ja osaa lis‰t‰, poista, etsi‰ ja lajitella. 
+ * Osaa lukea tiedostosta sek‰ kirjoittaa tiedostoon.
  * @author Yahya
  * @version 17.2.2021
- *
  */
 public class Paasyt implements Iterable<Paasy> {
     
@@ -373,7 +362,21 @@ public class Paasyt implements Iterable<Paasy> {
      * @return kokoelma kaikista p‰‰syist‰, jotka toteuttavat hakuehdon
      * @example
      * <pre name="test">
-     *   
+     *   Paasy p1 = new Paasy();
+     *   p1.aseta(1, "gmail3");
+     *   Paasy p2 = new Paasy();
+     *   p2.aseta(1, "gmail1");
+     *   Paasy p3 = new Paasy();
+     *   p3.aseta(1, "gmail2");
+     *   Paasyt pst = new Paasyt();
+     *   pst.lisaa(p1); pst.lisaa(p2); pst.lisaa(p3);
+     *   Collection<Paasy> loytyneet = pst.etsi("gmail1", 1);
+     *   Iterator<Paasy> i = loytyneet.iterator();
+     *   i.next() === p2;
+     *   loytyneet = pst.etsi("gmail2", 1);
+     *   i = loytyneet.iterator();
+     *   i.next() === p3;
+     *   i.hasNext()  === false;
      * </pre>
      */
     public Collection<Paasy> etsi(String ehto, int kentta) {

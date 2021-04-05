@@ -97,6 +97,7 @@ public class PassregGUIController implements Initializable {
             cbKentat.add(apuPaasy.getKysymys(i));
         }
         cbKentat.getSelectionModel().select(1);
+        cbKentat.setOnAction(e -> etsiPaasyt());
         Node parent = naytaCheckBox.getParent();
         edits = new TextInputControl[apuPaasy.kenttaLkm()];
         Collection<TextInputControl> tekstit =  getNodes(parent, TextInputControl.class, 
@@ -193,12 +194,11 @@ public class PassregGUIController implements Initializable {
             if (p.equals(valittuPaasy)) return;
             passreg.korvaaTaiLisaa(p);
             valittuPaasy = p;
+            valittuKategoria = null;
             paivitaPuu(p);
             naytaPaasy(p);
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        
+            etsiPaasyt();
+        } catch (CloneNotSupportedException e) { /*..*/ }
     }
 
     /**

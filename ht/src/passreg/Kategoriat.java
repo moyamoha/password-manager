@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -18,24 +17,12 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * <pre>
- * Luokkaa, joka kokoaa yhteen alkiot.
- * |------------------------------------------------------------------------|
- * | Luokan nimi:   Kategoriat                          | Avustajat:        |
- * |-------------------------------------------------------------------------
- * | Vastuualueet:                                      |                   | 
- * |                                                    |  - kategoria      | 
- * | - pitaa ylla varsinaista kategoriarekisteria,      |                   |
- * |     eli osaa lisata ja poistaa kategorian          |                   | 
- * | - lukee ja kirjoittaa kategorioita tiedostoon      |                   | 
- * | - osaa etsiä ja lajitella                          |                   | 
- * |-------------------------------------------------------------------------
- * </pre>
+ * Tietorakennetyyppinen luokka, joka kokoaa yhteen ohjelman kategoriat.
+ * Osaa lisätä/poistaa kategorioita sekä tallentaa niitä tiedostoon/lukea tiedostosta
  * @author Yahya
  * @version 1.3.2021
  *
  */
-@SuppressWarnings("unused")
 public class Kategoriat implements Iterable<Kategoria> {
 
     private final List<Kategoria> alkiot = new ArrayList<>();
@@ -259,28 +246,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      */
     @Override
     public Iterator<Kategoria> iterator() {
-        return new Iter();
-    }
-    
-    /**
-     * @author Yahya
-     * @version 8.3.2021
-     *
-     */
-    public class Iter implements Iterator<Kategoria> {
-        
-        private int kohdalla;
-        
-        @Override
-        public boolean hasNext() {
-            return kohdalla < getLkm();
-        }
-
-        @Override
-        public Kategoria next() {
-            if (!hasNext()) throw new NoSuchElementException("Ei oo enï¿½ï¿½");
-            return anna(kohdalla++);
-        }
+        return this.alkiot.iterator();
     }
 
     
@@ -296,6 +262,21 @@ public class Kategoriat implements Iterable<Kategoria> {
 
     /**
      * @param k korvattava tai lisättävä kategoria
+     * @example
+     * <pre name="test">
+     *    Kategoriat kat = new Kategoriat();
+     *    Kategoria k1 = new Kategoria("tyo");
+     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    kat.onMuutettu() === false;
+     *    kat.lisaa(k1);
+     *    kat.lisaa(k2);
+     *    kat.setMuutettu(false);
+     *    kat.anna(0).getNimi() === "tyo";
+     *    k1.parse("1|viihde");
+     *    kat.korvaaTaiLisaa(k1);
+     *    kat.anna(0).getNimi() === "viihde";
+     *    kat.onMuutettu() === true;
+     * </pre>
      */
     public void korvaaTaiLisaa(Kategoria k) {
         if (k == null) return;
@@ -311,6 +292,20 @@ public class Kategoriat implements Iterable<Kategoria> {
 
     /**
      * @return Palauttaa kaikki kategoriat sortattuna otsikon perusteella
+     * @example
+     * <pre name="test">
+     *   #import java.util.*;
+     *    Kategoriat kat = new Kategoriat();
+     *    Kategoria k1 = new Kategoria("tyo");
+     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    kat.lisaa(k1); kat.lisaa(k2);
+     *    List<Kategoria> katet = kat.annaKategoriat();
+     *    Iterator<Kategoria> i = katet.iterator();
+     *    i.next() === k2;
+     *    i.hasNext() === true;
+     *    i.next() === k1;
+     *    i.hasNext() === false;
+     * </pre>
      */
     public List<Kategoria> annaKategoriat() {
         List<Kategoria> kategoriat = new ArrayList<>(getLkm());
