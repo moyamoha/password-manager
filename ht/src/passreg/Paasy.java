@@ -433,6 +433,17 @@ public class Paasy implements Tietue, Cloneable{
      * @author Yahya
      * @version 31.3.2021
      * P‰‰syjen vertailija-luokka
+     * @example
+     * <pre name="test">
+     *  #import passreg.Paasy.Vertailija;
+     *   Paasy p1 = new Paasy();
+     *   p1.parse("1|1|gmail2|henk.gmail");
+     *   Paasy p2 = new Paasy();
+     *   p2.parse("2|1|gmail1|tyogmail");
+     *   Vertailija vrt = new Vertailija(1);
+     *   int tulos = vrt.compare(p1, p2); 
+     *   tulos > 0 === true;
+     * </pre>
      */
     public static class Vertailija implements Comparator<Paasy>{
         private int k;

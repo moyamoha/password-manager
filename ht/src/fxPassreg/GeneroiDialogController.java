@@ -8,10 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.paint.Color;
 import kanta.Merkkijonot;
-import static kanta.Merkkijonot.generateHexColor;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -80,8 +77,6 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
     private void generoi() {
         int pituus = spPituus.getValue();
         String s = Merkkijonot.generoiSalasana(pituus, getBoxinArvot());
-        String color = generateHexColor();
-        showPassLabel.setTextFill(Color.web(color));
         showPassLabel.setText(s);
     }
     

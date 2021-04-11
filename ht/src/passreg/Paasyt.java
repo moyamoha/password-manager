@@ -27,17 +27,17 @@ import fi.jyu.mit.ohj2.WildChars;
  */
 public class Paasyt implements Iterable<Paasy> {
     
-    private static int MAX_KOKO = 3; 
+    private static int maxSize = 3; 
     private Paasy[] alkiot;
     private int lkm;
     private boolean muutettu = false;
-    private static final String tiedostonNimi = "/salasanat.dat";
+    private static final String TIEDOSTON_NIMI = "/salasanat.dat";
     
     /**
      * Oletus-muodostaja
      */
     public Paasyt() {
-        this.alkiot = new Paasy[MAX_KOKO];
+        this.alkiot = new Paasy[maxSize];
     }
     
     /**
@@ -118,8 +118,8 @@ public class Paasyt implements Iterable<Paasy> {
      * Samalla kopioidaan alkiot uuteen taulukkoon ja Tuhotaan vanha taulukko.
      */
     private final void luoJaKopioi() {
-        MAX_KOKO = 2 * MAX_KOKO;
-        Paasy[] apuTaul = new Paasy[MAX_KOKO];
+        maxSize = 2 * maxSize;
+        Paasy[] apuTaul = new Paasy[maxSize];
         for (int i = 0; i < getLkm(); i++) {
             apuTaul[i] = this.alkiot[i];
         }
@@ -194,12 +194,10 @@ public class Paasyt implements Iterable<Paasy> {
      * </pre>
      */
     public void lueTiedostosta(String hakemisto) {
-        File fTied = new File(hakemisto + tiedostonNimi);
+        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
         try {
             fTied.createNewFile();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+        } catch (IOException e1) {/*..*/}
         String rivi = "";
         try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
             while (fi.hasNextLine()) {
@@ -209,9 +207,7 @@ public class Paasyt implements Iterable<Paasy> {
                 lisaa(paasy);
             }
         }
-        catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
+        catch (FileNotFoundException e) {/*..*/}
         muutettu = false;
     }
     
@@ -222,14 +218,12 @@ public class Paasyt implements Iterable<Paasy> {
      */
     public void tallenna(String hakemisto) {
         if (!muutettu) return;
-        File fTied = new File(hakemisto + tiedostonNimi);
+        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
         try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
             for (Paasy p : this) {
                 fo.println(p.toString());
             }
-        } catch (FileNotFoundException e) {
-            System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei l√∂ydy");
-        }
+        } catch (FileNotFoundException e) {/*..*/}
         muutettu = false;
         
     }
@@ -314,7 +308,7 @@ public class Paasyt implements Iterable<Paasy> {
      */
     public class Iter implements Iterator<Paasy> {
         
-        int kohdalla;
+        private int kohdalla;
 
         @Override
         public boolean hasNext() {
@@ -330,7 +324,24 @@ public class Paasyt implements Iterable<Paasy> {
     }
 
     /**
+     * Poistetaan kaikki p‰‰syt, joilla on sama kategorian id.
      * @param kID kategorian id
+     * @example
+     * <pre name="test">
+     *    Paasyt pst = new Paasyt();
+     *    Paasy p1 = new Paasy();
+     *    p1.parse("1|1|gmail||||abcef");
+     *    Paasy p2 = new Paasy();
+     *    p2.parse("2|1|facebook|soturi123|||ghijkl");
+     *    Paasy p3 = new Paasy(2);
+     *    p3.aseta(1, "instagramm");
+     *    pst.lisaa(p1); pst.lisaa(p2); pst.lisaa(p3);
+     *    pst.getLkm() === 3;
+     *    pst.anna(0).anna(1) === "gmail"; 
+     *    pst.poistaKategorianPaasyt(1);
+     *    pst.getLkm() === 1;
+     *    pst.anna(0) === p3;
+     * </pre>
      */
     public void poistaKategorianPaasyt(int kID) {
         int i = 0;
@@ -390,6 +401,19 @@ public class Paasyt implements Iterable<Paasy> {
 
     /**
      * @param p korvattava tai lis‰tt‰v‰ p‰‰sy
+     * @example
+     * <pre name="test">
+     *    Paasyt pst = new Paasyt();
+     *    pst.onMuutettu() === false;
+     *    Paasy p1 = new Paasy();
+     *    p1.parse("1|1|gmail1");
+     *    pst.korvaaTaiLisaa(p1);
+     *    pst.onMuutettu() === true;
+     *    pst.anna(0).anna(1) === "gmail1";
+     *    p1.parse("1|2|facebook");
+     *    pst.korvaaTaiLisaa(p1);
+     *    pst.anna(0).anna(1) === "facebook";
+     * </pre>
      */
     public void korvaaTaiLisaa(Paasy p) {
         if (p == null) return;

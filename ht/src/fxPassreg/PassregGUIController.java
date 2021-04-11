@@ -214,8 +214,9 @@ public class PassregGUIController implements Initializable {
         if (Dialogs.showQuestionDialog("Poisto?", "Haluatko varmasti poistaa " + poistettava.getView() + "?", "kyllä", "ei")) {
             passreg.poistaPaasy(poistettava.getTunnusNro());
             paivitaPuu(null);
-            valittuPaasy = null;
-            valittuKategoria = (Kategoria) puu.getSelectedObject();
+            Tietue t = puu.getSelectedObject();
+            if (t instanceof Kategoria) valittuKategoria = (Kategoria) t;
+            if (t instanceof Paasy) valittuPaasy = (Paasy) t;
             if (paasyChooser.getObjects().contains(poistettava)) etsiPaasyt();
             naytaPaasy(null);
         }
@@ -244,9 +245,8 @@ public class PassregGUIController implements Initializable {
             if (k == null) return;
             passreg.korvaaTaiLisaa(k);
             paivitaPuu(k);
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+            valittuKategoria = k;
+        } catch (CloneNotSupportedException e) {/*..*/}
     }
     
     /** Poistetaan valittu kategoria */

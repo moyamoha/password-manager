@@ -21,12 +21,12 @@ import java.util.Scanner;
  * Osaa lis‰t‰/poistaa kategorioita sek‰ tallentaa niit‰ tiedostoon/lukea tiedostosta
  * @author Yahya
  * @version 1.3.2021
- *
+ * @see passreg.Kategoria
  */
 public class Kategoriat implements Iterable<Kategoria> {
 
-    private final List<Kategoria> alkiot = new ArrayList<>();
-    private static final String tiedostonNimi = "/kategoriat.dat";
+    private List<Kategoria> alkiot = new ArrayList<>();
+    private static final String TIEDOSTON_NIMI = "/kategoriat.dat";
     private boolean muutettu = false;
     
     /**
@@ -184,12 +184,10 @@ public class Kategoriat implements Iterable<Kategoria> {
      * </pre>
      */
     public void lueTiedostosta(String hakemisto) {
-        File fTied = new File(hakemisto + tiedostonNimi);
+        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
         try {
             fTied.createNewFile();
-        } catch (IOException e1) {
-            //
-        }
+        } catch (IOException e1) { /*..*/ }
         String rivi = "";
         try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
             while (fi.hasNextLine()) {
@@ -199,9 +197,7 @@ public class Kategoriat implements Iterable<Kategoria> {
                 lisaa(kategoria);
             }
         }
-        catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
+        catch (FileNotFoundException e) { /*..*/ }
     }
     
     
@@ -211,14 +207,12 @@ public class Kategoriat implements Iterable<Kategoria> {
      */
     public void tallenna(String hakemisto) {
         if (!muutettu) return;
-        File fTied = new File(hakemisto + tiedostonNimi);
+        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
         try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
             for (Kategoria kategoria : this) {
                 fo.println(kategoria.toString());
             }
-        } catch (FileNotFoundException e) {
-            System.err.println("Tiedosto " + fTied.getAbsolutePath() + " ei loydy");
-        }
+        } catch (FileNotFoundException e) { /*..*/ }
     }
 
     /**
@@ -234,7 +228,8 @@ public class Kategoriat implements Iterable<Kategoria> {
      *   iter.next(); #THROWS NoSuchElementException
      *   kgt.lisaa(kg1);
      *   iter.hasNext() === true;
-     *   iter.next().getNimi() === "tyo";
+     *   Kategoria k = iter.next();
+     *   k === kg1;
      *   kgt.lisaa(kg2); 
      *   kgt.lisaa(kg3);
      *   iter.next()  === kg2;       
@@ -246,7 +241,29 @@ public class Kategoriat implements Iterable<Kategoria> {
      */
     @Override
     public Iterator<Kategoria> iterator() {
-        return this.alkiot.iterator();
+        return new Iter();
+    }
+    
+    /**
+     * @author Yahya
+     * @version 6.4.2021
+     * Iteraattori kategorioiden l‰pik‰ymiseen
+     */
+    public class Iter implements Iterator<Kategoria> {
+
+        private int kohdalla;
+        
+        @Override
+        public boolean hasNext() {
+            return kohdalla < getLkm();
+        }
+
+        @Override
+        public Kategoria next() {
+            if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en‰‰!");
+            return anna(kohdalla++);
+        }
+        
     }
 
     

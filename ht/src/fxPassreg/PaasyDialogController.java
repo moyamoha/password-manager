@@ -69,7 +69,6 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     public void initialize(URL arg0, ResourceBundle arg1) {
         Tooltip tooltip = new Tooltip("Avaa uuden ikkunan, jossa generoidaan antamasi kenttien arvojen mukainen salasana");
         generoiButton.setTooltip(tooltip);
-        hallitseGeneroimista();
         bindSalasanaKentat();
         Node parent = generoiButton.getParent();
         Collection<Label> labelit =  getNodes(parent, Label.class, 
@@ -181,25 +180,6 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     }
     
     /**
-     * Kontrolloidaan generoi-buttonin saavutettavuus. Jos salasanakentt‰‰n on kirjoitettu jotakin, 
-     * estet‰‰n generoimista. Sallitaan generoimista ainoastaan silloin, kun salasanakentt‰ on tyhj‰
-     */
-    private void hallitseGeneroimista() {
-        BooleanBinding bb = new BooleanBinding() {
-            {
-                super.bind(passText1.textProperty(),
-                        passField1.textProperty());
-            }
-            @Override
-            protected boolean computeValue() {
-                return (! passField1.getText().isEmpty()
-                        ||  ! passText1.getText().isEmpty());
-            }
-        };
-        generoiButton.disableProperty().bind(bb);
-    }
-    
-    /**
      * Kun k‰ytt‰j‰ painaa ok-painikkeen, tallennetaan muutokset ja poistutaan. 
      * Mik‰li tallennettavia muutoksia ei ole, poistutaan ikkunasta.
      */
@@ -240,6 +220,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
      */
     private void avaaGenerointiIkkuna() {
         String salasana = GeneroiDialogController.haeGeneroituSalasana();
+        if (salasana == null || salasana.equals("")) return;
         passText1.setText(salasana); passText2.setText(salasana);
     }
 
@@ -259,6 +240,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         ModalController.getStage(generoiButton).setOnCloseRequest(e -> handleCancel());
         current = oletus;
         naytaPaasy(edits, oletus);
+        passText2.setText(passField1.getText());
     }
     
     

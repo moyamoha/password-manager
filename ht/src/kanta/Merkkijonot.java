@@ -1,5 +1,4 @@
 package kanta;
-import static kanta.Numerot.rand;
 import java.util.*;
 
 /**
@@ -58,6 +57,11 @@ public class Merkkijonot {
     /**
      * Generoidaan tunnus. Tunnuksen pituus on v‰lill‰ 7 - 10
      * @return generoitu tunnus
+     * @example
+     * <pre name="test">
+     *   String tun = generoiTunnus();
+     *   tun.length() <= 10  === true;
+     * </pre>
      */
     public static String generoiTunnus() {
         char[] merkit = yhdista(PIENET_KIRJAIMET, ISO_KIRJAIMET);
@@ -69,6 +73,12 @@ public class Merkkijonot {
      * @param arvot boolean taulukko, jossa alkioina <i>sis‰lt‰‰ numeroita</i>, <i>sis‰lt‰‰ erikoismerkkej‰</i>
      * ja <i>sis‰lt‰‰ isoja kirjaimia</i>
      * @return uusi salasana
+     * @example
+     * <pre name="test">
+     *   String sala = generoiSalasana(10, new boolean[] {false, false, true});
+     *   sala.length() === 10;
+     *   sala.contains("[0-9]")  === false;
+     * </pre>
      */
     public static String generoiSalasana(int pituus, boolean[] arvot) {
         char[][] merkit = new char[3][];
@@ -86,36 +96,16 @@ public class Merkkijonot {
     /**
      * Generoi uusi satunnainen puhelinnumero
      * @return genroitu puhelin numero muodossa dddddddddd
+     * @example
+     * <pre name="test">
+     *   String puh = generoiPuhNro();
+     *   puh.startsWith("0");
+     *   puh.contains("[a-zA-Z]") === false;
+     * </pre>
      */
     public static String generoiPuhNro() {
         return "0" + generateMerkkiJono(NUMEROT, 9);
     }
-    
-    /**
-     * @return int array jossa rgb-arvot 0-150. V‰rit luonnollisesti tummempia
-     */
-    public static int[] generateDarkRgb() {
-        int[] arvot = new int[3];
-        for(int i = 0; i < arvot.length; i++) {
-            arvot[i] = rand(0, 254);
-        }
-        return arvot;
-    }
-    
-    /**
-     * @return a hexStringColor.
-     */
-    public static String generateHexColor() {
-        int[] arvot = generateDarkRgb();
-        StringBuilder hexColor = new StringBuilder("#");
-        for (int i = 0; i < arvot.length; i++) {
-            String osa = Integer.toHexString(arvot[i]);
-            if (osa.length() == 1) osa = "0" + osa;
-            hexColor.append(osa);
-        }
-        return hexColor.toString();
-    }
-    
     
     /**
      * Yhdist‰‰ kaksi char-taulukkoa toisiinsa
@@ -124,10 +114,10 @@ public class Merkkijonot {
      * @return uusi char-taulukko muodossa [...eka..., ...toka...]
      * @example
      * <pre name="test">
-     *       char[] PIENET_KIRJAIMET  = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-     *       char[] NUMEROT           = "0123456789".toCharArray();
-     *       char[] yhdistetty = yhdista(PIENET_KIRJAIMET, NUMEROT);
-     *       Arrays.toString(yhdistetty)  === "[a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]";
+     *    char[] PIENET_KIRJAIMET  = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+     *    char[] NUMEROT           = "0123456789".toCharArray();
+     *    char[] yhdistetty = yhdista(PIENET_KIRJAIMET, NUMEROT);
+     *    Arrays.toString(yhdistetty)  === "[a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]";
      * </pre>
      */
     public static char[] yhdista(char[] eka , char[] toka) {
@@ -154,7 +144,15 @@ public class Merkkijonot {
     }
     
     /**
+     * Generoidaan satunnainen nimi kategorioille
      * @return satunnainen kategorian nimi
+     * @example
+     * <pre name="test">
+     *    String kNimi= generoiKNimi();
+     *    (kNimi.length() < 11) && kNimi.length() >= 5  === true;
+     *    kNimi.contains("[0-9A-Z]")  === false;
+     *    kNimi.contains("[a-z]")  === true;
+     * </pre>
      */
     public static String generoiKNimi() {
         return generateMerkkiJono(yhdista(PIENET_KIRJAIMET, new char[] {'‰', 'ˆ'}), 5, 10);

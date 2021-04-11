@@ -86,19 +86,15 @@ public class Passreg {
      * <pre name="test">
      *    Passreg pg = new Passreg();
      *    pg.getPaasytLkm()  === 0;
-     *    
      *    Paasy gmail1 = new Paasy();
      *    gmail1.rekisteroi();
      *    gmail1.taytaGmailTiedoilla();
      *    pg.lisaa(gmail1);
-     *    
      *    pg.getPaasytLkm()  === 1;
-     *     
      *    Paasy gmail2 = new Paasy();
      *    gmail2.rekisteroi();
      *    gmail2.taytaGmailTiedoilla();
      *    pg.lisaa(gmail2);
-     *    
      *    pg.getPaasytLkm()  === 2;
      * </pre>
      */
@@ -193,18 +189,12 @@ public class Passreg {
      */
     public void tallenna() {
         if ( !onMuutettu() ) return;
-        String virhe = "";
         try {
             paasyt.tallenna(getTiedostonNimi());
-        } catch (Exception e) {
-            virhe += e.getMessage();
-        }
+        } catch (Exception e) {/*..*/}
         try {
             kategoriat.tallenna(getTiedostonNimi());
-        } catch (Exception e) {
-            virhe += e.getMessage();
-        }
-        System.out.println(virhe);
+        } catch (Exception e) {/*..*/}
         setMuutettu(false);
     }
     
@@ -259,9 +249,7 @@ public class Passreg {
         try {
             pst.lueTiedostosta(getTiedostonNimi());
             kat.lueTiedostosta(getTiedostonNimi());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {/*..*/}
         paasyt = pst;
         kategoriat = kat;
         setMuutettu(false);
@@ -270,7 +258,31 @@ public class Passreg {
     /**
      * Poistetaan kategoria, jonka tunnusnumero on v‰litetty parametrina.
      * Samalla poistetaan kaikki ne p‰‰syt, joiden kategorian id vastasi poistetun kategorian tunnusnumeroa
-     * @param kID poistettavan kategorian tunnusnumero. 
+     * @param kID poistettavan kategorian tunnusnumero.
+     * @example
+     * <pre name="test">
+     *    Passreg psg = new Passreg();
+     *    Paasy p1 = new Paasy();
+     *    p1.parse("1|1|gmail||||abcef");
+     *    Paasy p2 = new Paasy();
+     *    p2.parse("2|1|facebook|soturi123|||ghijkl");
+     *    Paasy p3 = new Paasy(2);
+     *    p3.aseta(1, "instagramm");
+     *    psg.lisaa(p1); psg.lisaa(p2); psg.lisaa(p3);
+     *    psg.getPaasytLkm() === 3;
+     *    psg.annaPaasy(0).anna(1) === "gmail"; 
+     *    Kategoria k1 = new Kategoria();
+     *    k1.parse("1|tyo");
+     *    Kategoria k2 = new Kategoria();
+     *    k2.parse("2|opiskelu");
+     *    psg.lisaa(k1); psg.lisaa(k2);
+     *    psg.getKategoriatLkm() === 2;
+     *    psg.poistaKategoria(1);
+     *    psg.getKategoriatLkm() === 1;
+     *    psg.getPaasytLkm() === 1;
+     *    psg.annaPaasy(0) === p3;
+     *    psg.annaKategoria(0) === k2;
+     * </pre>
      */
     public void poistaKategoria(int kID) {
         kategoriat.poista(kID);
@@ -331,6 +343,24 @@ public class Passreg {
      * @param ehto mink‰ ehdon perusteella haetaan
      * @param kentta mik‰ on se ehdon tarkennus
      * @return kokoelma kaikista p‰‰syist‰, jotka toteuttavat hakuehdon
+     * @example
+     * <pre name="test">
+     *   Paasy p1 = new Paasy();
+     *   p1.aseta(1, "gmail3");
+     *   Paasy p2 = new Paasy();
+     *   p2.aseta(1, "gmail1");
+     *   Paasy p3 = new Paasy();
+     *   p3.aseta(1, "gmail2");
+     *   Passreg psg = new Passreg();
+     *   psg.lisaa(p1); psg.lisaa(p2); psg.lisaa(p3);
+     *   Collection<Paasy> loytyneet = psg.etsi("gmail1", 1);
+     *   Iterator<Paasy> i = loytyneet.iterator();
+     *   i.next() === p2;
+     *   loytyneet = psg.etsi("gmail2", 1);
+     *   i = loytyneet.iterator();
+     *   i.next() === p3;
+     *   i.hasNext()  === false;
+     * </pre>
      */
     public Collection<Paasy> etsi(String ehto, int kentta) {
         return paasyt.etsi(ehto, kentta);
@@ -338,6 +368,19 @@ public class Passreg {
 
     /**
      * @param p korvattava tai lis‰tt‰v‰ p‰‰sy
+     * @example
+     * <pre name="test">
+     *    Passreg psg = new Passreg();
+     *    psg.onMuutettu() === false;
+     *    Paasy p1 = new Paasy();
+     *    p1.parse("1|1|gmail1");
+     *    psg.korvaaTaiLisaa(p1);
+     *    psg.onMuutettu() === true;
+     *    psg.annaPaasy(0).anna(1) === "gmail1";
+     *    p1.parse("1|2|facebook");
+     *    psg.korvaaTaiLisaa(p1);
+     *    psg.annaPaasy(0).anna(1) === "facebook";
+     * </pre>
      */
     public void korvaaTaiLisaa(Paasy p) {
         paasyt.korvaaTaiLisaa(p);
@@ -345,20 +388,56 @@ public class Passreg {
 
     /**
      * @param k korvattava tai lis‰tt‰v‰ kategoria
+     * @example
+     * <pre name="test">
+     *    Passreg psg = new Passreg();
+     *    Kategoria k1 = new Kategoria("tyo");
+     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    psg.onMuutettu() === false;
+     *    psg.lisaa(k1);
+     *    psg.lisaa(k2);
+     *    psg.annaKategoria(0).getNimi() === "tyo";
+     *    k1.parse("1|viihde");
+     *    psg.korvaaTaiLisaa(k1);
+     *    psg.annaKategoria(0).getNimi() === "viihde";
+     *    psg.onMuutettu() === true;
+     * </pre>
      */
     public void korvaaTaiLisaa(Kategoria k) {
         kategoriat.korvaaTaiLisaa(k);
     }
 
     /**
+     * Palautetaan rekisterin nimi
      * @return rekisterin nimi
+     * @example
+     * <pre name="test">
+     *   Passreg psg = new Passreg();
+     *   psg.setTiedostonNimi("toinenTesti");
+     *   psg.getName() === "toinenTesti";
+     * </pre>
      */
     public String getName() {
         return tiedosto;
     }
     
     /**
+     * Palauttaa kaikki kategoriat j‰rjestettyn‰ listana
      * @return kaikki rekisterin kategoriat sortattuna
+     * @example
+     * <pre name="test">
+     *   #import java.util.*;
+     *    Passreg psg = new Passreg();
+     *    Kategoria k1 = new Kategoria("tyo");
+     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    psg.lisaa(k1); psg.lisaa(k2);
+     *    List<Kategoria> katet = psg.annaKategoriat();
+     *    Iterator<Kategoria> i = katet.iterator();
+     *    i.next() === k2;
+     *    i.hasNext() === true;
+     *    i.next() === k1;
+     *    i.hasNext() === false;
+     * </pre>
      */
     public List<Kategoria> annaKategoriat() {
         return this.kategoriat.annaKategoriat();

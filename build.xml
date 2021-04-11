@@ -5,14 +5,14 @@
     <!--define folder properties-->
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="C:/Users/Yahya/eclipse-workspace"/>
-    <property name="dir.jarfile" value="${dir.buildfile}"/>
+    <property name="dir.jarfile" value="D:/Ohjelmointi2/ajettavat"/>
     <target name="create_run_jar">
         <jar destfile="${dir.jarfile}/Passregv1o.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="fxPassreg.PassregMain"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="D:/Ohjelmointi2/passreg/ht/bin"/>
+            <fileset dir="${dir.buildfile}/ht/bin"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Ali.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/fxgui.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Graphics.jar"/>

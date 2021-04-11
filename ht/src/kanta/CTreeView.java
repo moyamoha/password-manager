@@ -19,7 +19,6 @@ import javafx.util.Callback;
  * @author Yahya
  * @version 3.3.2021
  * @param <T> Käytetty tyyppi
- *
  */
 public class CTreeView<T> extends TreeView<T> {
     
