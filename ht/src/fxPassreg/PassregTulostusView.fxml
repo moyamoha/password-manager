@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.TulostusDialogController">
+   <children>
+      <TextArea fx:id="tulostusText" editable="false" prefHeight="423.0" prefWidth="329.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+      <Separator layoutY="424.0" prefHeight="2.0" prefWidth="370.0" AnchorPane.bottomAnchor="39.8" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-0.39999999999997726" />
+      <Button layoutX="294.0" layoutY="433.0" mnemonicParsing="false" onAction="#handleOkButton" prefHeight="26.0" prefWidth="55.0" text="Ok" AnchorPane.bottomAnchor="7.600000000000001" AnchorPane.rightAnchor="20.799999999999997" />
+      <Button fx:id="tulostaButton" layoutX="230.0" layoutY="434.0" mnemonicParsing="false" text="Tulosta" AnchorPane.bottomAnchor="7.399999999999999" AnchorPane.rightAnchor="88.0" />
+   </children>
+</AnchorPane>

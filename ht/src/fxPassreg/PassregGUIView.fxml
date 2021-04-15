@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fi.jyu.mit.fxgui.ComboBoxChooser?>
 <?import fi.jyu.mit.fxgui.ListChooser?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -7,141 +8,74 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="526.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PassregViewController">
-   <bottom>
-      <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" text="Uusi pääsy" />
-            <Button mnemonicParsing="false" text="Tallenna" />
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </BorderPane.margin>
-      </HBox>
-   </bottom>
+<BorderPane prefHeight="519.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPassreg.PassregGUIController">
    <top>
       <MenuBar prefWidth="800.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Tiedosto">
             <items>
-              <MenuItem mnemonicParsing="false" text="Tallenna" />
-                  <MenuItem mnemonicParsing="false" text="Avaa..." />
-                  <MenuItem mnemonicParsing="false" text="Tulosta..." />
-                  <MenuItem mnemonicParsing="false" text="Lopeta" />
+              <MenuItem mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleAvaa" text="Avaa...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleTulosta" text="Tulosta..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLopeta" text="Lopeta">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Muokkaa">
             <items>
-              <MenuItem mnemonicParsing="false" text="Lisää uusi pääsy" />
-                  <MenuItem mnemonicParsing="false" text="Poista pääsy..." />
+              <MenuItem mnemonicParsing="false" onAction="#handleLisaaUusiPaasy" text="Lisää uusi pääsy">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleMuokkaaPaasy" text="Muokkaa pääsy">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaPaasy" text="Poista pääsy...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleLisaaKategoria" text="Lisää uusi kategoria" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleMuokkaaKategoria" text="Muokkaa kategorian nimi" />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaKategoria" text="Poista kategoria" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Apua">
             <items>
-              <MenuItem mnemonicParsing="false" text="Apua" />
-                  <MenuItem mnemonicParsing="false" text="Tietoja" />
+              <MenuItem mnemonicParsing="false" onAction="#handleApua" text="Apua" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleAboutDialog" text="Tietoja" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
-   <right>
-      <ScrollPane fitToWidth="true" prefHeight="426.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <content>
-            <BorderPane prefHeight="376.0" prefWidth="298.0">
-               <bottom>
-                  <HBox spacing="10.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="64.0" text="Generoi" />
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Kopioi leikepöydälle" />
-                     </children>
-                     <BorderPane.margin>
-                        <Insets bottom="10.0" left="15.0" right="10.0" top="15.0" />
-                     </BorderPane.margin>
-                  </HBox>
-               </bottom>
-               <top>
-                  <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-                     <children>
-                        <Label text="Generoi Salasana">
-                           <VBox.margin>
-                              <Insets bottom="4.0" top="4.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Separator prefWidth="200.0" />
-                     </children>
-                  </VBox>
-               </top>
-               <center>
-                  <GridPane hgap="10.0" BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="173.5999755859375" minWidth="10.0" prefWidth="113.5999755859375" />
-                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="155.1999267578125" minWidth="10.0" prefWidth="76.8000244140625" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Salasanan pituus" GridPane.halignment="RIGHT" />
-                        <MenuButton mnemonicParsing="false" text="pituus" GridPane.columnIndex="1">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="&gt; 14" />
-                            <MenuItem mnemonicParsing="false" text="&lt; 14" />
-                          </items>
-                        </MenuButton>
-                        <Label text="Sisältää erikoismerkit" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <Label text="Sis. numerot" GridPane.rowIndex="2" />
-                        <Label text="Sis. isot kirjaimet" GridPane.rowIndex="3" />
-                        <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Generoitu salasana" GridPane.rowIndex="4" />
-                        <Label text="Salasanan vahvuus" GridPane.rowIndex="5" />
-                        <TextField editable="false" prefHeight="18.0" prefWidth="102.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding>
-                           <GridPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </GridPane.margin>
-                        </TextField>
-                        <ProgressBar prefHeight="18.0" prefWidth="134.0" progress="0.45" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                     </children>
-                  </GridPane>
-               </center>
-            </BorderPane>
-         </content>
-      </ScrollPane>
-   </right>
    <center>
-      <ScrollPane prefHeight="439.0" prefWidth="331.0" BorderPane.alignment="CENTER">
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="439.0" prefWidth="331.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="5.0" />
          </BorderPane.margin>
          <content>
-            <VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="346.0">
+            <VBox alignment="TOP_CENTER" prefHeight="447.0" prefWidth="386.0">
                <children>
                   <Label text="Pääsyn tiedot">
                      <VBox.margin>
@@ -149,57 +83,46 @@
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <GridPane hgap="10.0" prefHeight="284.0" prefWidth="418.0">
-                     <columnConstraints>
-                        <ColumnConstraints fillWidth="false" halignment="RIGHT" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <padding>
-                        <Insets left="10.0" right="10.0" top="10.0" />
-                     </padding>
+                  <AnchorPane prefHeight="459.0" prefWidth="355.0">
                      <children>
-                        <Label text="Otsikko" />
-                        <Label text="Kategoria" GridPane.rowIndex="1" />
-                        <Label text="Tunnus" GridPane.rowIndex="2" />
-                        <Label text="Sähköposti" GridPane.rowIndex="3" />
-                        <Label text="Puhelinnumero" GridPane.rowIndex="4" />
-                        <Label text="Salasana" GridPane.rowIndex="5" />
-                        <Label text="Toista salasana" GridPane.rowIndex="6" />
-                        <Label text="URL" GridPane.rowIndex="7" />
-                        <Label text="Info" GridPane.rowIndex="8" />
-                        <TextField GridPane.columnIndex="2" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                        <TextArea maxHeight="-Infinity" minHeight="-Infinity" prefHeight="111.0" prefWidth="274.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.valignment="TOP">
-                           <GridPane.margin>
-                              <Insets top="5.0" />
-                           </GridPane.margin>
-                        </TextArea>
-                     </children>
-                  </GridPane>
+                        <TextField id="1" editable="false" layoutX="150.0" layoutY="14.0" prefHeight="26.0" prefWidth="191.0" styleClass="kentta" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+                        <TextField id="2" editable="false" layoutX="150.0" layoutY="50.0" prefHeight="26.0" prefWidth="191.0" styleClass="kentta" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+                        <TextField id="3" editable="false" layoutX="150.0" layoutY="86.0" prefHeight="26.0" prefWidth="191.0" styleClass="kentta" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+                        <TextField id="4" editable="false" layoutX="150.0" layoutY="122.0" prefHeight="26.0" prefWidth="191.0" styleClass="kentta" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+                        <TextField id="5" fx:id="passText" editable="false" layoutX="150.0" layoutY="158.0" prefHeight="26.0" prefWidth="132.0" styleClass="kentta" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="73.0" />
+                        <TextField id="6" editable="false" layoutX="150.0" layoutY="194.0" prefHeight="26.0" prefWidth="191.0" styleClass="kentta" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+                        <TextArea id="7" editable="false" layoutX="150.0" layoutY="230.0" prefHeight="162.0" prefWidth="191.0" styleClass="kentta" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+                        <Label id="1" alignment="CENTER_RIGHT" layoutY="18.0" prefHeight="18.0" prefWidth="118.0" styleClass="label" />
+                        <Label id="2" layoutX="75.0" layoutY="54.0" prefWidth="43.0" styleClass="label" />
+                        <Label id="3" layoutX="55.0" layoutY="90.0" prefHeight="18.0" prefWidth="63.0" styleClass="label" />
+                        <Label id="4" layoutX="29.0" layoutY="126.0" prefHeight="18.0" prefWidth="91.0" styleClass="label" />
+                        <Label id="5" layoutX="66.0" layoutY="162.0" styleClass="label" />
+                        <Label id="6" layoutX="90.0" layoutY="199.0" styleClass="label" />
+                        <Label id="7" layoutX="91.0" layoutY="230.0" styleClass="label" />
+                        <CheckBox fx:id="naytaCheckBox" layoutX="283.0" layoutY="162.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="54.0" text="naytä" AnchorPane.rightAnchor="15.0" />
+                        <PasswordField fx:id="passField" editable="false" layoutX="150.0" layoutY="158.0" prefHeight="26.0" prefWidth="132.2" />
+                     </children></AnchorPane>
                </children>
             </VBox>
          </content>
       </ScrollPane>
    </center>
    <left>
+      <ScrollPane prefHeight="455.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="puuVbox" alignment="TOP_CENTER" prefHeight="452.0" prefWidth="195.0">
+               <children>
+                  <Label text="Kategoriat">
+                     <padding>
+                        <Insets bottom="4.0" top="4.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </left>
+   <right>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="5.0" />
@@ -213,16 +136,8 @@
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <MenuButton alignment="CENTER" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="otsikko">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets top="2.0" />
-                     </VBox.margin>
-                  </MenuButton>
-                  <TextField>
+                  <ComboBoxChooser fx:id="cbKentat" prefHeight="26.0" prefWidth="190.0" rivit="" />
+                  <TextField fx:id="hakuKentta" onKeyReleased="#handleHae">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
@@ -232,10 +147,19 @@
                         <Insets bottom="4.0" top="4.0" />
                      </VBox.margin>
                   </Label>
-                  <ListChooser prefHeight="350.0" prefWidth="196.0" />
+                  <ListChooser fx:id="paasyChooser" prefHeight="350.0" prefWidth="196.0" rivit="" />
                </children>
             </VBox>
          </content>
       </ScrollPane>
-   </left>
+   </right>
+   <bottom>
+      <AnchorPane prefHeight="38.0" prefWidth="766.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="8.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleLisaaKategoria" text="Uusi kategoria" />
+            <Button layoutX="111.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleLisaaUusiPaasy" text="Uusi pääsy" />
+            <Button layoutX="691.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna" AnchorPane.rightAnchor="14.59999999999998" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>
