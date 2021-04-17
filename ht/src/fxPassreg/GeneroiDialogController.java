@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import kanta.Merkkijonot;
+import kanta.Strings;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -76,7 +76,7 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
      */
     private void generoi() {
         int pituus = spPituus.getValue();
-        String s = Merkkijonot.generoiSalasana(pituus, getBoxinArvot());
+        String s = Strings.generoiSalasana(pituus, getBoxinArvot());
         showPassLabel.setText(s);
     }
     

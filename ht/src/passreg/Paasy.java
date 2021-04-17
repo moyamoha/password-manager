@@ -8,7 +8,7 @@ import java.io.PrintStream;
 import java.util.Comparator;
 
 import fi.jyu.mit.ohj2.Mjonot;
-import kanta.Merkkijonot;
+import kanta.Strings;
 import kanta.Numerot;
 import kanta.Tarkistukset;
 
@@ -74,10 +74,10 @@ public class Paasy implements Tietue, Cloneable{
      */
     public void taytaGmailTiedoilla() {
         this.otsikko = "gmail" + Numerot.rand(1, 100);
-        this.tunnus  = Merkkijonot.generoiTunnus();
+        this.tunnus  = Strings.generoiTunnus();
         this.sPosti  = this.tunnus + "@gmail.com";
-        this.puhnro  = Merkkijonot.generoiPuhNro();
-        this.salasana= Merkkijonot.generoiSalasana(Numerot.rand(5, 20), new boolean[] {true, false, true});
+        this.puhnro  = Strings.generoiPuhNro();
+        this.salasana= Strings.generoiSalasana(Numerot.rand(5, 20), new boolean[] {true, false, true});
         this.url     = "www.google.com";
         this.info    = "gmail tili";
     }
@@ -97,7 +97,6 @@ public class Paasy implements Tietue, Cloneable{
         out.println(" \tlis‰‰ tietoa: \t" + this.info);
     }
     
-    
     /**
      * Tulostetaan p‰‰syn tiedot
      * @param os tietovirta johon tulostetaan
@@ -105,7 +104,6 @@ public class Paasy implements Tietue, Cloneable{
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
     }
-    
     
     /**
      * Rekisterˆid‰‰n p‰‰sy
@@ -153,7 +151,6 @@ public class Paasy implements Tietue, Cloneable{
     public String getOtsikko() {
         return this.otsikko;
     }
-    
     
     /**
      * Palauttaa tiedon siit‰ mihin kategoriaan p‰‰sy kuuluu

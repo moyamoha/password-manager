@@ -10,7 +10,7 @@ import java.util.*;
  * @version 22.2.2021
  *
  */
-public class Merkkijonot {
+public class Strings {
     
     private static final char[] PIENET_KIRJAIMET  = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private static final char[] ISO_KIRJAIMET     = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();

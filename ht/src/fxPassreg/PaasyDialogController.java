@@ -150,7 +150,6 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
          return ctrl;
     }
     
-    
     /**
      * Cancel-buttonin painettua poistutaan ikkunasta, mikäli tallennattomia tietoja ei ole.
      * Jos tallentamatonta tietoa löytyy, kysytään käyttäjältä haluaako hän varmasti poistua
@@ -191,9 +190,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
                     PassregGUIController.naytaIlmoitus(1.5, AlertType.ERROR, "Täytä pakolliset kentät oikeilla arvoilla!");
                     return;
                 }
-            } catch (NumberFormatException e2) {
-                //
-            }
+            } catch (NumberFormatException e2) {/*..*/}
         }
         String[] pakolliset = {
                 edits.get(1).getText(), edits.get(2).getText(), edits.get(3).getText()  
@@ -224,7 +221,6 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         passText1.setText(salasana); passText2.setText(salasana);
     }
 
-
     @Override
     public Paasy getResult() {
         return current;
@@ -242,6 +238,5 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         naytaPaasy(edits, oletus);
         passText2.setText(passField1.getText());
     }
-    
     
 }

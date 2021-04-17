@@ -393,7 +393,7 @@ public class Paasyt implements Iterable<Paasy> {
     public Collection<Paasy> etsi(String ehto, int kentta) {
         List<Paasy> loytyneet = new ArrayList<Paasy>(); 
         for (Paasy p : this) { 
-            if (WildChars.onkoSamat(p.anna(kentta), ehto)) loytyneet.add(p);   
+            if (WildChars.onkoSamat(p.anna(kentta), ehto + "*" )) loytyneet.add(p);   
         } 
         Collections.sort(loytyneet, new Paasy.Vertailija(kentta)); 
         return loytyneet;

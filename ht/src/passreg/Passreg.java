@@ -240,6 +240,11 @@ public class Passreg {
      *  ih.hasNext() === true;
      *  ih.next()  === p5;
      *  ih.next();  #THROWS NoSuchElementException
+     *  File filePaasyt = new File(hakemisto + "/salasanat.dat");
+     *  filePaasyt.delete() === true;
+     *  File file_kategoriat = new File(hakemisto + "/kategoriat.dat");
+     *  file_kategoriat.delete() === true;
+     *  dir.delete() === true;
      * </pre> 
      */
     public void lueTiedostosta(String hakemisto) {
