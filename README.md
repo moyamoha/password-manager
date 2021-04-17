@@ -2,7 +2,7 @@
 
 Tämä on ohjelmointi 2 -kurssin aikana tehty pieni rekisteriohjelma graafisella käyttöliittymällä. 
 Ohjelmointkieli: java
-Gui kirjasto   : javafx
+Gui kirjasto   : javafx \n
 testityökalu   : comtest (plugin)
 
 Tarkempaa tietoa ohjelmasta ja sen toiminnasta löydät:
