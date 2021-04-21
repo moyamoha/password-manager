@@ -2,8 +2,6 @@ package fxPassreg;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
