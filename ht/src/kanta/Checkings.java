@@ -8,7 +8,7 @@ package kanta;
  * @version 25.2.2021
  * Tarkistamiseen liittyviä yleismaailmallisia metodia
  */
-public class Tarkistukset {
+public class Checkings {
     
     /**
      * Tarkistaa onko sähköposti oikein.

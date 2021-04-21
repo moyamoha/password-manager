@@ -10,12 +10,12 @@ import java.io.PrintStream;
  * @version 14.3.2021
  *
  */
-public interface Tietue {
+public interface ShowableData {
 
     /**
      * rekisteröidään
      */
-    public void rekisteroi();
+    public void register();
     
     /**
      * Palauttaa tunnusnumeron

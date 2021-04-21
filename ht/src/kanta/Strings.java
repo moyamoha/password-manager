@@ -34,7 +34,7 @@ public class Strings {
      * </pre>
      */
     public static String generateMerkkiJono(char[] charJoukko, int alarajaPituus, int ylarajaPituus) {
-        int pituus = Numerot.rand(alarajaPituus, ylarajaPituus);
+        int pituus = Numbers.rand(alarajaPituus, ylarajaPituus);
         return generateMerkkiJono(charJoukko, pituus);
     }
     

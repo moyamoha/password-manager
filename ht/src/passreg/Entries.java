@@ -25,55 +25,55 @@ import fi.jyu.mit.ohj2.WildChars;
  * @author Yahya
  * @version 17.2.2021
  */
-public class Paasyt implements Iterable<Paasy> {
+public class Entries implements Iterable<Entry> {
     
     private static int maxSize = 3; 
-    private Paasy[] alkiot;
+    private Entry[] content;
     private int lkm;
-    private boolean muutettu = false;
-    private static final String TIEDOSTON_NIMI = "/salasanat.dat";
+    private boolean changed = false;
+    private static final String FILE_NAME = "/salasanat.dat";
     
     /**
      * Oletus-muodostaja
      */
-    public Paasyt() {
-        this.alkiot = new Paasy[maxSize];
+    public Entries() {
+        this.content = new Entry[maxSize];
     }
     
     /**
      * @param args ei k‰yt√∂ss‰
      */
     public static void main(String[] args) {
-        Paasyt paasyt = new Paasyt();
+        Entries entries = new Entries();
         
-        Paasy gmail1 = new Paasy();
-        gmail1.rekisteroi();
+        Entry gmail1 = new Entry();
+        gmail1.register();
         gmail1.taytaGmailTiedoilla();
         
         
-        Paasy gmail2 = new Paasy();
-        gmail2.rekisteroi();
+        Entry gmail2 = new Entry();
+        gmail2.register();
         gmail2.taytaGmailTiedoilla();
         
-        Paasy gmail3 = new Paasy();
-        gmail3.rekisteroi();
+        Entry gmail3 = new Entry();
+        gmail3.register();
         gmail3.taytaGmailTiedoilla();
         
-        paasyt.lisaa(gmail1); paasyt.lisaa(gmail2);
-        paasyt.lisaa(gmail3);
+        entries.lisaa(gmail1); entries.lisaa(gmail2);
+        entries.lisaa(gmail3);
         
-        for (int i = 0; i < paasyt.getLkm() ; i++) {
-            paasyt.alkiot[i].tulosta(System.out);
+        for (int i = 0; i < entries.getLkm() ; i++) {
+            entries.content[i].tulosta(System.out);
             System.out.println();
         }
        
-        Paasy gmail4 = new Paasy();
-        gmail4.rekisteroi();
+        Entry gmail4 = new Entry();
+        gmail4.register();
         gmail4.taytaGmailTiedoilla();
         
         gmail4.tulosta(System.out);
         
-        paasyt.lisaa(gmail4);
+        entries.lisaa(gmail4);
         int luku = 0x23;
         System.out.println(luku);
     }
@@ -81,13 +81,13 @@ public class Paasyt implements Iterable<Paasy> {
     
     /**
      * Lis‰t‰‰n yksitt‰inen p‰‰sy tietorakenteeseen
-     * @param paasy lis‰tt‰v‰ p‰‰sy
+     * @param entry lis‰tt‰v‰ p‰‰sy
      * @example
      * <pre name="test">
-     *   Paasyt pst = new Paasyt();
-     *   Paasy p1 = new Paasy();
-     *   Paasy p2 = new Paasy();
-     *   Paasy p3 = new Paasy(4);
+     *   Entries pst = new Entries();
+     *   Entry p1 = new Entry();
+     *   Entry p2 = new Entry();
+     *   Entry p3 = new Entry(4);
      *   pst.getLkm() === 0;
      *   pst.anna(1); #THROWS IndexOutOfBoundsException
      *   pst.lisaa(p1);
@@ -98,32 +98,32 @@ public class Paasyt implements Iterable<Paasy> {
      *   pst.getLkm()  === 3;
      *   pst.anna(1) === p2;
      *   pst.anna(2).getKategoriaId()  === 4;
-     *   Paasy p4 = new Paasy(2);
+     *   Entry p4 = new Entry(2);
      *   pst.lisaa(p4); // Ei pit‰isi heitt‰‰ poikkeusta
      * </pre>
      */
-    public void lisaa(Paasy paasy) {        
-        if (getLkm() >= alkiot.length) {
+    public void lisaa(Entry entry) {        
+        if (getLkm() >= content.length) {
             luoJaKopioi(); 
-            lisaa(paasy);
+            lisaa(entry);
         }
         else {
-            this.alkiot[lkm++] = paasy;
-            muutettu = true; 
+            this.content[lkm++] = entry;
+            changed = true; 
         }
     }
     
     /**
      * Kun p‰‰syt tulee t‰yteen kutsutaan t‰t‰. Luodaan uusi taulukko, jonka tilaa on kaksinkertainen. 
-     * Samalla kopioidaan alkiot uuteen taulukkoon ja Tuhotaan vanha taulukko.
+     * Samalla kopioidaan content uuteen taulukkoon ja Tuhotaan vanha taulukko.
      */
     private final void luoJaKopioi() {
         maxSize = 2 * maxSize;
-        Paasy[] apuTaul = new Paasy[maxSize];
+        Entry[] apuTaul = new Entry[maxSize];
         for (int i = 0; i < getLkm(); i++) {
-            apuTaul[i] = this.alkiot[i];
+            apuTaul[i] = this.content[i];
         }
-        this.alkiot = apuTaul;
+        this.content = apuTaul;
         apuTaul = null;
     }
     
@@ -138,20 +138,20 @@ public class Paasyt implements Iterable<Paasy> {
     
     /**
      * Palautetaan tiety p‰‰syn viite sen indeksin perusteella
-     * @param i p‰‰syn indeksi taulukossa <b>alkiot</b>
+     * @param i p‰‰syn indeksi taulukossa <b>content</b>
      * @return viite P‰‰sy-olioon
      * @throws IndexOutOfBoundsException jos indeksi ei ole sopiva
      * @example
      * <pre name="test">
      * #THROWS IndexOutOfBoundsException
-     *   Paasyt pst = new Paasyt();
+     *   Entries pst = new Entries();
      *   pst.getLkm()  === 0;
-     *   Paasy gmail1 = new Paasy();
+     *   Entry gmail1 = new Entry();
      *   gmail1.rekisteroi();
      *   gmail1.taytaGmailTiedoilla();
      *   pst.lisaa(gmail1);
      *   pst.getLkm()  === 1;
-     *   Paasy gmail2 = new Paasy();
+     *   Entry gmail2 = new Entry();
      *   gmail2.rekisteroi();
      *   gmail2.taytaGmailTiedoilla();
      *   pst.lisaa(gmail2);
@@ -159,11 +159,11 @@ public class Paasyt implements Iterable<Paasy> {
      *   pst.anna(2); #THROWS IndexOutOfBoundsException
      * </pre>
      */
-    public Paasy anna(int i) throws IndexOutOfBoundsException {
+    public Entry give(int i) throws IndexOutOfBoundsException {
         if (i < 0 || lkm <= i) {
             throw new IndexOutOfBoundsException("Huono indeksi: " + i);
         }
-        return this.alkiot[i];
+        return this.content[i];
     }
     
     /**
@@ -174,8 +174,8 @@ public class Paasyt implements Iterable<Paasy> {
      * #import java.io.File;
      * #import java.util.*;
      * #import java.io.*;
-     *  Paasyt pst = new Paasyt();
-     *  Paasy p1 = new Paasy(1), p2 = new Paasy(2);
+     *  Entries pst = new Entries();
+     *  Entry p1 = new Entry(1), p2 = new Entry(2);
      *  p1.taytaGmailTiedoilla();
      *  p2.taytaGmailTiedoilla();
      *  String hakemisto = "testi";
@@ -185,16 +185,16 @@ public class Paasyt implements Iterable<Paasy> {
      *  pst.lisaa(p2);
      *  pst.tallenna(hakemisto);
      *  pst.lueTiedostosta(hakemisto);  // johon ladataan tiedot tiedostosta.
-     *  Iterator<Paasy> i = pst.iterator();
-     *  Paasy pTest = i.next();
+     *  Iterator<Entry> i = pst.iterator();
+     *  Entry pTest = i.next();
      *  pTest.getKategoriaId()   === 1;
-     *  Paasy pTest2 = i.next();
+     *  Entry pTest2 = i.next();
      *  pTest2.getKategoriaId()  === 2;
      *  pst.tallenna(hakemisto);
      * </pre>
      */
     public void lueTiedostosta(String hakemisto) {
-        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
+        File fTied = new File(hakemisto + FILE_NAME);
         try {
             fTied.createNewFile();
         } catch (IOException e1) {/*..*/}
@@ -202,13 +202,13 @@ public class Paasyt implements Iterable<Paasy> {
         try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
             while (fi.hasNextLine()) {
                 rivi = fi.nextLine();
-                Paasy paasy = new Paasy();
-                paasy.parse(rivi);
-                lisaa(paasy);
+                Entry entry = new Entry();
+                entry.parse(rivi);
+                lisaa(entry);
             }
         }
         catch (FileNotFoundException e) {/*..*/}
-        muutettu = false;
+        changed = false;
     }
     
     
@@ -217,14 +217,14 @@ public class Paasyt implements Iterable<Paasy> {
      * @param hakemisto tallennettavan tiedoston nimi
      */
     public void tallenna(String hakemisto) {
-        if (!muutettu) return;
-        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
+        if (!changed) return;
+        File fTied = new File(hakemisto + FILE_NAME);
         try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
-            for (Paasy p : this) {
+            for (Entry p : this) {
                 fo.println(p.toString());
             }
         } catch (FileNotFoundException e) {/*..*/}
-        muutettu = false;
+        changed = false;
         
     }
     
@@ -233,11 +233,11 @@ public class Paasyt implements Iterable<Paasy> {
      * @param nro poistettavan p‰‰syn tunnusNro
      * @example
      * <pre name="test">
-     *    Paasyt pst = new Paasyt();
-     *    Paasy p1 = new Paasy();
+     *    Entries pst = new Entries();
+     *    Entry p1 = new Entry();
      *    p1.taytaGmailTiedoilla();
      *    p1.rekisteroi();
-     *    Paasy p2 = new Paasy();
+     *    Entry p2 = new Entry();
      *    p2.taytaGmailTiedoilla();
      *    p2.rekisteroi();
      *    pst.getLkm()  === 0;
@@ -253,16 +253,16 @@ public class Paasyt implements Iterable<Paasy> {
      * </pre>
      */
     public void poista(int nro) {
-        if (getLkm() == 1 && anna(0).getTunnusNro() == nro) {
-            alkiot[0] = null;
+        if (getLkm() == 1 && give(0).getTunnusNro() == nro) {
+            content[0] = null;
             lkm = 0;
             return;
         }
         for (int i = 0; i < getLkm(); i++) {
-            if (alkiot[i] == null) continue;
-            if (alkiot[i].getTunnusNro() == nro) {
-                alkiot[i] = null;
-                muutettu = true;
+            if (content[i] == null) continue;
+            if (content[i].getTunnusNro() == nro) {
+                content[i] = null;
+                changed = true;
                 swap(i);
                 lkm--;
             }
@@ -271,9 +271,9 @@ public class Paasyt implements Iterable<Paasy> {
     
     private void swap(int i) {
         int last = getLkm();
-        Paasy p = anna(last - 1);
-        alkiot[i] = p;
-        alkiot[last - 1] = null;
+        Entry p = give(last - 1);
+        content[i] = p;
+        content[last - 1] = null;
     }
     
     /** 
@@ -281,10 +281,10 @@ public class Paasyt implements Iterable<Paasy> {
      * @example
      * <pre name="test">
      *  #import java.util.*;
-     *   Paasyt pst = new Paasyt();
-     *   Paasy p1 = new Paasy();
-     *   Paasy p2 = new Paasy();
-     *   Iterator<Paasy> i = pst.iterator();
+     *   Entries pst = new Entries();
+     *   Entry p1 = new Entry();
+     *   Entry p2 = new Entry();
+     *   Iterator<Entry> i = pst.iterator();
      *   i.hasNext()  === false;
      *   i.next(); #THROWS NoSuchElementException
      *   pst.lisaa(p1);
@@ -297,7 +297,7 @@ public class Paasyt implements Iterable<Paasy> {
      * </pre>
      */
     @Override
-    public Iterator<Paasy> iterator() {
+    public Iterator<Entry> iterator() {
         return new Iter();
     }
     
@@ -306,7 +306,7 @@ public class Paasyt implements Iterable<Paasy> {
      * @version 9.3.2021
      *  Iteraattori p‰‰syjen l‰pik‰ymiseen
      */
-    public class Iter implements Iterator<Paasy> {
+    public class Iter implements Iterator<Entry> {
         
         private int kohdalla;
 
@@ -316,9 +316,9 @@ public class Paasyt implements Iterable<Paasy> {
         }
 
         @Override
-        public Paasy next() {
+        public Entry next() {
             if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en‰‰!");
-            return anna(kohdalla++);
+            return give(kohdalla++);
         }
  
     }
@@ -328,12 +328,12 @@ public class Paasyt implements Iterable<Paasy> {
      * @param kID kategorian id
      * @example
      * <pre name="test">
-     *    Paasyt pst = new Paasyt();
-     *    Paasy p1 = new Paasy();
+     *    Entries pst = new Entries();
+     *    Entry p1 = new Entry();
      *    p1.parse("1|1|gmail||||abcef");
-     *    Paasy p2 = new Paasy();
+     *    Entry p2 = new Entry();
      *    p2.parse("2|1|facebook|soturi123|||ghijkl");
-     *    Paasy p3 = new Paasy(2);
+     *    Entry p3 = new Entry(2);
      *    p3.aseta(1, "instagramm");
      *    pst.lisaa(p1); pst.lisaa(p2); pst.lisaa(p3);
      *    pst.getLkm() === 3;
@@ -346,7 +346,7 @@ public class Paasyt implements Iterable<Paasy> {
     public void poistaKategorianPaasyt(int kID) {
         int i = 0;
         while (i < getLkm()) {
-            Paasy p = anna(i);
+            Entry p = give(i);
             if (p.getKategoriaId() == kID) {
                 poista(p.getTunnusNro());
             }
@@ -357,13 +357,13 @@ public class Paasyt implements Iterable<Paasy> {
     /**
      * @return true jos p‰‰syj‰ on lis‰tty tai poistettu kategoriasta
      */
-    public boolean onMuutettu() { return muutettu; }
+    public boolean onMuutettu() { return changed; }
 
     /**
      * @param b tieto siit‰ on muutoksia tehty
      */
     public void setMuutettu(boolean b) {
-        muutettu = b;
+        changed = b;
     }
 
     /**
@@ -373,16 +373,16 @@ public class Paasyt implements Iterable<Paasy> {
      * @return kokoelma kaikista p‰‰syist‰, jotka toteuttavat hakuehdon
      * @example
      * <pre name="test">
-     *   Paasy p1 = new Paasy();
+     *   Entry p1 = new Entry();
      *   p1.aseta(1, "gmail3");
-     *   Paasy p2 = new Paasy();
+     *   Entry p2 = new Entry();
      *   p2.aseta(1, "gmail1");
-     *   Paasy p3 = new Paasy();
+     *   Entry p3 = new Entry();
      *   p3.aseta(1, "gmail2");
-     *   Paasyt pst = new Paasyt();
+     *   Entries pst = new Entries();
      *   pst.lisaa(p1); pst.lisaa(p2); pst.lisaa(p3);
-     *   Collection<Paasy> loytyneet = pst.etsi("gmail1", 1);
-     *   Iterator<Paasy> i = loytyneet.iterator();
+     *   Collection<Entry> loytyneet = pst.etsi("gmail1", 1);
+     *   Iterator<Entry> i = loytyneet.iterator();
      *   i.next() === p2;
      *   loytyneet = pst.etsi("gmail2", 1);
      *   i = loytyneet.iterator();
@@ -390,12 +390,12 @@ public class Paasyt implements Iterable<Paasy> {
      *   i.hasNext()  === false;
      * </pre>
      */
-    public Collection<Paasy> etsi(String ehto, int kentta) {
-        List<Paasy> loytyneet = new ArrayList<Paasy>(); 
-        for (Paasy p : this) { 
+    public Collection<Entry> etsi(String ehto, int kentta) {
+        List<Entry> loytyneet = new ArrayList<Entry>(); 
+        for (Entry p : this) { 
             if (WildChars.onkoSamat(p.anna(kentta), ehto + "*" )) loytyneet.add(p);   
         } 
-        Collections.sort(loytyneet, new Paasy.Vertailija(kentta)); 
+        Collections.sort(loytyneet, new Entry.Vertailija(kentta)); 
         return loytyneet;
     }
 
@@ -403,9 +403,9 @@ public class Paasyt implements Iterable<Paasy> {
      * @param p korvattava tai lis‰tt‰v‰ p‰‰sy
      * @example
      * <pre name="test">
-     *    Paasyt pst = new Paasyt();
+     *    Entries pst = new Entries();
      *    pst.onMuutettu() === false;
-     *    Paasy p1 = new Paasy();
+     *    Entry p1 = new Entry();
      *    p1.parse("1|1|gmail1");
      *    pst.korvaaTaiLisaa(p1);
      *    pst.onMuutettu() === true;
@@ -415,13 +415,13 @@ public class Paasyt implements Iterable<Paasy> {
      *    pst.anna(0).anna(1) === "facebook";
      * </pre>
      */
-    public void korvaaTaiLisaa(Paasy p) {
+    public void korvaaTaiLisaa(Entry p) {
         if (p == null) return;
         int nro = p.getTunnusNro();
         for (int i = 0; i < getLkm(); i++) {
-            if (alkiot[i].getTunnusNro() == nro) {
-                alkiot[i] = p;
-                muutettu = true;
+            if (content[i].getTunnusNro() == nro) {
+                content[i] = p;
+                changed = true;
                 return;
             }
         }

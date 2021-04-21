@@ -6,16 +6,16 @@ package passreg;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import fi.jyu.mit.ohj2.Mjonot;
-import kanta.Tarkistukset;
+import kanta.Checkings;
 
 /**
  * Luokkaa, jossa m‰‰ritell‰‰n p‰‰syjen kokoavaa rakennetta. Jokaisen p‰‰syn t‰ytyy 
  * kuulua t‰sm‰lleen yhteen kategoriaan.
  * @author Yahya
  * @version 1.3.2021
- * @see passreg.Paasy
+ * @see passreg.Entry
  */
-public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
+public class Group implements ShowableData, Cloneable, Comparable<Group> {
     
     private String nimi     = "";
     private int tunnusNro;
@@ -27,18 +27,18 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * @param args ei k‰ytˆss‰
      */
     public static void main(String[] args) {
-        Kategoria kg = new Kategoria("some");
+        Group kg = new Group("some");
         kg.tulosta(System.out); // tulostaa 0 some
         int nro = kg.getTunnusNro();
         System.out.println(nro);  // tulostaa 0
-        kg.rekisteroi();
+        kg.register();
         System.out.println(kg.getTunnusNro()); // tulostaa 1
     }
     
     /**
      * oletus-muodostaja
      */
-    public Kategoria() {
+    public Group() {
         //
     }
     
@@ -46,7 +46,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * Muodostaja kun parametrina kategorian nimi
      * @param inimi annettava nimi
      */
-    public Kategoria(String inimi) {
+    public Group(String inimi) {
         this.nimi = inimi;
     }
     
@@ -86,31 +86,31 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * Rekisterˆid‰‰n kategoria. Samalla kasvatetaan seuraavaNro yhdell‰.
      * @example
      * <pre name="test">
-     *   Kategoria k1 = new Kategoria("opiskelu");
-     *   k1.rekisteroi(); 
-     *   Kategoria k2 = new Kategoria("tyˆ");
-     *   k2.rekisteroi();
-     *   Kategoria k3 = new Kategoria("pankkijutut");
-     *   k3.rekisteroi();
-     *   int n1 = k1.getTunnusNro();
-     *   int n2 = k2.getTunnusNro();
-     *   int n3 = k3.getTunnusNro();
+     *   Group g1 = new Group("opiskelu");
+     *   g1.rekisteroi(); 
+     *   Group g2 = new Group("tyˆ");
+     *   g2.rekisteroi();
+     *   Group g3 = new Group("pankkijutut");
+     *   g3.rekisteroi();
+     *   int n1 = g1.getTunnusNro();
+     *   int n2 = g2.getTunnusNro();
+     *   int n3 = g3.getTunnusNro();
      *   n3 > n2 === true;
      *   n2 = n1 +1 ;
      *   n1 < n2 && n2 < n3 === true;
      * </pre>
      */
     @Override
-    public void rekisteroi() {
+    public void register() {
         this.tunnusNro = seuraavaNro;
         seuraavaNro++;
     }
 
     /**
-     * Palauttaa rivi, jossa kategorian tiedot muodsossa 1|tyˆ 
+     * Palauttaa rivi, jossa kategorian tiedot muodsossa 1|tyˆ
      * @example
      * <pre name="test">
-     *   Kategoria k = new Kategoria();
+     *   Group k = new Group();
      *   k.parse(" 1  | opiskelu");
      *   k.toString() === "1|opiskelu";
      *   k.getTunnusNro() === 1;
@@ -136,7 +136,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * @param rivi josta j‰senen tiedot otetaan
      * @example
      * <pre name="test">
-     *   Kategoria k = new Kategoria();
+     *   Group k = new Group();
      *   k.parse("1    | opiskelu");
      *   k.getTunnusNro() === 1;
      *   k.getNimi()      === "opiskelu";
@@ -179,7 +179,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
     public int ekaKentta() { return 1; }
     
     /**
-     * @return 1 koska {@code Kategoria} luokalla on pelk‰st‰‰n yksi kentt‰
+     * @return 1 koska {@code Group} luokalla on pelk‰st‰‰n yksi kentt‰
      */
     @Override
     public int kenttaLkm() { return 1; }
@@ -189,7 +189,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * Asettaa k:nnennen kent‰n arvoksi {@code arvo}
      * @example
      * <pre name="test">
-     *    Kategoria k = new Kategoria("opiskelu");
+     *    Group k = new Group("opiskelu");
      *    k.anna(1)  === "opiskelu";
      *    k.aseta(1, "  tyo") === null;
      *    k.anna(1)  ===  "tyo";
@@ -202,7 +202,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
         String s = arvo.trim();
         switch (k) {
         case 1:
-            if (Tarkistukset.onValidiOtsikko(arvo)) {nimi = s; return null; }
+            if (Checkings.onValidiOtsikko(arvo)) {nimi = s; return null; }
             return "v‰‰r‰ nimi";
         default:
             return null;
@@ -212,7 +212,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
     /**
      * @example
      * <pre name="test">
-     *    Kategoria k = new Kategoria();
+     *    Group k = new Group();
      *    k.parse("10|  sahkopostit");
      *    k.anna(0)   === "10";
      *    k.getTunnusNro() === 10;
@@ -234,12 +234,12 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
     }
     
     /**
-     * Palauttaa kopio {@code Kategoria} oliosta, joka k‰ytt‰ytyy identtisesti alkuper‰‰ns‰ n‰hden
+     * Palauttaa kopio {@code Group} oliosta, joka k‰ytt‰ytyy identtisesti alkuper‰‰ns‰ n‰hden
      * @example
      * <pre name="test">
      *  #THROWS CloneNotSupportedException
-     *   Kategoria alkuK = new Kategoria("tyo");
-     *   Kategoria kopio = alkuK.clone();
+     *   Group alkuK = new Group("tyo");
+     *   Group kopio = alkuK.clone();
      *   kopio.anna(1)  === "tyo";
      *   alkuK.anna(1)  === "tyo";
      *   kopio.aseta(1, "opiskelu")  === null;
@@ -248,9 +248,9 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * </pre>
      */
     @Override
-    public Kategoria clone() throws CloneNotSupportedException {
-        Kategoria k;
-        k = (Kategoria) super.clone();
+    public Group clone() throws CloneNotSupportedException {
+        Group k;
+        k = (Group) super.clone();
         return k;
     }
     
@@ -259,11 +259,11 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * @return true jos molemmat samoja
      * @example
      * <pre name="test">
-     *    Kategoria k1 = new Kategoria();
-     *    k1.parse("1   |    tyo");
+     *    Group g1 = new Group();
+     *    g1.parse("1   |    tyo");
      * </pre>
      */
-    public boolean equals(Kategoria kat) {
+    public boolean equals(Group kat) {
         if (kat.getTunnusNro() != this.getTunnusNro()) return false;
         for (int k = ekaKentta(); k <= kenttaLkm(); k++) {
             if ( ! anna(k).equals(kat.anna(k))) return false;
@@ -276,7 +276,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * @return kentan nimi
      * @example
      * <pre name="test">
-     *   Kategoria k = new Kategoria();
+     *   Group k = new Group();
      *   k.getKysymys(1)  === "Nimi";
      *   k.getKysymys(0)  === null;
      * </pre>
@@ -292,13 +292,13 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * Vertaa kategorian nimen mukaan aakkosj‰rjestyksess‰
      * @example
      * <pre name="test">
-     *   Kategoria k1 = new Kategoria("tyo");
-     *   Kategoria k2 = new Kategoria("opiskelu");
-     *   Kategoria k3 = new Kategoria("Tyo");
-     *   int n1 = k1.compareTo(k2);
-     *   int n2 = k2.compareTo(k1);
-     *   int n3 = k1.compareTo(k3);
-     *   int n4 = k3.compareTo(k2);
+     *   Group g1 = new Group("tyo");
+     *   Group g2 = new Group("opiskelu");
+     *   Group g3 = new Group("Tyo");
+     *   int n1 = g1.compareTo(g2);
+     *   int n2 = g2.compareTo(g1);
+     *   int n3 = g1.compareTo(g3);
+     *   int n4 = g3.compareTo(g2);
      *   n1 > 0 === true;
      *   n2 < 0 === true;
      *   n3 === 0;
@@ -306,7 +306,7 @@ public class Kategoria implements Tietue, Cloneable, Comparable<Kategoria> {
      * </pre>
      */
     @Override
-    public int compareTo(Kategoria o) {
+    public int compareTo(Group o) {
         return anna(1).compareToIgnoreCase(o.anna(1));
     }
     

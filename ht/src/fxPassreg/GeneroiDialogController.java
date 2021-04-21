@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.image.Image;
 import kanta.Strings;
 import java.net.URL;
 import java.util.List;
@@ -35,6 +36,9 @@ public class GeneroiDialogController implements ModalControllerInterface<String>
 
     @Override
     public void handleShown() {
+        @SuppressWarnings("resource")
+        Image img = new Image(GeneroiDialogController.class.getResourceAsStream("appicon.png"));
+        ModalController.getStage(checkBoxit).getIcons().add(img); 
         spPituus.requestFocus();
     }
 
