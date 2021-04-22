@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -45,8 +46,11 @@ public class AloitusIkkunaController implements ModalControllerInterface<String>
     @Override
     public String getResult() { return vastaus; }
 
+    @SuppressWarnings("resource")
     @Override
     public void handleShown() {
+        ModalController.getStage(vastausKenttaText).getIcons().add(
+                new Image(AloitusIkkunaController.class.getResourceAsStream("appicon.png")));
         this.vastausKenttaText.requestFocus();
     }
 

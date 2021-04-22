@@ -10,6 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
+    /*
     kanta.test.MerkkijonotTest.class,
     kanta.test.NumerotTest.class,
     kanta.test.TarkistuksetTest.class,
@@ -17,7 +18,7 @@ import org.junit.runners.Suite.SuiteClasses;
     passreg.test.PaasytTest.class,
     passreg.test.KategoriaTest.class,
     passreg.test.KategoriatTest.class,
-    passreg.test.PassregTest.class
+    passreg.test.PassregTest.class */
     })
 public class AllTests {
  //

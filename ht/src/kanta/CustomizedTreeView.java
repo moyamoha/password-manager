@@ -20,12 +20,12 @@ import javafx.util.Callback;
  * @version 3.3.2021
  * @param <T> Käytetty tyyppi
  */
-public class CTreeView<T> extends TreeView<T> {
+public class CustomizedTreeView<T> extends TreeView<T> {
     
     /**
      * Oletus muodostaja
      */
-    public CTreeView() {
+    public CustomizedTreeView() {
         initialize();
     }
     
@@ -34,7 +34,7 @@ public class CTreeView<T> extends TreeView<T> {
      * @param rootOlio puun juuri
      * @param view juuri merkkijonona
      */
-    public CTreeView (T rootOlio, String view) {
+    public CustomizedTreeView (T rootOlio, String view) {
         this.setRoot(rootOlio, view);
         initialize();
     }
@@ -196,7 +196,7 @@ public class CTreeView<T> extends TreeView<T> {
      */
     public void addToSelected(T object, String View) {
         CTreeItem<T> lisattava = new CTreeItem<T>(object, View);
-        CTreeItem<T> selected = (CTreeView<T>.CTreeItem<T>) this.getSelectionModel().getSelectedItem();
+        CTreeItem<T> selected = (CustomizedTreeView<T>.CTreeItem<T>) this.getSelectionModel().getSelectedItem();
         if (selected == null) return;
         selected.getChildren().add(lisattava);
         lisattava.setExpanded(true);

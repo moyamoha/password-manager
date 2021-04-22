@@ -10,7 +10,7 @@ import java.util.Random;
  * @version 22.2.2021
  *
  */
-public class Numerot {
+public class Numbers {
     
     /**
      * Generoidaan satunnainen kokonaisluku annetulta väliltä

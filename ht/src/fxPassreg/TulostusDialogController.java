@@ -1,5 +1,7 @@
 package fxPassreg;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -11,6 +13,7 @@ import javafx.print.PrinterJob;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
 
 /**
@@ -57,7 +60,13 @@ public class TulostusDialogController implements ModalControllerInterface<String
 
     @Override
     public void handleShown() {
-        //
+        try (InputStream inputstream = TulostusDialogController.class.getResourceAsStream("appicon.png")) {
+            Image img = new Image(inputstream);
+            ModalController.getStage(tulostaButton).getIcons().add(img); 
+        } catch (IOException e) {
+            //
+        }
+
     }
 
     @Override

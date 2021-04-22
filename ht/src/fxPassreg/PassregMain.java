@@ -1,10 +1,13 @@
 package fxPassreg;
 
+import java.io.IOException;
+import java.io.InputStream;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import passreg.Passreg;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
@@ -14,7 +17,7 @@ import javafx.fxml.FXMLLoader;
  * Salasanarekisteriohjelman p‰‰ohjelma
  */
 public class PassregMain extends Application {
-	@Override
+    @Override
 	public void start(Stage primaryStage) {
 		try {
             final FXMLLoader ldr = new FXMLLoader(getClass().getResource("PassregGUIView.fxml"));
@@ -23,6 +26,12 @@ public class PassregMain extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("passreg.css").toExternalForm());
 			primaryStage.setScene(scene);
+	        try (InputStream inputstream = TulostusDialogController.class.getResourceAsStream("appicon.png")) {
+	            Image img = new Image(inputstream);
+	            primaryStage.getIcons().add(img); 
+	        } catch (IOException e) {
+	            //
+	        }
 			
 			Passreg passrekisteri = new Passreg();
 			passCtrl.setPassreg(passrekisteri);

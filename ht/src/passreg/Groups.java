@@ -17,23 +17,23 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Tietorakennetyyppinen luokka, joka kokoaa yhteen ohjelman kategoriat.
+ * Tietorakennetyyppinen luokka, joka kokoaa yhteen ohjelman groups.
  * Osaa lis‰t‰/poistaa kategorioita sek‰ tallentaa niit‰ tiedostoon/lukea tiedostosta
  * @author Yahya
  * @version 1.3.2021
- * @see passreg.Kategoria
+ * @see passreg.Group
  */
-public class Kategoriat implements Iterable<Kategoria> {
+public class Groups implements Iterable<Group> {
 
-    private List<Kategoria> alkiot = new ArrayList<>();
-    private static final String TIEDOSTON_NIMI = "/kategoriat.dat";
-    private boolean muutettu = false;
+    private List<Group> content = new ArrayList<>();
+    private static final String FILE_NAME = "/groups.dat";
+    private boolean changed = false;
     
     /**
-     * Alustetaan Kategoriat
+     * Alustetaan Groups
      */
-    public Kategoriat() {
-        //alkiot = new ArrayList<Kategoria>();
+    public Groups() {
+        //content = new ArrayList<Group>();
     }
     
     /**
@@ -42,44 +42,44 @@ public class Kategoriat implements Iterable<Kategoria> {
      */
     public static void main(String[] args) {
         //
-        Kategoriat kgt = new Kategoriat();
+        Groups groups = new Groups();
         
-        Kategoria kg1 = new Kategoria("some");
-        kg1.rekisteroi();
+        Group kg1 = new Group("some");
+        kg1.register();
         
-        Kategoria kg2 = new Kategoria("opiskelu");
-        kg2.rekisteroi();
+        Group kg2 = new Group("opiskelu");
+        kg2.register();
         
-        Kategoria kg3 = new Kategoria("tyo");
-        kg3.rekisteroi();
+        Group kg3 = new Group("tyo");
+        kg3.register();
         
-        kgt.lisaa(kg1); kgt.lisaa(kg2); kgt.lisaa(kg3);
+        groups.add(kg1); groups.add(kg2); groups.add(kg3);
         
-        for(Kategoria k : kgt) {
+        for(Group k : groups) {
             k.tulosta(System.out);
         }
     }
     
     /**
-     * @param kategoria lis√§tt√§v√§ kategoria
+     * @param group lis√§tt√§v√§ kategoria
      * @example
      * <pre name="test">
-     *   Kategoriat kgt = new Kategoriat();
-     *   Kategoria k1 = new Kategoria("tyo");
-     *   Kategoria k2 = new Kategoria("opiskelu");
-     *   Kategoria k3 = new Kategoria("muu");
-     *   kgt.getLkm()   === 0;
-     *   kgt.lisaa(k1);
-     *   kgt.getLkm()   === 1;
-     *   kgt.lisaa(k2);
-     *   kgt.getLkm()   === 2;
-     *   kgt.lisaa(k3);
-     *   kgt.getLkm()   === 3;
+     *   Groups groups = new Groups();
+     *   Group k1 = new Group("tyo");
+     *   Group k2 = new Group("opiskelu");
+     *   Group k3 = new Group("muu");
+     *   groups.getLkm()   === 0;
+     *   groups.lisaa(k1);
+     *   groups.getLkm()   === 1;
+     *   groups.lisaa(k2);
+     *   groups.getLkm()   === 2;
+     *   groups.lisaa(k3);
+     *   groups.getLkm()   === 3;
      * </pre>
      */
-    public void lisaa(Kategoria kategoria) {
-        alkiot.add(kategoria);
-        muutettu = true;
+    public void add(Group group) {
+        content.add(group);
+        changed = true;
     }
  
     
@@ -88,7 +88,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @return kategorioiden lkm
      */
     public int getLkm() {
-        return alkiot.size();
+        return content.size();
     }
     
     /**
@@ -96,11 +96,11 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @param nro poistettavan kategorian tunnusnro
      * @example
      * <pre name="test">
-     *    Kategoriat kat = new Kategoriat();
-     *    Kategoria k1 = new Kategoria("opiskelu"); 
+     *    Groups kat = new Groups();
+     *    Group k1 = new Group("opiskelu"); 
      *    k1.rekisteroi();
      *    int n = k1.getTunnusNro();
-     *    Kategoria k2 = new Kategoria("tyo"); k2.rekisteroi();
+     *    Group k2 = new Group("tyo"); k2.rekisteroi();
      *    kat.getLkm() === 0;
      *    kat.anna(0); #THROWS IndexOutOfBoundsException
      *    kat.lisaa(k1);
@@ -120,8 +120,8 @@ public class Kategoriat implements Iterable<Kategoria> {
         int lkm = this.getLkm();
         for (int i = 0; i < lkm; i++) {
             if (this.anna(i).getTunnusNro() == nro) {
-                alkiot.remove(i);
-                muutettu = true;
+                content.remove(i);
+                changed = true;
                 lkm--;
             }
         }
@@ -130,30 +130,30 @@ public class Kategoriat implements Iterable<Kategoria> {
     /**
      * Palauttaa yksittÔøΩinen kategoria tietyst√§ indeksist√§
      * @param i annettavan kategorian indeksi
-     * @return Kategoria kyseisest√§ indeksist√§
+     * @return Group kyseisest√§ indeksist√§
      * @throws IndexOutOfBoundsException jos v√§√§r√§st√§ indeksista haetaan
      * @example
      * <pre name="test">
-     *   Kategoriat kgt = new Kategoriat();
-     *   Kategoria kg1 = new Kategoria("tyo");
+     *   Groups groups = new Groups();
+     *   Group kg1 = new Group("tyo");
      *   kg1.rekisteroi();
-     *   Kategoria kg2 = new Kategoria("muu");
+     *   Group kg2 = new Group("muu");
      *   kg2.rekisteroi();
-     *   Kategoria kg3 = new Kategoria("opiskelu");
+     *   Group kg3 = new Group("opiskelu");
      *   kg3.rekisteroi();
-     *   kgt.lisaa(kg1);
-     *   kgt.lisaa(kg2);    
-     *   kgt.lisaa(kg3);    
-     *   kgt.anna(0).getNimi()  === "tyo";
-     *   kgt.anna(1).getNimi()  === "muu";
-     *   kgt.anna(2).getNimi()  === "opiskelu";
+     *   groups.lisaa(kg1);
+     *   groups.lisaa(kg2);    
+     *   groups.lisaa(kg3);    
+     *   groups.anna(0).getNimi()  === "tyo";
+     *   groups.anna(1).getNimi()  === "muu";
+     *   groups.anna(2).getNimi()  === "opiskelu";
      * </pre>
      */
-    public Kategoria anna(int i) throws IndexOutOfBoundsException {
+    public Group anna(int i) throws IndexOutOfBoundsException {
         if (i < 0 || i >= getLkm()) {
             throw new IndexOutOfBoundsException("Laiton indeksi " + i);
         }
-        return alkiot.get(i);
+        return content.get(i);
     }
     
     
@@ -165,8 +165,8 @@ public class Kategoriat implements Iterable<Kategoria> {
      * #import java.io.File;
      * #import java.util.*;
      * #import java.io.*;
-     *  Kategoriat kat = new Kategoriat();
-     *  Kategoria k1 = new Kategoria("opiskelu"), k2 = new Kategoria("tyo");
+     *  Groups kat = new Groups();
+     *  Group k1 = new Group("opiskelu"), k2 = new Group("tyo");
      *  k1.rekisteroi(); k2.rekisteroi();
      *  String hakemisto = "testi";
      *  File dir = new File(hakemisto);
@@ -175,16 +175,16 @@ public class Kategoriat implements Iterable<Kategoria> {
      *  kat.lisaa(k2);
      *  kat.tallenna(hakemisto);
      *  kat.lueTiedostosta(hakemisto);  // johon ladataan tiedot tiedostosta.
-     *  Iterator<Kategoria> i = kat.iterator();
-     *  Kategoria kTest = i.next();
+     *  Iterator<Group> i = kat.iterator();
+     *  Group kTest = i.next();
      *  kTest.getNimi() === "opiskelu";
-     *  Kategoria kTest2 = i.next();
+     *  Group kTest2 = i.next();
      *  kTest2.getNimi()  === "tyo";
      *  kat.tallenna(hakemisto);
      * </pre>
      */
     public void lueTiedostosta(String hakemisto) {
-        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
+        File fTied = new File(hakemisto + FILE_NAME);
         try {
             fTied.createNewFile();
         } catch (IOException e1) { /*..*/ }
@@ -192,9 +192,9 @@ public class Kategoriat implements Iterable<Kategoria> {
         try (Scanner fi = new Scanner(new FileInputStream(fTied))) {
             while (fi.hasNextLine()) {
                 rivi = fi.nextLine();
-                Kategoria kategoria = new Kategoria();
-                kategoria.parse(rivi);
-                lisaa(kategoria);
+                Group group = new Group();
+                group.parse(rivi);
+                add(group);
             }
         }
         catch (FileNotFoundException e) { /*..*/ }
@@ -206,11 +206,11 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @param hakemisto tallennettavan tiedoston sijainti
      */
     public void tallenna(String hakemisto) {
-        if (!muutettu) return;
-        File fTied = new File(hakemisto + TIEDOSTON_NIMI);
+        if (!changed) return;
+        File fTied = new File(hakemisto + FILE_NAME);
         try (PrintStream fo = new PrintStream(new FileOutputStream(fTied, false))) {
-            for (Kategoria kategoria : this) {
-                fo.println(kategoria.toString());
+            for (Group group : this) {
+                fo.println(group.toString());
             }
         } catch (FileNotFoundException e) { /*..*/ }
     }
@@ -219,28 +219,28 @@ public class Kategoriat implements Iterable<Kategoria> {
      * Palauttaa iteraattori kategorioiden l√§pik√§ymiseen.
      * @example
      * <pre name="test">
-     *   Kategoriat kgt = new Kategoriat();
-     *   Kategoria kg1 = new Kategoria("tyo");
-     *   Kategoria kg2 = new Kategoria("muu");
-     *   Kategoria kg3 = new Kategoria("opiskelu");
-     *   Iterator<Kategoria> iter = kgt.iterator();
+     *   Groups groups = new Groups();
+     *   Group kg1 = new Group("tyo");
+     *   Group kg2 = new Group("muu");
+     *   Group kg3 = new Group("opiskelu");
+     *   Iterator<Group> iter = groups.iterator();
      *   iter.hasNext()  === false;
      *   iter.next(); #THROWS NoSuchElementException
-     *   kgt.lisaa(kg1);
+     *   groups.lisaa(kg1);
      *   iter.hasNext() === true;
-     *   Kategoria k = iter.next();
+     *   Group k = iter.next();
      *   k === kg1;
-     *   kgt.lisaa(kg2); 
-     *   kgt.lisaa(kg3);
+     *   groups.lisaa(kg2); 
+     *   groups.lisaa(kg3);
      *   iter.next()  === kg2;       
      *   iter.next()  === kg3;
-     *   iter = kgt.iterator();
+     *   iter = groups.iterator();
      *   iter.next() == iter.next() === false;
      *   iter.next().getNimi()  === "opiskelu";
      * </pre>
      */
     @Override
-    public Iterator<Kategoria> iterator() {
+    public Iterator<Group> iterator() {
         return new Iter();
     }
     
@@ -249,7 +249,7 @@ public class Kategoriat implements Iterable<Kategoria> {
      * @version 6.4.2021
      * Iteraattori kategorioiden l‰pik‰ymiseen
      */
-    public class Iter implements Iterator<Kategoria> {
+    public class Iter implements Iterator<Group> {
 
         private int kohdalla;
         
@@ -259,7 +259,7 @@ public class Kategoriat implements Iterable<Kategoria> {
         }
 
         @Override
-        public Kategoria next() {
+        public Group next() {
             if (kohdalla >= getLkm()) throw new NoSuchElementException(" Ei oo en‰‰!");
             return anna(kohdalla++);
         }
@@ -270,20 +270,20 @@ public class Kategoriat implements Iterable<Kategoria> {
     /**
      * @return true jos kategorioita on lis√§tty tai poistettu rekisterist√§
      */
-    public boolean onMuutettu() { return muutettu;}
+    public boolean onMuutettu() { return changed;}
     
     /**
      * @param b tieto siit√§ onko muutoksia tehty
      */
-    public void setMuutettu(boolean b)   { muutettu = b; }
+    public void setMuutettu(boolean b)   { changed = b; }
 
     /**
      * @param k korvattava tai lis‰tt‰v‰ kategoria
      * @example
      * <pre name="test">
-     *    Kategoriat kat = new Kategoriat();
-     *    Kategoria k1 = new Kategoria("tyo");
-     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    Groups kat = new Groups();
+     *    Group k1 = new Group("tyo");
+     *    Group k2 = new Group("opiskelu");
      *    kat.onMuutettu() === false;
      *    kat.lisaa(k1);
      *    kat.lisaa(k2);
@@ -295,42 +295,42 @@ public class Kategoriat implements Iterable<Kategoria> {
      *    kat.onMuutettu() === true;
      * </pre>
      */
-    public void korvaaTaiLisaa(Kategoria k) {
+    public void korvaaTaiLisaa(Group k) {
         if (k == null) return;
         for (int i = 0; i < getLkm(); i++) {
-            if (alkiot.get(i).getTunnusNro() == k.getTunnusNro()) {
-                alkiot.set(i, k);
-                muutettu = true;
+            if (content.get(i).getTunnusNro() == k.getTunnusNro()) {
+                content.set(i, k);
+                changed = true;
                 return;
             }
         }
-        lisaa(k);
+        add(k);
     }
 
     /**
-     * @return Palauttaa kaikki kategoriat sortattuna otsikon perusteella
+     * @return Palauttaa kaikki groups sortattuna otsikon perusteella
      * @example
      * <pre name="test">
      *   #import java.util.*;
-     *    Kategoriat kat = new Kategoriat();
-     *    Kategoria k1 = new Kategoria("tyo");
-     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    Groups kat = new Groups();
+     *    Group k1 = new Group("tyo");
+     *    Group k2 = new Group("opiskelu");
      *    kat.lisaa(k1); kat.lisaa(k2);
-     *    List<Kategoria> katet = kat.annaKategoriat();
-     *    Iterator<Kategoria> i = katet.iterator();
+     *    List<Group> katet = kat.annagroups();
+     *    Iterator<Group> i = katet.iterator();
      *    i.next() === k2;
      *    i.hasNext() === true;
      *    i.next() === k1;
      *    i.hasNext() === false;
      * </pre>
      */
-    public List<Kategoria> annaKategoriat() {
-        List<Kategoria> kategoriat = new ArrayList<>(getLkm());
-        for (Kategoria k : this) {
-            kategoriat.add(k);
+    public List<Group> annagroups() {
+        List<Group> groups = new ArrayList<>(getLkm());
+        for (Group k : this) {
+            groups.add(k);
         }
-        Collections.sort(kategoriat);
-        return kategoriat;
+        Collections.sort(groups);
+        return groups;
     }
 
 }

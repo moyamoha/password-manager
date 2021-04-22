@@ -25,14 +25,14 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import passreg.Paasy;
+import passreg.Entry;
 
 /**
  * @author Yahya
  * @version 5.2.2021
  * Kontrolleri p‰‰sydialogin toimintaa varten
  */
-public class PaasyDialogController implements ModalControllerInterface<Paasy>, Initializable {
+public class PaasyDialogController implements ModalControllerInterface<Entry>, Initializable {
     
     @FXML private Button generoiButton; 
     @FXML private CheckBox naytaCheckBox;
@@ -60,9 +60,9 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     //                    methods                             //
     // ########################################################
     
-    private Paasy current;
+    private Entry current;
     private ArrayList<TextInputControl> edits;
-    private static Paasy apuPaasy = new Paasy();
+    private static Entry apuPaasy = new Entry();
     
     
     @Override
@@ -123,12 +123,12 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
 
     /**
      * @param edits tekstikent‰t joihin n‰ytet‰‰n tietueen tiedot
-     * @param paasy n‰ytett‰v‰ p‰‰sy
+     * @param entry n‰ytett‰v‰ p‰‰sy
      */
-    public static void naytaPaasy(ArrayList<TextInputControl> edits, Paasy paasy) {
-        if (paasy == null) return;
+    public static void naytaPaasy(ArrayList<TextInputControl> edits, Entry entry) {
+        if (entry == null) return;
         for (int i = apuPaasy.ekaKentta(); i <= apuPaasy.kenttaLkm(); i++) {
-            String s = paasy.anna(i);
+            String s = entry.anna(i);
             for (TextInputControl edit : edits) {
                 if (edit.getId().equals(String.valueOf(i))) {
                     edit.setText(s); 
@@ -143,13 +143,12 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
      * @param oletus oletus p‰‰sy
      * @return t‰m‰n kontrollerin muokkaama p‰‰sy
      */
-    public static Paasy kysyPaasy(Stage modality, Paasy oletus) {
+    public static Entry kysyPaasy(Stage modality, Entry oletus) {
          URL url = PaasyDialogController.class.getResource("PaasyDialogView.fxml");
-         Paasy ctrl =  ModalController.showModal(
+         Entry ctrl =  ModalController.showModal(
                   url, "muokkaus", modality, oletus);
          return ctrl;
     }
-    
     
     /**
      * Cancel-buttonin painettua poistutaan ikkunasta, mik‰li tallennattomia tietoja ei ole.
@@ -191,9 +190,7 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
                     PassregGUIController.naytaIlmoitus(1.5, AlertType.ERROR, "T‰yt‰ pakolliset kent‰t oikeilla arvoilla!");
                     return;
                 }
-            } catch (NumberFormatException e2) {
-                //
-            }
+            } catch (NumberFormatException e2) {/*..*/}
         }
         String[] pakolliset = {
                 edits.get(1).getText(), edits.get(2).getText(), edits.get(3).getText()  
@@ -224,9 +221,8 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
         passText1.setText(salasana); passText2.setText(salasana);
     }
 
-
     @Override
-    public Paasy getResult() {
+    public Entry getResult() {
         return current;
     }
 
@@ -236,12 +232,11 @@ public class PaasyDialogController implements ModalControllerInterface<Paasy>, I
     }
 
     @Override
-    public void setDefault(Paasy oletus) {
+    public void setDefault(Entry oletus) {
         ModalController.getStage(generoiButton).setOnCloseRequest(e -> handleCancel());
         current = oletus;
         naytaPaasy(edits, oletus);
         passText2.setText(passField1.getText());
     }
-    
     
 }

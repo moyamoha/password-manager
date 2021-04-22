@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class Passreg {
     
-    private Paasyt paasyt = new Paasyt();
-    private Kategoriat kategoriat = new Kategoriat();
-    private String tiedosto = "";
+    private Entries entries = new Entries();
+    private Groups groups = new Groups();
+    private String location = "";
     
     /**
      * 
@@ -34,31 +34,31 @@ public class Passreg {
     public static void main(String[] args) {
        Passreg passreg = new Passreg();
        
-       Paasy gmail1 = new Paasy();
-       gmail1.rekisteroi();
+       Entry gmail1 = new Entry();
+       gmail1.register();
        gmail1.taytaGmailTiedoilla();
        
        
-       Paasy gmail2 = new Paasy();
-       gmail2.rekisteroi();
+       Entry gmail2 = new Entry();
+       gmail2.register();
        gmail2.taytaGmailTiedoilla();
        
-       Paasy gmail3 = new Paasy();
-       gmail3.rekisteroi();
+       Entry gmail3 = new Entry();
+       gmail3.register();
        gmail3.taytaGmailTiedoilla();
        
        passreg.lisaa(gmail1); passreg.lisaa(gmail2);
        passreg.lisaa(gmail3);
        
-       Kategoria kg1 = new Kategoria("Some");
-       kg1.rekisteroi();
-       passreg.lisaa(kg1);
+       Group kg1 = new Group("Some");
+       kg1.register();
+       passreg.add(kg1);
        
-       for (int i = 0; i < passreg.getPaasytLkm(); i++) {
+       for (int i = 0; i < passreg.getEntriesSize(); i++) {
            passreg.annaPaasy(i).tulosta(System.out);
        }
        
-       for (Kategoria kg : passreg.kategoriat) {
+       for (Group kg : passreg.groups) {
            kg.tulosta(System.out);
        }
     }
@@ -68,7 +68,7 @@ public class Passreg {
      */
     public void setTiedostonNimi(String tiedNimi) {
         if (tiedNimi != null) {
-            this.tiedosto = tiedNimi;
+            this.location = tiedNimi;
             File hakemisto = new File(tiedNimi);
             if ( ! hakemisto.exists() ) hakemisto.mkdir();
         }
@@ -77,7 +77,7 @@ public class Passreg {
     /**
      * @return rekisterin sijainti
      */
-    private String getTiedostonNimi() { return this.tiedosto; }
+    private String getLocation() { return this.location; }
     
     
     /**
@@ -86,44 +86,44 @@ public class Passreg {
      * <pre name="test">
      *    Passreg pg = new Passreg();
      *    pg.getPaasytLkm()  === 0;
-     *    Paasy gmail1 = new Paasy();
+     *    Entry gmail1 = new Entry();
      *    gmail1.rekisteroi();
      *    gmail1.taytaGmailTiedoilla();
      *    pg.lisaa(gmail1);
      *    pg.getPaasytLkm()  === 1;
-     *    Paasy gmail2 = new Paasy();
+     *    Entry gmail2 = new Entry();
      *    gmail2.rekisteroi();
      *    gmail2.taytaGmailTiedoilla();
      *    pg.lisaa(gmail2);
      *    pg.getPaasytLkm()  === 2;
      * </pre>
      */
-    public int getPaasytLkm() {
-        return paasyt.getLkm();
+    public int getEntriesSize() {
+        return entries.getLkm();
     }
     
     /**
      * @return rekisterin kategorioiden m‰‰r‰
      */
     public int getKategoriatLkm() {
-        return kategoriat.getLkm();
+        return groups.getLkm();
     }
     
     /**
      * @param nro viite poistettavaan/poistettavien p‰‰syjen numeroon
      */
     public void poistaPaasy(int nro) {
-        paasyt.poista(nro);
+        entries.poista(nro);
     }
 
     
     /** 
      * Lis‰t‰‰n yksitt‰inen p‰‰sy rekisteriin
-     * @param paasy lis‰tt‰v‰ p‰‰sy
+     * @param entry lis‰tt‰v‰ p‰‰sy
      * @example
      * <pre name="test">
      *   Passreg passreg = new Passreg();
-     *   Paasy p1 = new Paasy();
+     *   Entry p1 = new Entry();
      *   p1.taytaGmailTiedoilla();
      *   p1.rekisteroi();
      *   passreg.getPaasytLkm()  === 0;
@@ -131,20 +131,20 @@ public class Passreg {
      *   passreg.getPaasytLkm()  === 1;
      * </pre>
      */
-    public void lisaa(Paasy paasy) {
-        paasyt.lisaa(paasy);
+    public void lisaa(Entry entry) {
+        entries.lisaa(entry);
     }
     
     /**
-     * @param kategoria lis‰tt‰v‰ kategoria
+     * @param group lis‰tt‰v‰ kategoria
      * @example
      * <pre name="test">
      *   Passreg passreg = new Passreg();
-     *   Kategoria k1 = new Kategoria("some");
+     *   Group k1 = new Group("some");
      *   k1.rekisteroi();
-     *   Kategoria k2 = new Kategoria("opiskelu");
+     *   Group k2 = new Group("opiskelu");
      *   k2.rekisteroi();
-     *   Kategoria k3 = new Kategoria("tyˆ");
+     *   Group k3 = new Group("tyˆ");
      *   k3.rekisteroi();
      *   passreg.getKategoriatLkm() === 0;
      *   passreg.annaKategoria(0); #THROWS IndexOutOfBoundsException
@@ -160,8 +160,8 @@ public class Passreg {
      *   passreg.annaKategoria(3); #THROWS IndexOutOfBoundsException
      * </pre>
      */
-    public void lisaa(Kategoria kategoria) {
-        kategoriat.lisaa(kategoria);
+    public void add(Group group) {
+        groups.add(group);
     }
     
     
@@ -170,8 +170,8 @@ public class Passreg {
      * @param i p‰‰syn indeksi
      * @return viite kyseiseen p‰‰syyn
      */
-    public Paasy annaPaasy(int i) {
-        return paasyt.anna(i);
+    public Entry annaPaasy(int i) {
+        return entries.give(i);
     }
     
     /**
@@ -179,8 +179,8 @@ public class Passreg {
      * @param i kategorian indeksi
      * @return pyydetty kategoria
      */
-    public Kategoria annaKategoria(int i) {
-        return kategoriat.anna(i);
+    public Group annaKategoria(int i) {
+        return groups.anna(i);
     }
     
 
@@ -190,10 +190,10 @@ public class Passreg {
     public void tallenna() {
         if ( !onMuutettu() ) return;
         try {
-            paasyt.tallenna(getTiedostonNimi());
+            entries.tallenna(getLocation());
         } catch (Exception e) {/*..*/}
         try {
-            kategoriat.tallenna(getTiedostonNimi());
+            groups.tallenna(getLocation());
         } catch (Exception e) {/*..*/}
         setMuutettu(false);
     }
@@ -206,15 +206,15 @@ public class Passreg {
      * #import java.io.*;
      * #import java.util.*;
      *  Passreg regis = new Passreg();
-     *  Kategoria k1 = new Kategoria("opiskelu"); k1.rekisteroi();
-     *  Kategoria k2 = new Kategoria("viihde");   k2.rekisteroi();
+     *  Group k1 = new Group("opiskelu"); k1.rekisteroi();
+     *  Group k2 = new Group("viihde");   k2.rekisteroi();
      *  int n1 = k1.getTunnusNro();
      *  int n2 = k2.getTunnusNro();
-     *  Paasy p1 = new Paasy(n1);  p1.aseta(1, "gmail1");  
-     *  Paasy p2 = new Paasy(n2);  p2.aseta(1, "gmail2");  
-     *  Paasy p3 = new Paasy(n2);  p3.aseta(1, "gmail3");  
-     *  Paasy p4 = new Paasy(n1);  p4.aseta(1, "gmail4");  
-     *  Paasy p5 = new Paasy(n2);  p5.aseta(1, "gmail5"); 
+     *  Entry p1 = new Entry(n1);  p1.aseta(1, "gmail1");  
+     *  Entry p2 = new Entry(n2);  p2.aseta(1, "gmail2");  
+     *  Entry p3 = new Entry(n2);  p3.aseta(1, "gmail3");  
+     *  Entry p4 = new Entry(n1);  p4.aseta(1, "gmail4");  
+     *  Entry p5 = new Entry(n2);  p5.aseta(1, "gmail5"); 
      *  String hakemisto = "testi";
      *  File dir = new File(hakemisto);
      *  dir.mkdir();  
@@ -227,31 +227,36 @@ public class Passreg {
      *  regis.lisaa(k2);
      *  regis.lisaa(p5);
      *  regis.tallenna();
-     *  List<Paasy> pst = regis.getPaasyt(n1);
-     *  Iterator<Paasy> it = pst.iterator();
+     *  List<Entry> pst = regis.getPaasyt(n1);
+     *  Iterator<Entry> it = pst.iterator();
      *  it.next() === p1;
      *  it.next() === p4;
      *  it.hasNext() === false;
-     *  List<Paasy> loytyneet = regis.getPaasyt(n2);
-     *  Iterator<Paasy> ih = loytyneet.iterator();
+     *  List<Entry> loytyneet = regis.getPaasyt(n2);
+     *  Iterator<Entry> ih = loytyneet.iterator();
      *  ih.hasNext()  === true;
      *  ih.next() === p2;
      *  ih.next() === p3;
      *  ih.hasNext() === true;
      *  ih.next()  === p5;
      *  ih.next();  #THROWS NoSuchElementException
+     *  File filePaasyt = new File(hakemisto + "/salasanat.dat");
+     *  filePaasyt.delete() === true;
+     *  File file_kategoriat = new File(hakemisto + "/groups.dat");
+     *  file_kategoriat.delete() === true;
+     *  dir.delete() === true;
      * </pre> 
      */
     public void lueTiedostosta(String hakemisto) {
-        Paasyt pst = new Paasyt();
-        Kategoriat kat = new Kategoriat();
+        Entries pst = new Entries();
+        Groups kat = new Groups();
         setTiedostonNimi(hakemisto);
         try {
-            pst.lueTiedostosta(getTiedostonNimi());
-            kat.lueTiedostosta(getTiedostonNimi());
+            pst.lueTiedostosta(getLocation());
+            kat.lueTiedostosta(getLocation());
         } catch (Exception e) {/*..*/}
-        paasyt = pst;
-        kategoriat = kat;
+        entries = pst;
+        groups = kat;
         setMuutettu(false);
     }
 
@@ -262,18 +267,18 @@ public class Passreg {
      * @example
      * <pre name="test">
      *    Passreg psg = new Passreg();
-     *    Paasy p1 = new Paasy();
+     *    Entry p1 = new Entry();
      *    p1.parse("1|1|gmail||||abcef");
-     *    Paasy p2 = new Paasy();
+     *    Entry p2 = new Entry();
      *    p2.parse("2|1|facebook|soturi123|||ghijkl");
-     *    Paasy p3 = new Paasy(2);
+     *    Entry p3 = new Entry(2);
      *    p3.aseta(1, "instagramm");
      *    psg.lisaa(p1); psg.lisaa(p2); psg.lisaa(p3);
      *    psg.getPaasytLkm() === 3;
      *    psg.annaPaasy(0).anna(1) === "gmail"; 
-     *    Kategoria k1 = new Kategoria();
+     *    Group k1 = new Group();
      *    k1.parse("1|tyo");
-     *    Kategoria k2 = new Kategoria();
+     *    Group k2 = new Group();
      *    k2.parse("2|opiskelu");
      *    psg.lisaa(k1); psg.lisaa(k2);
      *    psg.getKategoriatLkm() === 2;
@@ -285,8 +290,8 @@ public class Passreg {
      * </pre>
      */
     public void poistaKategoria(int kID) {
-        kategoriat.poista(kID);
-        paasyt.poistaKategorianPaasyt(kID);
+        groups.poista(kID);
+        entries.poistaKategorianPaasyt(kID);
     }
 
     /**
@@ -297,16 +302,16 @@ public class Passreg {
      * <pre name="test">
      *   #import java.util.*;
      *    Passreg pss = new Passreg();
-     *    Kategoria k = new Kategoria();
+     *    Group k = new Group();
      *    int n = k.getTunnusNro();
      *    pss.lisaa(k);
-     *    Paasy p1 = new Paasy(n); p1.taytaGmailTiedoilla();
-     *    Paasy p2 = new Paasy(n); p2.taytaGmailTiedoilla();
-     *    Paasy p3 = new Paasy(n+1); p3.taytaGmailTiedoilla();
+     *    Entry p1 = new Entry(n); p1.taytaGmailTiedoilla();
+     *    Entry p2 = new Entry(n); p2.taytaGmailTiedoilla();
+     *    Entry p3 = new Entry(n+1); p3.taytaGmailTiedoilla();
      *    pss.lisaa(p1); pss.lisaa(p2); pss.lisaa(p3);
-     *    List<Paasy> pst = pss.getPaasyt(n);
-     *    Iterator<Paasy> i = pst.iterator();
-     *    Paasy p = i.next();
+     *    List<Entry> pst = pss.getPaasyt(n);
+     *    Iterator<Entry> i = pst.iterator();
+     *    Entry p = i.next();
      *    (p == p1 || p == p2) === true;
      *    i.hasNext() === true;
      *    i.next();
@@ -314,12 +319,12 @@ public class Passreg {
      *    i.next(); #THROWS NoSuchElementException
      * </pre>
      */
-    public List<Paasy> getPaasyt(int kID) {
-        List<Paasy> pst = new ArrayList<Paasy>();
-        for (Paasy p : this.paasyt) {
+    public List<Entry> getPaasyt(int kID) {
+        List<Entry> pst = new ArrayList<Entry>();
+        for (Entry p : this.entries) {
             if (p.getKategoriaId() == kID) pst.add(p);
         }
-        Collections.sort(pst, new Paasy.Vertailija(1)); // 
+        Collections.sort(pst, new Entry.Vertailija(1)); // 
         return pst;
     }
     
@@ -327,15 +332,15 @@ public class Passreg {
      * @return true jos rekisteriin on tullut muutoksia
      */
     public boolean onMuutettu() {
-        return paasyt.onMuutettu() || kategoriat.onMuutettu();
+        return entries.onMuutettu() || groups.onMuutettu();
     }
 
     /**
      * @param b tieto siit‰ on muutoksia tehty rekisteriin
      */
     private void setMuutettu(boolean b) {
-        paasyt.setMuutettu(b);
-        kategoriat.setMuutettu(b);
+        entries.setMuutettu(b);
+        groups.setMuutettu(b);
     }
 
     /**
@@ -345,16 +350,16 @@ public class Passreg {
      * @return kokoelma kaikista p‰‰syist‰, jotka toteuttavat hakuehdon
      * @example
      * <pre name="test">
-     *   Paasy p1 = new Paasy();
+     *   Entry p1 = new Entry();
      *   p1.aseta(1, "gmail3");
-     *   Paasy p2 = new Paasy();
+     *   Entry p2 = new Entry();
      *   p2.aseta(1, "gmail1");
-     *   Paasy p3 = new Paasy();
+     *   Entry p3 = new Entry();
      *   p3.aseta(1, "gmail2");
      *   Passreg psg = new Passreg();
      *   psg.lisaa(p1); psg.lisaa(p2); psg.lisaa(p3);
-     *   Collection<Paasy> loytyneet = psg.etsi("gmail1", 1);
-     *   Iterator<Paasy> i = loytyneet.iterator();
+     *   Collection<Entry> loytyneet = psg.etsi("gmail1", 1);
+     *   Iterator<Entry> i = loytyneet.iterator();
      *   i.next() === p2;
      *   loytyneet = psg.etsi("gmail2", 1);
      *   i = loytyneet.iterator();
@@ -362,8 +367,8 @@ public class Passreg {
      *   i.hasNext()  === false;
      * </pre>
      */
-    public Collection<Paasy> etsi(String ehto, int kentta) {
-        return paasyt.etsi(ehto, kentta);
+    public Collection<Entry> etsi(String ehto, int kentta) {
+        return entries.etsi(ehto, kentta);
     }
 
     /**
@@ -372,7 +377,7 @@ public class Passreg {
      * <pre name="test">
      *    Passreg psg = new Passreg();
      *    psg.onMuutettu() === false;
-     *    Paasy p1 = new Paasy();
+     *    Entry p1 = new Entry();
      *    p1.parse("1|1|gmail1");
      *    psg.korvaaTaiLisaa(p1);
      *    psg.onMuutettu() === true;
@@ -382,8 +387,8 @@ public class Passreg {
      *    psg.annaPaasy(0).anna(1) === "facebook";
      * </pre>
      */
-    public void korvaaTaiLisaa(Paasy p) {
-        paasyt.korvaaTaiLisaa(p);
+    public void korvaaTaiLisaa(Entry p) {
+        entries.korvaaTaiLisaa(p);
     }
 
     /**
@@ -391,8 +396,8 @@ public class Passreg {
      * @example
      * <pre name="test">
      *    Passreg psg = new Passreg();
-     *    Kategoria k1 = new Kategoria("tyo");
-     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    Group k1 = new Group("tyo");
+     *    Group k2 = new Group("opiskelu");
      *    psg.onMuutettu() === false;
      *    psg.lisaa(k1);
      *    psg.lisaa(k2);
@@ -403,8 +408,8 @@ public class Passreg {
      *    psg.onMuutettu() === true;
      * </pre>
      */
-    public void korvaaTaiLisaa(Kategoria k) {
-        kategoriat.korvaaTaiLisaa(k);
+    public void korvaaTaiLisaa(Group k) {
+        groups.korvaaTaiLisaa(k);
     }
 
     /**
@@ -418,28 +423,28 @@ public class Passreg {
      * </pre>
      */
     public String getName() {
-        return tiedosto;
+        return location;
     }
     
     /**
-     * Palauttaa kaikki kategoriat j‰rjestettyn‰ listana
-     * @return kaikki rekisterin kategoriat sortattuna
+     * Palauttaa kaikki groups j‰rjestettyn‰ listana
+     * @return kaikki rekisterin groups sortattuna
      * @example
      * <pre name="test">
      *   #import java.util.*;
      *    Passreg psg = new Passreg();
-     *    Kategoria k1 = new Kategoria("tyo");
-     *    Kategoria k2 = new Kategoria("opiskelu");
+     *    Group k1 = new Group("tyo");
+     *    Group k2 = new Group("opiskelu");
      *    psg.lisaa(k1); psg.lisaa(k2);
-     *    List<Kategoria> katet = psg.annaKategoriat();
-     *    Iterator<Kategoria> i = katet.iterator();
+     *    List<Group> katet = psg.annaKategoriat();
+     *    Iterator<Group> i = katet.iterator();
      *    i.next() === k2;
      *    i.hasNext() === true;
      *    i.next() === k1;
      *    i.hasNext() === false;
      * </pre>
      */
-    public List<Kategoria> annaKategoriat() {
-        return this.kategoriat.annaKategoriat();
+    public List<Group> annaKategoriat() {
+        return this.groups.annagroups();
     }
 }

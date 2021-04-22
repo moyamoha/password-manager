@@ -19,14 +19,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import passreg.Kategoria;
+import passreg.Group;
 /**
  * @author Yahya
  * @version 22.2.2021
  *
  */
 public class KategoriaDialogController
-        implements Initializable, ModalControllerInterface<Kategoria> {
+        implements Initializable, ModalControllerInterface<Group> {
     
     @FXML private Label virheText;
 
@@ -44,8 +44,8 @@ public class KategoriaDialogController
     //
     //##################################################
     
-    private static Kategoria apuK = new Kategoria();
-    private Kategoria current;
+    private static Group apuK = new Group();
+    private Group current;
     private TextInputControl edits[];
     
     @Override
@@ -118,7 +118,7 @@ public class KategoriaDialogController
     }
     
     @Override
-    public Kategoria getResult() {
+    public Group getResult() {
         return current;
     }
 
@@ -128,7 +128,7 @@ public class KategoriaDialogController
     }
 
     @Override
-    public void setDefault(Kategoria oletus) {
+    public void setDefault(Group oletus) {
         ModalController.getStage(virheText).setOnCloseRequest(e -> handleCancel());
         current = oletus;
         naytaKategoria(oletus);
@@ -139,17 +139,17 @@ public class KategoriaDialogController
      * @param k näytettävä/käsiteltävä kategoria
      * @return muokattu/lisätty kategoria
      */
-    public static Kategoria kysyKategoria(Stage modalityStage, Kategoria k) {
+    public static Group kysyKategoria(Stage modalityStage, Group k) {
         return ModalController.showModal(
                 KategoriaDialogController.class.getResource("KategoriaDialogView.fxml"),
                 "muokkaus",
                 modalityStage, k);
     }
     
-    private void naytaKategoria(Kategoria kategoria) {
-        if (kategoria == null) return;
+    private void naytaKategoria(Group group) {
+        if (group == null) return;
         for (int i = apuK.ekaKentta(); i <= apuK.kenttaLkm(); i++) {
-            edits[i-1].setText(kategoria.anna(i));
+            edits[i-1].setText(group.anna(i));
         }
     }
 
