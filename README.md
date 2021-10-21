@@ -15,7 +15,3 @@ This is Graphical password registery accomplished in Programming 2 course as a r
 Programming language : java, 
 GUI library          : javafx,
 test tool            : comtest (plugin)
-
-For more detailed information about the application please visit:
-<https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/moyamoha#8us2CVmqdnqq>
-
