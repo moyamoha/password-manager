@@ -9,7 +9,7 @@ Tarkempaa tietoa ohjelmasta ja sen toiminnasta löydät osoitteesta:
 
 <https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/moyamoha#8us2CVmqdnqq>
 
-#Password Registery
+# Password Registery
 
 This is Graphical password registery accomplished in Programming 2 course as a required project.
 Programming language : java, 
